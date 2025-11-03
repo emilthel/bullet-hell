@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://ov7oxl05678n"]
+
+[ext_resource type="Script" path="res://Scenes/planet.gd" id="1_d3dvn"]
+
+[sub_resource type="Gradient" id="Gradient_xpq0s"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0.705, 0.71)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_58g7k"]
+gradient = SubResource("Gradient_xpq0s")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+metadata/_snap_enabled = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ldn7y"]
+radius = 31.7456
+
+[node name="Earth" type="Area2D"]
+process_mode = 1
+modulate = Color(1, 0, 0, 1)
+position = Vector2(366, 765)
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_d3dvn")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("GradientTexture2D_58g7k")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+modulate = Color(1, 0, 0, 1)
+scale = Vector2(1.00999, 1.00744)
+shape = SubResource("CircleShape2D_ldn7y")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="VelocityArrow" type="RayCast2D" parent="."]
+target_position = Vector2(6, -60)
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

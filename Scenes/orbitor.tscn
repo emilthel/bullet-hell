@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://gltxseva0dng"]
+
+[ext_resource type="PackedScene" path="res://enemy2.tscn" id="1_h6724"]
+[ext_resource type="Script" path="res://Scripts/orbitor.gd" id="2_oo6pq"]
+
+[node name="Orbitor" instance=ExtResource("1_h6724")]
+script = ExtResource("2_oo6pq")
+period = 1.0
+radius = 100
+angle = 0
+detect_position = false

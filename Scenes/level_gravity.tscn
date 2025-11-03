@@ -1,0 +1,53 @@
+[gd_scene load_steps=9 format=3 uid="uid://d3y1v61cva36p"]
+
+[ext_resource type="Script" path="res://Scripts/engine.gd" id="1_ij1ui"]
+[ext_resource type="Script" path="res://Scenes/healthbar.gd" id="2_kv8rf"]
+[ext_resource type="Script" path="res://Scenes/bg.gd" id="3_1ujv5"]
+[ext_resource type="PackedScene" uid="uid://c5etdi3agr1sw" path="res://Scenes/player.tscn" id="4_rdkwx"]
+[ext_resource type="Script" path="res://Scenes/gravity_manager.gd" id="5_awvtx"]
+[ext_resource type="PackedScene" uid="uid://bp5380wx5ysnf" path="res://Scenes/enemy.tscn" id="6_hiayx"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_i73wu"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_12i7x"]
+
+[node name="PauseManager" type="Node2D"]
+process_mode = 3
+script = ExtResource("1_ij1ui")
+
+[node name="Engine" type="Node2D" parent="."]
+
+[node name="Healthbar" type="Node2D" parent="Engine"]
+z_index = 15
+position = Vector2(1000, 0)
+scale = Vector2(1000, 60)
+script = ExtResource("2_kv8rf")
+
+[node name="Sprite2D" type="Sprite2D" parent="Engine/Healthbar"]
+position = Vector2(-0.5, 0.25)
+scale = Vector2(1, 0.5)
+texture = SubResource("CanvasTexture_i73wu")
+
+[node name="BG" type="Sprite2D" parent="Engine"]
+modulate = Color(0, 0, 0, 1)
+z_index = -13
+position = Vector2(499.75, 499.75)
+scale = Vector2(1000.5, 1000.5)
+texture = SubResource("CanvasTexture_12i7x")
+script = ExtResource("3_1ujv5")
+
+[node name="Player" parent="Engine" instance=ExtResource("4_rdkwx")]
+
+[node name="GravityManager" type="Node2D" parent="Engine"]
+process_mode = 1
+script = ExtResource("5_awvtx")
+STRENGTH = 500
+
+[node name="Earth" parent="Engine/GravityManager" instance=ExtResource("6_hiayx")]
+position = Vector2(100, 758)
+
+[node name="_Mars" parent="Engine/GravityManager" instance=ExtResource("6_hiayx")]
+position = Vector2(797, 630)
+start_position = Vector2(0, 0)
+
+[connection signal="area_entered" from="Engine/Player" to="Engine/Player" method="_on_area_entered"]

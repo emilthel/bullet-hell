@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://ymdnho0t4bp3"]
+
+[ext_resource type="Script" path="res://Scenes/gravity_manager.gd" id="1_452xd"]
+[ext_resource type="PackedScene" uid="uid://bp5380wx5ysnf" path="res://Scenes/enemy.tscn" id="2_moj2v"]
+[ext_resource type="Script" path="res://Scenes/planet.gd" id="3_f77aj"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="GravityManager" type="Node2D" parent="."]
+script = ExtResource("1_452xd")
+
+[node name="Earth" parent="GravityManager" instance=ExtResource("2_moj2v")]
+position = Vector2(100, 758)
+script = ExtResource("3_f77aj")
+start_position = Vector2(0, 0)
+damage = 0.1
+
+[node name="VelocityArrow" type="RayCast2D" parent="GravityManager/Earth"]
+
+[node name="_Mars" parent="GravityManager" instance=ExtResource("2_moj2v")]
+position = Vector2(724, 754)
+script = ExtResource("3_f77aj")
+start_position = Vector2(0, 0)
+use_start_position = false
+
+[node name="VelocityArrow" type="RayCast2D" parent="GravityManager/_Mars"]
