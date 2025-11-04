@@ -1,0 +1,62 @@
+[gd_scene load_steps=9 format=3 uid="uid://bdpt8ih3hx5hs"]
+
+[ext_resource type="Script" path="res://level_1/player.gd" id="1_gvaqp"]
+[ext_resource type="Script" path="res://level_1/enemy.gd" id="2_g2omu"]
+[ext_resource type="Script" path="res://level_1/health_bar.gd" id="3_elvjb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1vguc"]
+radius = 23.0868
+
+[sub_resource type="Gradient" id="Gradient_uyvyb"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.5)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_2cts2"]
+gradient = SubResource("Gradient_uyvyb")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_j41ph"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_j13k2"]
+gradient = SubResource("Gradient_j41ph")
+width = 1000
+fill_from = Vector2(1, 1)
+fill_to = Vector2(1, 1)
+
+[node name="Level1" type="Node2D"]
+
+[node name="Player" type="Area2D" parent="."]
+position = Vector2(188, 249)
+script = ExtResource("1_gvaqp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("CircleShape2D_1vguc")
+
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+texture = SubResource("GradientTexture2D_2cts2")
+
+[node name="Enemy" type="Area2D" parent="."]
+modulate = Color(1, 0, 0, 1)
+position = Vector2(464, 177)
+script = ExtResource("2_g2omu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy"]
+shape = SubResource("CircleShape2D_1vguc")
+
+[node name="Sprite2D" type="Sprite2D" parent="Enemy"]
+texture = SubResource("GradientTexture2D_2cts2")
+
+[node name="HealthBar" type="Node2D" parent="."]
+script = ExtResource("3_elvjb")
+
+[node name="Sprite2D" type="Sprite2D" parent="HealthBar"]
+position = Vector2(500, 32)
+scale = Vector2(1, 1.006)
+texture = SubResource("GradientTexture2D_j13k2")
+
+[connection signal="area_entered" from="Enemy" to="Player" method="_on_enemy_area_entered"]

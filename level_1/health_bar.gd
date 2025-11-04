@@ -1,17 +1,12 @@
 extends Node2D
 
-var jitterer_scene = load("res://Scenes/jitterer.tscn")
-var child
+@onready var player = $"../Player"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	for y in range(10):
-		for x in range(10):
-			child = jitterer_scene.instantiate()
-			child.position = Vector2(x,y)*100
-			add_child(child)
+	pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	scale.x = player.blood
