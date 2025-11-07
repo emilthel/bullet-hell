@@ -1,9 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://c2rjiaxuk0p8m"]
+[gd_scene load_steps=10 format=3 uid="uid://xs8mrj6h4spx"]
 
-[ext_resource type="Script" path="res://level_1/pause_manager.gd" id="1_c2wpd"]
-[ext_resource type="Script" path="res://level_1/player.gd" id="1_nxuty"]
-[ext_resource type="Script" path="res://level_1/health_bar.gd" id="3_s88it"]
-[ext_resource type="Script" path="res://level_1/stalker.gd" id="4_86tib"]
+[ext_resource type="Script" path="res://level_1/pause_manager.gd" id="1_23yx1"]
+[ext_resource type="Script" path="res://level_1/player.gd" id="2_tql40"]
+[ext_resource type="Script" path="res://level_1/health_bar.gd" id="3_2v1a5"]
+[ext_resource type="Script" path="res://level_1b/stalker.gd" id="4_hn30a"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1vguc"]
 radius = 23.0868
@@ -31,14 +31,14 @@ fill_to = Vector2(1, 1)
 
 [node name="PauseManager" type="Node"]
 process_mode = 3
-script = ExtResource("1_c2wpd")
+script = ExtResource("1_23yx1")
 
 [node name="Level" type="Node2D" parent="."]
 process_mode = 1
 
 [node name="Player" type="Area2D" parent="Level"]
 position = Vector2(1, -1)
-script = ExtResource("1_nxuty")
+script = ExtResource("2_tql40")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Player"]
 shape = SubResource("CircleShape2D_1vguc")
@@ -47,7 +47,7 @@ shape = SubResource("CircleShape2D_1vguc")
 texture = SubResource("GradientTexture2D_2cts2")
 
 [node name="HealthBar" type="Node2D" parent="Level"]
-script = ExtResource("3_s88it")
+script = ExtResource("3_2v1a5")
 
 [node name="Sprite2D" type="Sprite2D" parent="Level/HealthBar"]
 position = Vector2(500, 32)
@@ -57,7 +57,8 @@ texture = SubResource("GradientTexture2D_j13k2")
 [node name="Stalker" type="Area2D" parent="Level"]
 modulate = Color(1, 0, 0, 0.427451)
 position = Vector2(1, -1)
-script = ExtResource("4_86tib")
+script = ExtResource("4_hn30a")
+spawn_cooldown = 0.05
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Stalker"]
 shape = SubResource("CircleShape2D_1vguc")
@@ -65,4 +66,10 @@ shape = SubResource("CircleShape2D_1vguc")
 [node name="Sprite2D" type="Sprite2D" parent="Level/Stalker"]
 texture = SubResource("GradientTexture2D_2cts2")
 
+[node name="SpawnTimer" type="Timer" parent="Level/Stalker"]
+
+[node name="SleepTimer" type="Timer" parent="Level/Stalker"]
+
 [connection signal="area_entered" from="Level/Player" to="Level/Player" method="_on_area_entered"]
+[connection signal="timeout" from="Level/Stalker/SpawnTimer" to="Level/Stalker" method="_on_spawn_timer_timeout"]
+[connection signal="timeout" from="Level/Stalker/SleepTimer" to="Level/Stalker" method="_on_sleep_timer_timeout"]

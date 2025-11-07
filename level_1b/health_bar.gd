@@ -1,7 +1,6 @@
-extends Area2D
+extends Node2D
 
-@export var velocity: Vector2 = Vector2(100,100)
-@export var base: float = 2
+@onready var player = $"../Player"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -10,9 +9,4 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	position += velocity*delta
-	velocity *= base**delta
-
-
-func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
-	queue_free()
+	scale.x = player.blood

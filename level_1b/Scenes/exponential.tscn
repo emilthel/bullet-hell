@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://dcm0rqnld7vwb"]
+
+[ext_resource type="Script" path="res://level_1/enemy.gd" id="1_spxdl"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1vguc"]
+radius = 23.0868
+
+[sub_resource type="Gradient" id="Gradient_uyvyb"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.5)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_2cts2"]
+gradient = SubResource("Gradient_uyvyb")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[node name="Exponential" type="Area2D"]
+modulate = Color(1, 0, 0, 1)
+position = Vector2(1, -1)
+script = ExtResource("1_spxdl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_1vguc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("GradientTexture2D_2cts2")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
