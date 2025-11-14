@@ -1,6 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://eymda4bil05"]
+[gd_scene load_steps=5 format=3 uid="uid://ci7m6vunac8os"]
 
-[ext_resource type="Script" path="res://level_1/exponential.gd" id="1_80kqb"]
+[ext_resource type="Script" path="res://level_1/exponential.gd" id="1_1ucuk"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1vguc"]
 radius = 23.0868
@@ -19,9 +19,7 @@ fill_from = Vector2(0.5, 0.5)
 [node name="Enemy" type="Area2D"]
 modulate = Color(1, 0, 0, 1)
 position = Vector2(1, -1)
-collision_layer = 2
-collision_mask = 2
-script = ExtResource("1_80kqb")
+script = ExtResource("1_1ucuk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_1vguc")
