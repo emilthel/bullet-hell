@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://level_1/pause_manager.gd" id="1_rgp2r"]
 [ext_resource type="Script" path="res://level_1/player.gd" id="2_tyuiv"]
 [ext_resource type="Script" path="res://level_1/health_bar.gd" id="3_adw6g"]
-[ext_resource type="Script" path="res://level_1b/gridder.gd" id="4_o2x4s"]
+[ext_resource type="Script" path="res://level_1b/echo_grid.gd" id="4_xihj1"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1vguc"]
 radius = 23.0868
@@ -60,7 +60,7 @@ texture = SubResource("GradientTexture2D_j13k2")
 visible = false
 modulate = Color(1, 0, 0, 0.427451)
 position = Vector2(1, -1)
-script = ExtResource("4_o2x4s")
+script = ExtResource("4_xihj1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Gridder"]
 shape = SubResource("CircleShape2D_1vguc")

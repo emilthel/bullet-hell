@@ -42,9 +42,7 @@ func _frame1() -> void:
 	var yn = choice(grid_range)
 	#grid[[xn,yn]].queue_free()
 	
-	grid[[3,3]].queue_free()
-	spawn_child(3,3,goal_scene)
-	#var goal = goal_scene.instantiate()
+		#var goal = goal_scene.instantiate()
 	#goal.position = Vector2(xn,yn)*100
 	#goal.velocity = Vector2(0,0)
 	#goal.scale *= 0.9
@@ -65,4 +63,6 @@ func _process(delta: float) -> void:
 	log.append(player.global_position)
 	velocity = (log[1]-log[0]).rotated(angle)*factor
 	log.remove_at(0)
-	position += velocity
+	position += velocity 
+	scale.x -= scale.y*delta
+	scale.y += scale.x*delta+scale.y*delta*0.01

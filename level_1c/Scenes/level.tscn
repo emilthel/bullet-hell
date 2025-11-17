@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dximobfhg52x5"]
+[gd_scene load_steps=18 format=3 uid="uid://dximobfhg52x5"]
 
 [ext_resource type="Script" path="res://level_1/pause_manager.gd" id="1_nqqpu"]
 [ext_resource type="Script" path="res://level_1c/Scenes/level.gd" id="2_q5hl2"]
@@ -6,17 +6,9 @@
 [ext_resource type="Script" path="res://level_1/player.gd" id="4_nmn2m"]
 [ext_resource type="Script" path="res://level_1c/goal.gd" id="5_pbqm7"]
 [ext_resource type="Script" path="res://level_1c/Scenes/screen_2.gd" id="6_b41jj"]
-[ext_resource type="Script" path="res://level_1b/gridder.gd" id="7_jfxgr"]
-
-[sub_resource type="Gradient" id="Gradient_j41ph"]
-offsets = PackedFloat32Array(1)
-colors = PackedColorArray(1, 1, 1, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_j13k2"]
-gradient = SubResource("Gradient_j41ph")
-width = 1000
-fill_from = Vector2(1, 1)
-fill_to = Vector2(1, 1)
+[ext_resource type="Script" path="res://level_1c/distortion_grid.gd" id="7_mkago"]
+[ext_resource type="Script" path="res://level_1c/echo_grid.gd" id="7_r8g46"]
+[ext_resource type="Script" path="res://level_1c/Scenes/goal_spawner.gd" id="8_esyo2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1vguc"]
 radius = 23.0868
@@ -31,6 +23,16 @@ metadata/_snap_enabled = true
 gradient = SubResource("Gradient_uyvyb")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_j41ph"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_j13k2"]
+gradient = SubResource("Gradient_j41ph")
+width = 1000
+fill_from = Vector2(1, 1)
+fill_to = Vector2(1, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2dcn3"]
 radius = 23.0868
@@ -54,14 +56,6 @@ script = ExtResource("1_nqqpu")
 process_mode = 1
 script = ExtResource("2_q5hl2")
 
-[node name="HealthBar" type="Node2D" parent="Level"]
-script = ExtResource("3_bvdsg")
-
-[node name="Sprite2D" type="Sprite2D" parent="Level/HealthBar"]
-position = Vector2(500, 32)
-scale = Vector2(1, 1.006)
-texture = SubResource("GradientTexture2D_j13k2")
-
 [node name="Player" type="Area2D" parent="Level"]
 collision_layer = 7
 collision_mask = 7
@@ -72,6 +66,14 @@ shape = SubResource("CircleShape2D_1vguc")
 
 [node name="Sprite2D" type="Sprite2D" parent="Level/Player"]
 texture = SubResource("GradientTexture2D_2cts2")
+
+[node name="HealthBar" type="Node2D" parent="Level"]
+script = ExtResource("3_bvdsg")
+
+[node name="Sprite2D" type="Sprite2D" parent="Level/HealthBar"]
+position = Vector2(500, 32)
+scale = Vector2(1, 1.006)
+texture = SubResource("GradientTexture2D_j13k2")
 
 [node name="Screen1" type="Node2D" parent="Level"]
 process_mode = 4
@@ -96,21 +98,47 @@ process_mode = 4
 visible = false
 script = ExtResource("6_b41jj")
 
-[node name="Gridder" type="Area2D" parent="Level/Screen2"]
-modulate = Color(1, 0, 0, 0.427451)
+[node name="DistortionGrid" type="Area2D" parent="Level/Screen2"]
 position = Vector2(500, 500)
 collision_layer = 2
 collision_mask = 2
-script = ExtResource("7_jfxgr")
+script = ExtResource("7_mkago")
+factor = 0.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen2/Gridder"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen2/DistortionGrid"]
 shape = SubResource("CircleShape2D_1vguc")
 disabled = true
 
-[node name="SpawnTimer" type="Timer" parent="Level/Screen2/Gridder"]
+[node name="GoalSpawner" type="Node2D" parent="Level/Screen2"]
+script = ExtResource("8_esyo2")
 
-[node name="SleepTimer" type="Timer" parent="Level/Screen2/Gridder"]
+[node name="SpawnTimer" type="Timer" parent="Level/Screen2/GoalSpawner"]
+wait_time = 2.0
+autostart = true
+
+[node name="Screen3" type="Node2D" parent="Level"]
+process_mode = 4
+visible = false
+script = ExtResource("6_b41jj")
+
+[node name="EchoGrid" type="Area2D" parent="Level/Screen3"]
+position = Vector2(500, 500)
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("7_r8g46")
+log_length = 1
+factor = 3.0
+spacing = 150.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen3/EchoGrid"]
+shape = SubResource("CircleShape2D_1vguc")
+disabled = true
+
+[node name="SpawnTimer" type="Timer" parent="Level/Screen3/EchoGrid"]
+
+[node name="SleepTimer" type="Timer" parent="Level/Screen3/EchoGrid"]
 
 [connection signal="area_entered" from="Level/Player" to="Level/Player" method="_on_area_entered"]
-[connection signal="timeout" from="Level/Screen2/Gridder/SpawnTimer" to="Level/Screen2/Gridder" method="_on_spawn_timer_timeout"]
-[connection signal="timeout" from="Level/Screen2/Gridder/SleepTimer" to="Level/Screen2/Gridder" method="_on_sleep_timer_timeout"]
+[connection signal="timeout" from="Level/Screen2/GoalSpawner/SpawnTimer" to="Level/Screen2/GoalSpawner" method="_on_spawn_timer_timeout"]
+[connection signal="timeout" from="Level/Screen3/EchoGrid/SpawnTimer" to="Level/Screen3/EchoGrid" method="_on_spawn_timer_timeout"]
+[connection signal="timeout" from="Level/Screen3/EchoGrid/SleepTimer" to="Level/Screen3/EchoGrid" method="_on_sleep_timer_timeout"]

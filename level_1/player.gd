@@ -10,6 +10,8 @@ var invincible = false
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	global_position = get_global_mouse_position()
+	if blood > 1:
+		blood = 1
 
 	
 func _on_area_entered(area: Area2D) -> void:
@@ -19,6 +21,11 @@ func _on_area_entered(area: Area2D) -> void:
 			get_tree().quit()		
 			
 	if area.collision_layer == goal_layer:
-		level.next_screen()
+		if area.mode == area.SCREEN_CHANGE:
+			level.next_screen()
+		if area.mode == area.SCRIPT:
+			area.script()
+		area.queue_free()
+		blood += area.heal
 		
 		

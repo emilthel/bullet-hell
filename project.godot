@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Bullet hell"
-run/main_scene="res://level_1b/Scenes/level.tscn"
+run/main_scene="res://level_1c/Scenes/level.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://Scripts/icon.svg"
 

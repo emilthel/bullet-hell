@@ -1,11 +1,13 @@
 extends Area2D
 
 @export var velocity: Vector2 = Vector2(100,100)
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
+@export var heal: float = 0.2
+enum{SCREEN_CHANGE, SCRIPT, NONE}
+var mode = SCREEN_CHANGE
+#For SCRIPT mode
+func script():
 	pass
-	
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	position += velocity*delta
