@@ -24,7 +24,7 @@ func _on_area_entered(area: Area2D) -> void:
 		if area.mode == area.SCREEN_CHANGE:
 			level.next_screen()
 		if area.mode == area.SCRIPT:
-			area.script()
+			area.on_collected.call()
 		area.queue_free()
 		blood += area.heal
 		

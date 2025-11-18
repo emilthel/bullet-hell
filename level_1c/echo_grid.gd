@@ -40,7 +40,10 @@ func _frame1() -> void:
 		
 	var xn = choice(grid_range)
 	var yn = choice(grid_range)
+	
 	#grid[[xn,yn]].queue_free()
+	spawn_child(xn,yn)
+
 	
 		#var goal = goal_scene.instantiate()
 	#goal.position = Vector2(xn,yn)*100

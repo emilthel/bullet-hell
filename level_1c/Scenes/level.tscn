@@ -1,14 +1,14 @@
 [gd_scene load_steps=18 format=3 uid="uid://dximobfhg52x5"]
 
 [ext_resource type="Script" path="res://level_1/pause_manager.gd" id="1_nqqpu"]
-[ext_resource type="Script" path="res://level_1c/Scenes/level.gd" id="2_q5hl2"]
+[ext_resource type="Script" path="res://level_1c/level.gd" id="2_q5hl2"]
 [ext_resource type="Script" path="res://level_1/health_bar.gd" id="3_bvdsg"]
 [ext_resource type="Script" path="res://level_1/player.gd" id="4_nmn2m"]
 [ext_resource type="Script" path="res://level_1c/goal.gd" id="5_pbqm7"]
-[ext_resource type="Script" path="res://level_1c/Scenes/screen_2.gd" id="6_b41jj"]
+[ext_resource type="Script" path="res://level_1c/screen_2.gd" id="6_b41jj"]
 [ext_resource type="Script" path="res://level_1c/distortion_grid.gd" id="7_mkago"]
 [ext_resource type="Script" path="res://level_1c/echo_grid.gd" id="7_r8g46"]
-[ext_resource type="Script" path="res://level_1c/Scenes/goal_spawner.gd" id="8_esyo2"]
+[ext_resource type="Script" path="res://level_1c/goal_spawner.gd" id="8_esyo2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1vguc"]
 radius = 23.0868
@@ -126,8 +126,6 @@ position = Vector2(500, 500)
 collision_layer = 2
 collision_mask = 2
 script = ExtResource("7_r8g46")
-log_length = 1
-factor = 3.0
 spacing = 150.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen3/EchoGrid"]
