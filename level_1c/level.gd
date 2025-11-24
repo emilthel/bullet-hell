@@ -13,7 +13,7 @@ func _ready() -> void:
 
 	screen.process_mode = Node.PROCESS_MODE_INHERIT
 	screen.visible = true
-	
+	print(screen_name)
 func next_screen():	
 	var screen2_index = screen_index + 1
 	var screen2_name = "Screen" + str(screen2_index)

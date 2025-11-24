@@ -1,13 +1,12 @@
-[gd_scene load_steps=18 format=3 uid="uid://dximobfhg52x5"]
+[gd_scene load_steps=21 format=3 uid="uid://dximobfhg52x5"]
 
 [ext_resource type="Script" path="res://level_1/pause_manager.gd" id="1_nqqpu"]
 [ext_resource type="Script" path="res://level_1c/level.gd" id="2_q5hl2"]
-[ext_resource type="Script" path="res://level_1/health_bar.gd" id="3_bvdsg"]
 [ext_resource type="Script" path="res://level_1/player.gd" id="4_nmn2m"]
 [ext_resource type="Script" path="res://level_1c/goal.gd" id="5_pbqm7"]
 [ext_resource type="Script" path="res://level_1c/screen_2.gd" id="6_b41jj"]
 [ext_resource type="Script" path="res://level_1c/distortion_grid.gd" id="7_mkago"]
-[ext_resource type="Script" path="res://level_1c/echo_grid.gd" id="7_r8g46"]
+[ext_resource type="Script" path="res://level_1c/Scenes/grid_2.gd" id="8_ciey6"]
 [ext_resource type="Script" path="res://level_1c/goal_spawner.gd" id="8_esyo2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1vguc"]
@@ -34,6 +33,13 @@ width = 1000
 fill_from = Vector2(1, 1)
 fill_to = Vector2(1, 1)
 
+[sub_resource type="Gradient" id="Gradient_mdaw6"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 1, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_7n8io"]
+gradient = SubResource("Gradient_mdaw6")
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_2dcn3"]
 radius = 23.0868
 
@@ -47,6 +53,16 @@ metadata/_snap_enabled = true
 gradient = SubResource("Gradient_6quts")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_57smo"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_cvm1y"]
+gradient = SubResource("Gradient_57smo")
+width = 1000
+fill_from = Vector2(1, 1)
+fill_to = Vector2(1, 1)
 
 [node name="PauseManager" type="Node"]
 process_mode = 3
@@ -67,8 +83,34 @@ shape = SubResource("CircleShape2D_1vguc")
 [node name="Sprite2D" type="Sprite2D" parent="Level/Player"]
 texture = SubResource("GradientTexture2D_2cts2")
 
+[node name="InvincibilityTimer" type="Timer" parent="Level/Player"]
+wait_time = 0.3
+one_shot = true
+
+[node name="ProgressBarCover" type="Node2D" parent="Level"]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(0, 1000)
+
+[node name="Sprite2D" type="Sprite2D" parent="Level/ProgressBarCover"]
+position = Vector2(500, -32)
+scale = Vector2(1, 1.006)
+texture = SubResource("GradientTexture2D_j13k2")
+
+[node name="BG" type="Sprite2D" parent="Level"]
+modulate = Color(1, 1, 1, 0)
+position = Vector2(541, 554)
+scale = Vector2(5.16406, 1104.5)
+texture = SubResource("GradientTexture1D_7n8io")
+
+[node name="HealthBarCover" type="Node2D" parent="Level"]
+modulate = Color(0, 0, 0, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="Level/HealthBarCover"]
+position = Vector2(500, 32)
+scale = Vector2(1, 1.006)
+texture = SubResource("GradientTexture2D_j13k2")
+
 [node name="HealthBar" type="Node2D" parent="Level"]
-script = ExtResource("3_bvdsg")
 
 [node name="Sprite2D" type="Sprite2D" parent="Level/HealthBar"]
 position = Vector2(500, 32)
@@ -98,45 +140,73 @@ process_mode = 4
 visible = false
 script = ExtResource("6_b41jj")
 
-[node name="DistortionGrid" type="Area2D" parent="Level/Screen2"]
+[node name="Grid1" type="Area2D" parent="Level/Screen2"]
 position = Vector2(500, 500)
 collision_layer = 2
 collision_mask = 2
 script = ExtResource("7_mkago")
+count = 5
 factor = 0.0
+spacing = 130.0
+distortion_speed = 0.5
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen2/DistortionGrid"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen2/Grid1"]
+visible = false
 shape = SubResource("CircleShape2D_1vguc")
 disabled = true
 
 [node name="GoalSpawner" type="Node2D" parent="Level/Screen2"]
 script = ExtResource("8_esyo2")
-
-[node name="SpawnTimer" type="Timer" parent="Level/Screen2/GoalSpawner"]
-wait_time = 2.0
-autostart = true
+goals_needed = 2
 
 [node name="Screen3" type="Node2D" parent="Level"]
 process_mode = 4
 visible = false
 script = ExtResource("6_b41jj")
 
-[node name="EchoGrid" type="Area2D" parent="Level/Screen3"]
+[node name="Goal" type="Area2D" parent="Level/Screen3"]
+modulate = Color(0, 1, 0, 1)
+position = Vector2(500, 500)
+collision_layer = 4
+collision_mask = 4
+script = ExtResource("5_pbqm7")
+velocity = Vector2(0, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen3/Goal"]
+shape = SubResource("CircleShape2D_2dcn3")
+
+[node name="Sprite2D" type="Sprite2D" parent="Level/Screen3/Goal"]
+texture = SubResource("GradientTexture2D_fkhia")
+
+[node name="Screen4" type="Node2D" parent="Level"]
+process_mode = 4
+visible = false
+script = ExtResource("6_b41jj")
+
+[node name="Grid2" type="Area2D" parent="Level/Screen4"]
 position = Vector2(500, 500)
 collision_layer = 2
 collision_mask = 2
-script = ExtResource("7_r8g46")
-spacing = 150.0
+script = ExtResource("8_ciey6")
+count = 4
+spacing = 130.0
+distortion_speed = 0.8
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen3/EchoGrid"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen4/Grid2"]
 shape = SubResource("CircleShape2D_1vguc")
 disabled = true
 
-[node name="SpawnTimer" type="Timer" parent="Level/Screen3/EchoGrid"]
+[node name="GoalSpawner" type="Node2D" parent="Level/Screen4"]
+script = ExtResource("8_esyo2")
 
-[node name="SleepTimer" type="Timer" parent="Level/Screen3/EchoGrid"]
+[node name="ProgressBar" type="Node2D" parent="Level"]
+modulate = Color(0, 1, 0, 1)
+position = Vector2(0, 1000)
+
+[node name="Sprite2D" type="Sprite2D" parent="Level/ProgressBar"]
+position = Vector2(500, -32)
+scale = Vector2(1, 1.006)
+texture = SubResource("GradientTexture2D_cvm1y")
 
 [connection signal="area_entered" from="Level/Player" to="Level/Player" method="_on_area_entered"]
-[connection signal="timeout" from="Level/Screen2/GoalSpawner/SpawnTimer" to="Level/Screen2/GoalSpawner" method="_on_spawn_timer_timeout"]
-[connection signal="timeout" from="Level/Screen3/EchoGrid/SpawnTimer" to="Level/Screen3/EchoGrid" method="_on_spawn_timer_timeout"]
-[connection signal="timeout" from="Level/Screen3/EchoGrid/SleepTimer" to="Level/Screen3/EchoGrid" method="_on_sleep_timer_timeout"]
+[connection signal="timeout" from="Level/Player/InvincibilityTimer" to="Level/Player" method="_on_invincibility_timer_timeout"]

@@ -78,3 +78,4 @@ func _process(delta: float) -> void:
 	#position += velocity 
 	var scale_rate = cmul(cpow(scale,1),I)
 	scale += scale_rate*distortion_speed*delta
+	rotation += PI/10 * delta * distortion_speed

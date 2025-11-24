@@ -2,8 +2,13 @@ extends Node2D
 
 var screen
 var goal_scene: PackedScene = load("res://level_1c/Scenes/goal.tscn")
+var is_frame1: bool = true
+var goals_collected: int = 0
+@export var goals_needed: int = 4
+
 @onready var spawn_timer = $SpawnTimer
-var is_frame1 = true
+@onready var progress_bar = $"../../ProgressBar"
+@onready var level = $"../.."
 
 # Called when the node enters the scene tree for the first time.
 func _frame1() -> void:
@@ -11,12 +16,13 @@ func _frame1() -> void:
 	print(screen)
 	spawn_child(_random_point())
 	
-	var lambda = func ():
-		print("lambda")
-	lambda()
-	
 func goal_collected():
-	print("script")
+	spawn_child(_random_point())
+	goals_collected += 1
+	if goals_collected == goals_needed:
+		goals_collected == 0
+		level.next_screen()
+
 
 func spawn_child(point):
 	var goal = goal_scene.instantiate()
@@ -38,6 +44,6 @@ func _process(delta: float) -> void:
 	if is_frame1:
 		_frame1()
 		is_frame1 = false
-
+			
 func _on_spawn_timer_timeout() -> void:
 	spawn_child(_random_point())
