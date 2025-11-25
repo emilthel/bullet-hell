@@ -7,6 +7,7 @@ var log: Array = []
 var grid: Dictionary = {}
 var is_frame1 = true
 var player
+var t: float = 1
 
 const ONE = Vector2(1,0)
 const I = Vector2(0,1)
@@ -64,8 +65,8 @@ func _frame1() -> void:
 	
 	grid[[0,0]].queue_free()
 	
-	#for n in range(log_length):
-		#log.append(player.global_position)
+	for n in range(log_length):
+		log.append(player.global_position)
 	
 			
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -73,10 +74,12 @@ func _process(delta: float) -> void:
 	if is_frame1:
 		_frame1()
 		is_frame1 = false
-	#log.append(player.global_position)
-	#velocity = (log[1]-log[0]).rotated(angle)*factor
-	#log.remove_at(0)
-	#position += velocity 
-	var scale_rate = cmul(cpow(scale,1),I)
-	scale += scale_rate*distortion_speed*delta
+		
+	t += delta
+	log.append(player.global_position)
+	#var acceleration = (log[3]-log[2]) - (log[1]-log[0]) 
+	var velocity = (log[1]-log[0])
+	log.remove_at(0)
+	#velocity += acceleration*0.5 * factor
 	rotation += rotation_speed*delta
+	position += velocity * factor

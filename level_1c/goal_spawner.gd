@@ -4,11 +4,12 @@ var screen
 var goal_scene: PackedScene = load("res://level_1c/Scenes/goal.tscn")
 var is_frame1: bool = true
 var goals_collected: int = 0
-@export var goals_needed: int = 4
+
+@export var goals_needed: int = 2
 
 @onready var spawn_timer = $SpawnTimer
-@onready var progress_bar = $"../../ProgressBar"
-@onready var level = $"../.."
+@onready var level = $".."
+@onready var progress_bar = $ProgressBar
 
 # Called when the node enters the scene tree for the first time.
 func _frame1() -> void:
@@ -22,7 +23,6 @@ func goal_collected():
 	if goals_collected == goals_needed:
 		goals_collected == 0
 		level.next_screen()
-
 
 func spawn_child(point):
 	var goal = goal_scene.instantiate()
@@ -44,6 +44,9 @@ func _process(delta: float) -> void:
 	if is_frame1:
 		_frame1()
 		is_frame1 = false
+	else:
+		progress_bar.scale.x = float(goals_collected) / float(goals_needed)
+
 			
 func _on_spawn_timer_timeout() -> void:
 	spawn_child(_random_point())

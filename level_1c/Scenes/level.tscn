@@ -1,11 +1,11 @@
-[gd_scene load_steps=21 format=3 uid="uid://dximobfhg52x5"]
+[gd_scene load_steps=19 format=3 uid="uid://dximobfhg52x5"]
 
 [ext_resource type="Script" path="res://level_1/pause_manager.gd" id="1_nqqpu"]
 [ext_resource type="Script" path="res://level_1c/level.gd" id="2_q5hl2"]
 [ext_resource type="Script" path="res://level_1/player.gd" id="4_nmn2m"]
 [ext_resource type="Script" path="res://level_1c/goal.gd" id="5_pbqm7"]
-[ext_resource type="Script" path="res://level_1c/screen_2.gd" id="6_b41jj"]
 [ext_resource type="Script" path="res://level_1c/distortion_grid.gd" id="7_mkago"]
+[ext_resource type="Script" path="res://level_1c/Scenes/grid_3.gd" id="8_35m0t"]
 [ext_resource type="Script" path="res://level_1c/Scenes/grid_2.gd" id="8_ciey6"]
 [ext_resource type="Script" path="res://level_1c/goal_spawner.gd" id="8_esyo2"]
 
@@ -23,6 +23,13 @@ gradient = SubResource("Gradient_uyvyb")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
+[sub_resource type="Gradient" id="Gradient_mdaw6"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 1, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_7n8io"]
+gradient = SubResource("Gradient_mdaw6")
+
 [sub_resource type="Gradient" id="Gradient_j41ph"]
 offsets = PackedFloat32Array(1)
 colors = PackedColorArray(1, 1, 1, 1)
@@ -32,13 +39,6 @@ gradient = SubResource("Gradient_j41ph")
 width = 1000
 fill_from = Vector2(1, 1)
 fill_to = Vector2(1, 1)
-
-[sub_resource type="Gradient" id="Gradient_mdaw6"]
-offsets = PackedFloat32Array(1)
-colors = PackedColorArray(1, 1, 0, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_7n8io"]
-gradient = SubResource("Gradient_mdaw6")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2dcn3"]
 radius = 23.0868
@@ -54,16 +54,6 @@ gradient = SubResource("Gradient_6quts")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
-[sub_resource type="Gradient" id="Gradient_57smo"]
-offsets = PackedFloat32Array(1)
-colors = PackedColorArray(1, 1, 1, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_cvm1y"]
-gradient = SubResource("Gradient_57smo")
-width = 1000
-fill_from = Vector2(1, 1)
-fill_to = Vector2(1, 1)
-
 [node name="PauseManager" type="Node"]
 process_mode = 3
 script = ExtResource("1_nqqpu")
@@ -71,6 +61,7 @@ script = ExtResource("1_nqqpu")
 [node name="Level" type="Node2D" parent="."]
 process_mode = 1
 script = ExtResource("2_q5hl2")
+start_screen = 5
 
 [node name="Player" type="Area2D" parent="Level"]
 collision_layer = 7
@@ -86,15 +77,6 @@ texture = SubResource("GradientTexture2D_2cts2")
 [node name="InvincibilityTimer" type="Timer" parent="Level/Player"]
 wait_time = 0.3
 one_shot = true
-
-[node name="ProgressBarCover" type="Node2D" parent="Level"]
-modulate = Color(0, 0, 0, 1)
-position = Vector2(0, 1000)
-
-[node name="Sprite2D" type="Sprite2D" parent="Level/ProgressBarCover"]
-position = Vector2(500, -32)
-scale = Vector2(1, 1.006)
-texture = SubResource("GradientTexture2D_j13k2")
 
 [node name="BG" type="Sprite2D" parent="Level"]
 modulate = Color(1, 1, 1, 0)
@@ -138,7 +120,7 @@ texture = SubResource("GradientTexture2D_fkhia")
 [node name="Screen2" type="Node2D" parent="Level"]
 process_mode = 4
 visible = false
-script = ExtResource("6_b41jj")
+script = ExtResource("8_esyo2")
 
 [node name="Grid1" type="Area2D" parent="Level/Screen2"]
 position = Vector2(500, 500)
@@ -151,18 +133,21 @@ spacing = 130.0
 distortion_speed = 0.5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen2/Grid1"]
-visible = false
 shape = SubResource("CircleShape2D_1vguc")
 disabled = true
 
-[node name="GoalSpawner" type="Node2D" parent="Level/Screen2"]
-script = ExtResource("8_esyo2")
-goals_needed = 2
+[node name="ProgressBar" type="Node2D" parent="Level/Screen2"]
+modulate = Color(0, 1, 0, 1)
+position = Vector2(0, 935)
+
+[node name="Sprite2D" type="Sprite2D" parent="Level/Screen2/ProgressBar"]
+position = Vector2(500, 32)
+scale = Vector2(1, 1.006)
+texture = SubResource("GradientTexture2D_j13k2")
 
 [node name="Screen3" type="Node2D" parent="Level"]
 process_mode = 4
 visible = false
-script = ExtResource("6_b41jj")
 
 [node name="Goal" type="Area2D" parent="Level/Screen3"]
 modulate = Color(0, 1, 0, 1)
@@ -181,7 +166,7 @@ texture = SubResource("GradientTexture2D_fkhia")
 [node name="Screen4" type="Node2D" parent="Level"]
 process_mode = 4
 visible = false
-script = ExtResource("6_b41jj")
+script = ExtResource("8_esyo2")
 
 [node name="Grid2" type="Area2D" parent="Level/Screen4"]
 position = Vector2(500, 500)
@@ -196,17 +181,59 @@ distortion_speed = 0.8
 shape = SubResource("CircleShape2D_1vguc")
 disabled = true
 
-[node name="GoalSpawner" type="Node2D" parent="Level/Screen4"]
+[node name="ProgressBar" type="Node2D" parent="Level/Screen4"]
+modulate = Color(0, 1, 0, 1)
+position = Vector2(0, 935)
+
+[node name="Sprite2D" type="Sprite2D" parent="Level/Screen4/ProgressBar"]
+position = Vector2(500, 32)
+scale = Vector2(1, 1.006)
+texture = SubResource("GradientTexture2D_j13k2")
+
+[node name="Screen5" type="Node2D" parent="Level"]
+process_mode = 4
+visible = false
+
+[node name="Goal" type="Area2D" parent="Level/Screen5"]
+modulate = Color(0, 1, 0, 1)
+position = Vector2(500, 500)
+collision_layer = 4
+collision_mask = 4
+script = ExtResource("5_pbqm7")
+velocity = Vector2(0, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen5/Goal"]
+shape = SubResource("CircleShape2D_2dcn3")
+
+[node name="Sprite2D" type="Sprite2D" parent="Level/Screen5/Goal"]
+texture = SubResource("GradientTexture2D_fkhia")
+
+[node name="Screen6" type="Node2D" parent="Level"]
+process_mode = 4
+visible = false
 script = ExtResource("8_esyo2")
 
-[node name="ProgressBar" type="Node2D" parent="Level"]
-modulate = Color(0, 1, 0, 1)
-position = Vector2(0, 1000)
+[node name="Grid3" type="Area2D" parent="Level/Screen6"]
+position = Vector2(500, 500)
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("8_35m0t")
+log_length = 4
+factor = -1.0
+spacing = 150.0
 
-[node name="Sprite2D" type="Sprite2D" parent="Level/ProgressBar"]
-position = Vector2(500, -32)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen6/Grid3"]
+shape = SubResource("CircleShape2D_1vguc")
+disabled = true
+
+[node name="ProgressBar" type="Node2D" parent="Level/Screen6"]
+modulate = Color(0, 1, 0, 1)
+position = Vector2(0, 935)
+
+[node name="Sprite2D" type="Sprite2D" parent="Level/Screen6/ProgressBar"]
+position = Vector2(500, 32)
 scale = Vector2(1, 1.006)
-texture = SubResource("GradientTexture2D_cvm1y")
+texture = SubResource("GradientTexture2D_j13k2")
 
 [connection signal="area_entered" from="Level/Player" to="Level/Player" method="_on_area_entered"]
 [connection signal="timeout" from="Level/Player/InvincibilityTimer" to="Level/Player" method="_on_invincibility_timer_timeout"]
