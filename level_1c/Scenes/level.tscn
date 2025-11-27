@@ -1,13 +1,75 @@
-[gd_scene load_steps=19 format=3 uid="uid://dximobfhg52x5"]
+[gd_scene load_steps=23 format=3 uid="uid://dximobfhg52x5"]
 
-[ext_resource type="Script" path="res://level_1/pause_manager.gd" id="1_nqqpu"]
 [ext_resource type="Script" path="res://level_1c/level.gd" id="2_q5hl2"]
-[ext_resource type="Script" path="res://level_1/player.gd" id="4_nmn2m"]
 [ext_resource type="Script" path="res://level_1c/goal.gd" id="5_pbqm7"]
+[ext_resource type="Script" path="res://level_1c/Scenes/bullet_spawner.gd" id="6_gpb87"]
+[ext_resource type="Script" path="res://level_1c/Scenes/bullet_spawner_2.gd" id="7_73ty3"]
 [ext_resource type="Script" path="res://level_1c/distortion_grid.gd" id="7_mkago"]
-[ext_resource type="Script" path="res://level_1c/Scenes/grid_3.gd" id="8_35m0t"]
 [ext_resource type="Script" path="res://level_1c/Scenes/grid_2.gd" id="8_ciey6"]
 [ext_resource type="Script" path="res://level_1c/goal_spawner.gd" id="8_esyo2"]
+
+[sub_resource type="GDScript" id="GDScript_56xki"]
+script/source = "extends Node
+
+@onready var level = $Level
+
+func _ready():
+	get_tree().paused = true   
+	
+func _process(delta: float) -> void:
+	if Input.is_action_just_pressed(\"pause\"):
+		get_tree().paused = not get_tree().paused
+		
+"
+
+[sub_resource type="GDScript" id="GDScript_gp44b"]
+script/source = "extends Area2D
+var invincible = false
+
+
+@export var blood: float = 1
+@export var enemy_layer = 2
+@export var goal_layer = 4
+
+@onready var level = $\"..\"
+@onready var invincibility_timer = $InvincibilityTimer
+@onready var bg = $\"../BG\"
+@onready var health_bar =  $\"../HealthBar\"
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	global_position = get_global_mouse_position()
+	if blood > 1:
+		blood = 1
+	bg.modulate.a = invincibility_timer.time_left
+	health_bar.scale.x = blood
+	
+func _on_area_entered(area: Area2D) -> void:
+	if area.collision_layer == enemy_layer:
+		if not invincible:
+			blood -= area.damage 
+			if blood <= 0:
+				get_tree().quit()
+			
+			invincibility_timer.start()
+			invincible = true
+			
+			
+	if area.collision_layer == goal_layer:
+		if area.mode == area.SCREEN_CHANGE:
+			level.next_screen()
+		if area.mode == area.SCRIPT:
+			area.on_collected.call()
+		area.queue_free()
+		blood += area.heal
+		
+		
+
+
+func _on_invincibility_timer_timeout() -> void:
+	invincible = false
+	print(\"timeout\")
+"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1vguc"]
 radius = 23.0868
@@ -54,19 +116,33 @@ gradient = SubResource("Gradient_6quts")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_yvbls"]
+radius = 23.0868
+
+[sub_resource type="Gradient" id="Gradient_bi6tm"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.5)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_lj7f6"]
+gradient = SubResource("Gradient_bi6tm")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
 [node name="PauseManager" type="Node"]
 process_mode = 3
-script = ExtResource("1_nqqpu")
+script = SubResource("GDScript_56xki")
 
 [node name="Level" type="Node2D" parent="."]
 process_mode = 1
 script = ExtResource("2_q5hl2")
-start_screen = 5
+start_screen = 7
 
 [node name="Player" type="Area2D" parent="Level"]
 collision_layer = 7
 collision_mask = 7
-script = ExtResource("4_nmn2m")
+script = SubResource("GDScript_gp44b")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Player"]
 shape = SubResource("CircleShape2D_1vguc")
@@ -213,19 +289,6 @@ process_mode = 4
 visible = false
 script = ExtResource("8_esyo2")
 
-[node name="Grid3" type="Area2D" parent="Level/Screen6"]
-position = Vector2(500, 500)
-collision_layer = 2
-collision_mask = 2
-script = ExtResource("8_35m0t")
-log_length = 4
-factor = -1.0
-spacing = 150.0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen6/Grid3"]
-shape = SubResource("CircleShape2D_1vguc")
-disabled = true
-
 [node name="ProgressBar" type="Node2D" parent="Level/Screen6"]
 modulate = Color(0, 1, 0, 1)
 position = Vector2(0, 935)
@@ -234,6 +297,70 @@ position = Vector2(0, 935)
 position = Vector2(500, 32)
 scale = Vector2(1, 1.006)
 texture = SubResource("GradientTexture2D_j13k2")
+
+[node name="BulletSpawner" type="Area2D" parent="Level/Screen6"]
+modulate = Color(1, 0, 0, 1)
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("6_gpb87")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen6/BulletSpawner"]
+shape = SubResource("CircleShape2D_yvbls")
+
+[node name="Sprite2D" type="Sprite2D" parent="Level/Screen6/BulletSpawner"]
+visible = false
+texture = SubResource("GradientTexture2D_lj7f6")
+
+[node name="SpawnTimer" type="Timer" parent="Level/Screen6/BulletSpawner"]
+autostart = true
+
+[node name="Screen7" type="Node2D" parent="Level"]
+process_mode = 4
+visible = false
+
+[node name="Goal" type="Area2D" parent="Level/Screen7"]
+modulate = Color(0, 1, 0, 1)
+position = Vector2(500, 500)
+collision_layer = 4
+collision_mask = 4
+script = ExtResource("5_pbqm7")
+velocity = Vector2(0, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen7/Goal"]
+shape = SubResource("CircleShape2D_2dcn3")
+
+[node name="Sprite2D" type="Sprite2D" parent="Level/Screen7/Goal"]
+texture = SubResource("GradientTexture2D_fkhia")
+
+[node name="Screen8" type="Node2D" parent="Level"]
+process_mode = 4
+visible = false
+script = ExtResource("8_esyo2")
+
+[node name="ProgressBar" type="Node2D" parent="Level/Screen8"]
+modulate = Color(0, 1, 0, 1)
+position = Vector2(0, 935)
+
+[node name="Sprite2D" type="Sprite2D" parent="Level/Screen8/ProgressBar"]
+position = Vector2(500, 32)
+scale = Vector2(1, 1.006)
+texture = SubResource("GradientTexture2D_j13k2")
+
+[node name="BulletSpawner2" type="Area2D" parent="Level/Screen8"]
+modulate = Color(1, 0, 0, 1)
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("7_73ty3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen8/BulletSpawner2"]
+shape = SubResource("CircleShape2D_yvbls")
+
+[node name="Sprite2D" type="Sprite2D" parent="Level/Screen8/BulletSpawner2"]
+visible = false
+texture = SubResource("GradientTexture2D_lj7f6")
+
+[node name="SpawnTimer" type="Timer" parent="Level/Screen8/BulletSpawner2"]
+autostart = true
 
 [connection signal="area_entered" from="Level/Player" to="Level/Player" method="_on_area_entered"]
 [connection signal="timeout" from="Level/Player/InvincibilityTimer" to="Level/Player" method="_on_invincibility_timer_timeout"]
