@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://dximobfhg52x5"]
+[gd_scene load_steps=25 format=3 uid="uid://dximobfhg52x5"]
 
 [ext_resource type="Script" path="res://level_1c/level.gd" id="2_q5hl2"]
 [ext_resource type="Script" path="res://level_1c/goal.gd" id="5_pbqm7"]
@@ -121,14 +121,31 @@ radius = 23.0868
 
 [sub_resource type="Gradient" id="Gradient_bi6tm"]
 interpolation_mode = 1
-offsets = PackedFloat32Array(0, 0.5)
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+offsets = PackedFloat32Array(0.2, 0.5)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
 metadata/_snap_enabled = true
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_lj7f6"]
 gradient = SubResource("Gradient_bi6tm")
+width = 5000
+height = 5000
+fill = 2
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.7, 0.7)
+
+[sub_resource type="Gradient" id="Gradient_yi808"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0.3, 1)
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_iuhaq"]
+gradient = SubResource("Gradient_yi808")
+width = 1000
+height = 1000
 fill = 1
 fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
 
 [node name="PauseManager" type="Node"]
 process_mode = 3
@@ -347,20 +364,28 @@ scale = Vector2(1, 1.006)
 texture = SubResource("GradientTexture2D_j13k2")
 
 [node name="BulletSpawner2" type="Area2D" parent="Level/Screen8"]
-modulate = Color(1, 0, 0, 1)
 collision_layer = 0
 collision_mask = 0
 script = ExtResource("7_73ty3")
+safe_radius = 200.0
+bullet_speed = 2.0
+bullet_count = 10
+acceleration_mode = "exp"
+bullet_acceleration = 100.0
+center_delete = false
+wait_time = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen8/BulletSpawner2"]
 shape = SubResource("CircleShape2D_yvbls")
 
-[node name="Sprite2D" type="Sprite2D" parent="Level/Screen8/BulletSpawner2"]
-visible = false
-texture = SubResource("GradientTexture2D_lj7f6")
+[node name="CompositeSprite" type="Node2D" parent="Level/Screen8/BulletSpawner2"]
+modulate = Color(1, 0, 0, 1)
 
-[node name="SpawnTimer" type="Timer" parent="Level/Screen8/BulletSpawner2"]
-autostart = true
+[node name="Sprite2D1" type="Sprite2D" parent="Level/Screen8/BulletSpawner2/CompositeSprite"]
+texture = SubResource("GradientTexture2D_iuhaq")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Level/Screen8/BulletSpawner2/CompositeSprite"]
+texture = SubResource("GradientTexture2D_lj7f6")
 
 [connection signal="area_entered" from="Level/Player" to="Level/Player" method="_on_area_entered"]
 [connection signal="timeout" from="Level/Player/InvincibilityTimer" to="Level/Player" method="_on_invincibility_timer_timeout"]
