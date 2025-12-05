@@ -1,8 +1,7 @@
-[gd_scene load_steps=25 format=3 uid="uid://dximobfhg52x5"]
+[gd_scene load_steps=24 format=3 uid="uid://dximobfhg52x5"]
 
 [ext_resource type="Script" path="res://level_1c/level.gd" id="2_q5hl2"]
 [ext_resource type="Script" path="res://level_1c/goal.gd" id="5_pbqm7"]
-[ext_resource type="Script" path="res://level_1c/Scenes/bullet_spawner.gd" id="6_gpb87"]
 [ext_resource type="Script" path="res://level_1c/Scenes/bullet_spawner_2.gd" id="7_73ty3"]
 [ext_resource type="Script" path="res://level_1c/distortion_grid.gd" id="7_mkago"]
 [ext_resource type="Script" path="res://level_1c/Scenes/grid_2.gd" id="8_ciey6"]
@@ -27,10 +26,11 @@ script/source = "extends Area2D
 var invincible = false
 
 
-@export var blood: float = 1
 @export var enemy_layer = 2
 @export var goal_layer = 4
+@export var max_blood: float = 2
 
+@onready var blood = max_blood
 @onready var level = $\"..\"
 @onready var invincibility_timer = $InvincibilityTimer
 @onready var bg = $\"../BG\"
@@ -39,10 +39,10 @@ var invincible = false
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	global_position = get_global_mouse_position()
-	if blood > 1:
-		blood = 1
+	if blood > max_blood:
+		blood = max_blood
 	bg.modulate.a = invincibility_timer.time_left
-	health_bar.scale.x = blood
+	health_bar.scale.x = blood/max_blood
 	
 func _on_area_entered(area: Area2D) -> void:
 	if area.collision_layer == enemy_layer:
@@ -68,7 +68,6 @@ func _on_area_entered(area: Area2D) -> void:
 
 func _on_invincibility_timer_timeout() -> void:
 	invincible = false
-	print(\"timeout\")
 "
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1vguc"]
@@ -119,20 +118,6 @@ fill_from = Vector2(0.5, 0.5)
 [sub_resource type="CircleShape2D" id="CircleShape2D_yvbls"]
 radius = 23.0868
 
-[sub_resource type="Gradient" id="Gradient_bi6tm"]
-interpolation_mode = 1
-offsets = PackedFloat32Array(0.2, 0.5)
-colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
-metadata/_snap_enabled = true
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_lj7f6"]
-gradient = SubResource("Gradient_bi6tm")
-width = 5000
-height = 5000
-fill = 2
-fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(0.7, 0.7)
-
 [sub_resource type="Gradient" id="Gradient_yi808"]
 interpolation_mode = 1
 offsets = PackedFloat32Array(0.3, 1)
@@ -147,6 +132,20 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(1, 0.5)
 
+[sub_resource type="Gradient" id="Gradient_bi6tm"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0.2, 0.5)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_lj7f6"]
+gradient = SubResource("Gradient_bi6tm")
+width = 10000
+height = 10000
+fill = 2
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.6, 0.6)
+
 [node name="PauseManager" type="Node"]
 process_mode = 3
 script = SubResource("GDScript_56xki")
@@ -154,7 +153,7 @@ script = SubResource("GDScript_56xki")
 [node name="Level" type="Node2D" parent="."]
 process_mode = 1
 script = ExtResource("2_q5hl2")
-start_screen = 7
+start_screen = 14
 
 [node name="Player" type="Area2D" parent="Level"]
 collision_layer = 7
@@ -214,6 +213,7 @@ texture = SubResource("GradientTexture2D_fkhia")
 process_mode = 4
 visible = false
 script = ExtResource("8_esyo2")
+goals_needed = 1
 
 [node name="Grid1" type="Area2D" parent="Level/Screen2"]
 position = Vector2(500, 500)
@@ -260,6 +260,7 @@ texture = SubResource("GradientTexture2D_fkhia")
 process_mode = 4
 visible = false
 script = ExtResource("8_esyo2")
+goals_needed = 1
 
 [node name="Grid2" type="Area2D" parent="Level/Screen4"]
 position = Vector2(500, 500)
@@ -305,6 +306,7 @@ texture = SubResource("GradientTexture2D_fkhia")
 process_mode = 4
 visible = false
 script = ExtResource("8_esyo2")
+goals_needed = 1
 
 [node name="ProgressBar" type="Node2D" parent="Level/Screen6"]
 modulate = Color(0, 1, 0, 1)
@@ -315,21 +317,36 @@ position = Vector2(500, 32)
 scale = Vector2(1, 1.006)
 texture = SubResource("GradientTexture2D_j13k2")
 
-[node name="BulletSpawner" type="Area2D" parent="Level/Screen6"]
-modulate = Color(1, 0, 0, 1)
+[node name="BulletSpawner2" type="Area2D" parent="Level/Screen6"]
 collision_layer = 0
 collision_mask = 0
-script = ExtResource("6_gpb87")
+script = ExtResource("7_73ty3")
+safe_radius = 200.0
+bullet_count = 50
+acceleration_mode = "exp"
+bullet_acceleration = 100.0
+bullet_base = 0.99
+center_delete = false
+wait_time = 0.4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen6/BulletSpawner"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen6/BulletSpawner2"]
 shape = SubResource("CircleShape2D_yvbls")
 
-[node name="Sprite2D" type="Sprite2D" parent="Level/Screen6/BulletSpawner"]
-visible = false
-texture = SubResource("GradientTexture2D_lj7f6")
+[node name="Target" type="Area2D" parent="Level/Screen6/BulletSpawner2"]
+collision_layer = 0
+collision_mask = 0
 
-[node name="SpawnTimer" type="Timer" parent="Level/Screen6/BulletSpawner"]
-autostart = true
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen6/BulletSpawner2/Target"]
+shape = SubResource("CircleShape2D_yvbls")
+
+[node name="CompositeSprite" type="Node2D" parent="Level/Screen6/BulletSpawner2/Target"]
+modulate = Color(1, 0, 0, 1)
+
+[node name="Sprite2D1" type="Sprite2D" parent="Level/Screen6/BulletSpawner2/Target/CompositeSprite"]
+texture = SubResource("GradientTexture2D_iuhaq")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Level/Screen6/BulletSpawner2/Target/CompositeSprite"]
+texture = SubResource("GradientTexture2D_lj7f6")
 
 [node name="Screen7" type="Node2D" parent="Level"]
 process_mode = 4
@@ -368,23 +385,228 @@ collision_layer = 0
 collision_mask = 0
 script = ExtResource("7_73ty3")
 safe_radius = 200.0
-bullet_speed = 2.0
-bullet_count = 10
+bullet_speed = 5.0
+bullet_count = 15
 acceleration_mode = "exp"
 bullet_acceleration = 100.0
+bullet_base = 100.0
 center_delete = false
-wait_time = null
+wait_time = 1.0
+one_shot = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen8/BulletSpawner2"]
 shape = SubResource("CircleShape2D_yvbls")
 
-[node name="CompositeSprite" type="Node2D" parent="Level/Screen8/BulletSpawner2"]
+[node name="Target" type="Area2D" parent="Level/Screen8/BulletSpawner2"]
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen8/BulletSpawner2/Target"]
+shape = SubResource("CircleShape2D_yvbls")
+
+[node name="CompositeSprite" type="Node2D" parent="Level/Screen8/BulletSpawner2/Target"]
 modulate = Color(1, 0, 0, 1)
 
-[node name="Sprite2D1" type="Sprite2D" parent="Level/Screen8/BulletSpawner2/CompositeSprite"]
+[node name="Sprite2D1" type="Sprite2D" parent="Level/Screen8/BulletSpawner2/Target/CompositeSprite"]
 texture = SubResource("GradientTexture2D_iuhaq")
 
-[node name="Sprite2D2" type="Sprite2D" parent="Level/Screen8/BulletSpawner2/CompositeSprite"]
+[node name="Sprite2D2" type="Sprite2D" parent="Level/Screen8/BulletSpawner2/Target/CompositeSprite"]
+texture = SubResource("GradientTexture2D_lj7f6")
+
+[node name="Screen9" type="Node2D" parent="Level"]
+process_mode = 4
+visible = false
+
+[node name="Goal" type="Area2D" parent="Level/Screen9"]
+modulate = Color(0, 1, 0, 1)
+position = Vector2(500, 500)
+collision_layer = 4
+collision_mask = 4
+script = ExtResource("5_pbqm7")
+velocity = Vector2(0, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen9/Goal"]
+shape = SubResource("CircleShape2D_2dcn3")
+
+[node name="Sprite2D" type="Sprite2D" parent="Level/Screen9/Goal"]
+texture = SubResource("GradientTexture2D_fkhia")
+
+[node name="Screen10" type="Node2D" parent="Level"]
+process_mode = 4
+visible = false
+script = ExtResource("8_esyo2")
+
+[node name="ProgressBar" type="Node2D" parent="Level/Screen10"]
+modulate = Color(0, 1, 0, 1)
+position = Vector2(0, 935)
+
+[node name="Sprite2D" type="Sprite2D" parent="Level/Screen10/ProgressBar"]
+position = Vector2(500, 32)
+scale = Vector2(1, 1.006)
+texture = SubResource("GradientTexture2D_j13k2")
+
+[node name="BulletSpawner2" type="Area2D" parent="Level/Screen10"]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("7_73ty3")
+safe_radius = 200.0
+bullet_speed = 5.0
+bullet_count = 3
+acceleration_mode = "exp"
+bullet_acceleration = 100.0
+bullet_base = 10000.0
+bullet_size = 15.0
+center_delete = false
+wait_time = 1.0
+one_shot = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen10/BulletSpawner2"]
+shape = SubResource("CircleShape2D_yvbls")
+
+[node name="Target" type="Area2D" parent="Level/Screen10/BulletSpawner2"]
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen10/BulletSpawner2/Target"]
+shape = SubResource("CircleShape2D_yvbls")
+
+[node name="CompositeSprite" type="Node2D" parent="Level/Screen10/BulletSpawner2/Target"]
+modulate = Color(1, 0, 0, 1)
+
+[node name="Sprite2D1" type="Sprite2D" parent="Level/Screen10/BulletSpawner2/Target/CompositeSprite"]
+texture = SubResource("GradientTexture2D_iuhaq")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Level/Screen10/BulletSpawner2/Target/CompositeSprite"]
+texture = SubResource("GradientTexture2D_lj7f6")
+
+[node name="Screen11" type="Node2D" parent="Level"]
+process_mode = 4
+visible = false
+
+[node name="Goal" type="Area2D" parent="Level/Screen11"]
+modulate = Color(0, 1, 0, 1)
+position = Vector2(500, 500)
+collision_layer = 4
+collision_mask = 4
+script = ExtResource("5_pbqm7")
+velocity = Vector2(0, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen11/Goal"]
+shape = SubResource("CircleShape2D_2dcn3")
+
+[node name="Sprite2D" type="Sprite2D" parent="Level/Screen11/Goal"]
+texture = SubResource("GradientTexture2D_fkhia")
+
+[node name="Screen12" type="Node2D" parent="Level"]
+process_mode = 4
+visible = false
+script = ExtResource("8_esyo2")
+
+[node name="ProgressBar" type="Node2D" parent="Level/Screen12"]
+modulate = Color(0, 1, 0, 1)
+position = Vector2(0, 935)
+
+[node name="Sprite2D" type="Sprite2D" parent="Level/Screen12/ProgressBar"]
+position = Vector2(500, 32)
+scale = Vector2(1, 1.006)
+texture = SubResource("GradientTexture2D_j13k2")
+
+[node name="BigBullets" type="Area2D" parent="Level/Screen12"]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("7_73ty3")
+safe_radius = 200.0
+bullet_speed = 5.0
+bullet_count = 1
+acceleration_mode = "exp"
+bullet_acceleration = 100.0
+bullet_base = 10000.0
+center_delete = false
+wait_time = 0.2
+one_shot = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen12/BigBullets"]
+shape = SubResource("CircleShape2D_yvbls")
+
+[node name="Target" type="Area2D" parent="Level/Screen12/BigBullets"]
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen12/BigBullets/Target"]
+shape = SubResource("CircleShape2D_yvbls")
+
+[node name="CompositeSprite" type="Node2D" parent="Level/Screen12/BigBullets/Target"]
+modulate = Color(1, 0, 0, 1)
+
+[node name="Sprite2D1" type="Sprite2D" parent="Level/Screen12/BigBullets/Target/CompositeSprite"]
+texture = SubResource("GradientTexture2D_iuhaq")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Level/Screen12/BigBullets/Target/CompositeSprite"]
+texture = SubResource("GradientTexture2D_lj7f6")
+
+[node name="Screen13" type="Node2D" parent="Level"]
+process_mode = 4
+visible = false
+
+[node name="Goal" type="Area2D" parent="Level/Screen13"]
+modulate = Color(0, 1, 0, 1)
+position = Vector2(500, 500)
+collision_layer = 4
+collision_mask = 4
+script = ExtResource("5_pbqm7")
+velocity = Vector2(0, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen13/Goal"]
+shape = SubResource("CircleShape2D_2dcn3")
+
+[node name="Sprite2D" type="Sprite2D" parent="Level/Screen13/Goal"]
+texture = SubResource("GradientTexture2D_fkhia")
+
+[node name="Screen14" type="Node2D" parent="Level"]
+process_mode = 4
+visible = false
+script = ExtResource("8_esyo2")
+goals_needed = 10
+
+[node name="ProgressBar" type="Node2D" parent="Level/Screen14"]
+modulate = Color(0, 1, 0, 1)
+position = Vector2(0, 935)
+
+[node name="Sprite2D" type="Sprite2D" parent="Level/Screen14/ProgressBar"]
+position = Vector2(500, 32)
+scale = Vector2(1, 1.006)
+texture = SubResource("GradientTexture2D_j13k2")
+
+[node name="Overcrowding" type="Area2D" parent="Level/Screen14"]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("7_73ty3")
+safe_radius = 300.0
+bullet_speed = 400.0
+bullet_count = 30
+bullet_acceleration = -100.0
+bullet_base = 10000.0
+center_delete = false
+wait_time = 3.0
+one_shot = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen14/Overcrowding"]
+shape = SubResource("CircleShape2D_yvbls")
+
+[node name="Target" type="Area2D" parent="Level/Screen14/Overcrowding"]
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen14/Overcrowding/Target"]
+shape = SubResource("CircleShape2D_yvbls")
+
+[node name="CompositeSprite" type="Node2D" parent="Level/Screen14/Overcrowding/Target"]
+modulate = Color(1, 0, 0, 1)
+
+[node name="Sprite2D1" type="Sprite2D" parent="Level/Screen14/Overcrowding/Target/CompositeSprite"]
+texture = SubResource("GradientTexture2D_iuhaq")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Level/Screen14/Overcrowding/Target/CompositeSprite"]
 texture = SubResource("GradientTexture2D_lj7f6")
 
 [connection signal="area_entered" from="Level/Player" to="Level/Player" method="_on_area_entered"]
