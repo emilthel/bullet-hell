@@ -1,18 +1,18 @@
 [gd_scene load_steps=5 format=3 uid="uid://ci7m6vunac8os"]
 
-[ext_resource type="Script" path="res://level_1c/Scenes/enemy.gd" id="1_brq5m"]
+[ext_resource type="Script" path="res://level_1c/enemy.gd" id="1_brq5m"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_1vguc"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_ycfsc"]
 radius = 23.0868
 
-[sub_resource type="Gradient" id="Gradient_uyvyb"]
+[sub_resource type="Gradient" id="Gradient_82lr4"]
 interpolation_mode = 1
 offsets = PackedFloat32Array(0, 0.5)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 metadata/_snap_enabled = true
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_2cts2"]
-gradient = SubResource("Gradient_uyvyb")
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_7ft2s"]
+gradient = SubResource("Gradient_82lr4")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
@@ -24,7 +24,11 @@ collision_mask = 2
 script = ExtResource("1_brq5m")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_1vguc")
+shape = SubResource("CircleShape2D_ycfsc")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = SubResource("GradientTexture2D_2cts2")
+texture = SubResource("GradientTexture2D_7ft2s")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

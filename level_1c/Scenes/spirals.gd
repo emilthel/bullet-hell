@@ -31,6 +31,7 @@ var sprite2
 var spawn_timer
 var target
 var time_left
+var abilities
 var time_speed
 
 func spawn_child(point, parent = self):
@@ -78,21 +79,22 @@ func _frame1() -> void:
 	spawn_timer = $SpawnTimer
 	screen = $".."
 	target = $Target
-	level = $"../.."
+	abilities = $"../Abilities"
 	screen_rect = get_viewport_rect()
 	#position = player.position
 	position = Vector2(500,500)
 	sprite.scale *= float(safe_radius)/500
 	time_left = wait_time
 	time_speed = 1
-		
-# Called every frame. 'delta * time_speed' is the elapsed time since the previous frame.
+	
+# Called every frame. 'time_speed*delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if is_frame1:
 		_frame1()
 		is_frame1 = false
-
-	time_left -= delta * time_speed
+	time_speed = abilities.time_speed
+	
+	time_left -= time_speed*delta
 	sprite.modulate.a = (1-time_left)*0.4
 	target.global_position = player.position
 		
@@ -108,18 +110,18 @@ func _process(delta: float) -> void:
 	for bullet in children:
 		if is_instance_valid(bullet): #Runs if bullet exists
 			var distance = (bullet.global_position-target.global_position).length()
-			#bullet.velocity *= 100**delta * time_speed
+			#bullet.velocity *= 100**time_speed*delta
 			match acceleration_mode:
 				"lin":
 					var direction = directions[bullet]
-					bullet.velocity += lin_acc * direction * delta * time_speed
+					bullet.velocity += lin_acc * direction * time_speed*delta
 					
-					bullet.velocity = bullet.velocity.rotated(rot_angle*delta * time_speed)
-					direction = direction.rotated(rot_angle*delta * time_speed)
+					bullet.velocity = bullet.velocity.rotated(rot_angle*time_speed*delta)
+					direction = direction.rotated(rot_angle*time_speed*delta)
 					
 				"exp":
-					bullet.velocity *= exp_base ** delta * time_speed
-					bullet.velocity = bullet.velocity.rotated(rot_angle*delta * time_speed)
+					bullet.velocity *= exp_base ** time_speed*delta
+					bullet.velocity = bullet.velocity.rotated(rot_angle*time_speed*delta)
 					
 	 		#Deletes bullets that reach center
 			if center_delete:
