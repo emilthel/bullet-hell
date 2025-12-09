@@ -8,5 +8,6 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	delta *= TimeManager.time_speed
 	#modulate.a = player.invincibility_timer.time_left
 	pass

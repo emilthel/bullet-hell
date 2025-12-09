@@ -10,7 +10,8 @@ var directions: Dictionary = {}
 @export var acceleration_mode: String = "lin"
 @export var lin_acc: float = 10
 @export var exp_base: float = 10
-@export var rot_angle: float = PI
+@export var rot_angle: float = 0
+@export var despawns: bool = false
 @export var bullet_size: float = 1
 @export var center_delete: bool = true
 @export var wait_time: float = 2
@@ -31,7 +32,6 @@ var sprite2
 var spawn_timer
 var target
 var time_left
-var time_speed
 
 func spawn_child(point, parent = self):
 	var child = enemy_scene.instantiate()
@@ -39,6 +39,7 @@ func spawn_child(point, parent = self):
 	child.global_position = point
 	child.velocity *= 0
 	child.scale *= 0.5
+	child.despawns = despawns
 	children.append(child)
 	return child
 	
@@ -73,7 +74,7 @@ func _spawn_bullets():
 
 "Runs on first frame active"
 func _frame1() -> void:
-	player = $"../../Player"
+	player = Player
 	sprite = $Target/CompositeSprite
 	spawn_timer = $SpawnTimer
 	screen = $".."
@@ -83,16 +84,18 @@ func _frame1() -> void:
 	#position = player.position
 	position = Vector2(500,500)
 	sprite.scale *= float(safe_radius)/500
-	time_left = wait_time
-	time_speed = 1
+	time_left = wait_time/2
 		
-# Called every frame. 'delta * time_speed' is the elapsed time since the previous frame.
+# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	delta *= TimeManager.time_speed
 	if is_frame1:
 		_frame1()
 		is_frame1 = false
 
-	time_left -= delta * time_speed
+	var time_speed = TimeManager.time_speed
+	
+	time_left -= delta
 	sprite.modulate.a = (1-time_left)*0.4
 	target.global_position = player.position
 		
@@ -108,18 +111,17 @@ func _process(delta: float) -> void:
 	for bullet in children:
 		if is_instance_valid(bullet): #Runs if bullet exists
 			var distance = (bullet.global_position-target.global_position).length()
-			#bullet.velocity *= 100**delta * time_speed
 			match acceleration_mode:
 				"lin":
 					var direction = directions[bullet]
-					bullet.velocity += lin_acc * direction * delta * time_speed
+					bullet.velocity += lin_acc * direction * delta
 					
-					bullet.velocity = bullet.velocity.rotated(rot_angle*delta * time_speed)
-					direction = direction.rotated(rot_angle*delta * time_speed)
+					bullet.velocity = bullet.velocity.rotated(rot_angle*delta)
+					direction = direction.rotated(rot_angle*delta)
 					
 				"exp":
-					bullet.velocity *= exp_base ** delta * time_speed
-					bullet.velocity = bullet.velocity.rotated(rot_angle*delta * time_speed)
+					bullet.velocity *= exp_base ** delta
+					bullet.velocity = bullet.velocity.rotated(rot_angle*delta)
 					
 	 		#Deletes bullets that reach center
 			if center_delete:

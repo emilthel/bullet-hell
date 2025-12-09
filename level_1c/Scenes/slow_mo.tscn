@@ -1,0 +1,61 @@
+[gd_scene load_steps=9 format=3 uid="uid://d3fv46bax7aea"]
+
+[ext_resource type="Script" path="res://level_1c/abilities.gd" id="1_8bc4r"]
+
+[sub_resource type="Gradient" id="Gradient_j41ph"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_j13k2"]
+gradient = SubResource("Gradient_j41ph")
+width = 1000
+fill_from = Vector2(1, 1)
+fill_to = Vector2(1, 1)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2dcn3"]
+radius = 23.0868
+
+[sub_resource type="Gradient" id="Gradient_6quts"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.5)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_fkhia"]
+gradient = SubResource("Gradient_6quts")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_mdaw6"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_7n8io"]
+gradient = SubResource("Gradient_mdaw6")
+
+[node name="SlowMo" type="Area2D"]
+z_index = -1
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_8bc4r")
+
+[node name="AbilityBar" type="Node2D" parent="."]
+modulate = Color(0, 1, 0, 1)
+position = Vector2(0, 64)
+
+[node name="Sprite2D" type="Sprite2D" parent="AbilityBar"]
+position = Vector2(500, 9)
+scale = Vector2(1, 0.3155)
+texture = SubResource("GradientTexture2D_j13k2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_2dcn3")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("GradientTexture2D_fkhia")
+
+[node name="SlowmoBG" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 0)
+position = Vector2(500, 500)
+scale = Vector2(5.16406, 1104.5)
+texture = SubResource("GradientTexture1D_7n8io")

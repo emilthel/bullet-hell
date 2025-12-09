@@ -31,7 +31,7 @@ func spawn_child(xn: int, yn: int, scene = enemy_scene):
 	
 "Runs on first frame active"
 func _frame1() -> void:
-	player = $"../../Player"
+	player = Player
 	position = player.global_position
 	var grid_range = range(-count,count+1)
 	for xn in grid_range:
@@ -60,6 +60,7 @@ func _frame1() -> void:
 			
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	delta *= TimeManager.time_speed
 	if is_frame1:
 		_frame1()
 		is_frame1 = false

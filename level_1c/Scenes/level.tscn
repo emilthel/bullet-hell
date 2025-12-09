@@ -1,14 +1,12 @@
-[gd_scene load_steps=30 format=3 uid="uid://dximobfhg52x5"]
+[gd_scene load_steps=23 format=3 uid="uid://dximobfhg52x5"]
 
 [ext_resource type="Script" path="res://level_1c/level.gd" id="2_q5hl2"]
 [ext_resource type="Script" path="res://level_1c/goal.gd" id="5_pbqm7"]
 [ext_resource type="Script" path="res://level_1c/Scenes/bullet_spawner_2.gd" id="7_73ty3"]
-[ext_resource type="Script" path="res://level_1c/abilities.gd" id="7_e6stj"]
 [ext_resource type="Script" path="res://level_1c/distortion_grid.gd" id="7_mkago"]
 [ext_resource type="Script" path="res://level_1c/Scenes/grid_2.gd" id="8_ciey6"]
 [ext_resource type="Script" path="res://level_1c/goal_spawner.gd" id="8_esyo2"]
 [ext_resource type="Script" path="res://level_1c/test_bullet.gd" id="8_wa88g"]
-[ext_resource type="PackedScene" uid="uid://co5qm3o1s08nn" path="res://level_1c/Scenes/time_manager.tscn" id="9_xov5p"]
 
 [sub_resource type="GDScript" id="GDScript_56xki"]
 script/source = "extends Node
@@ -25,89 +23,6 @@ func _process(delta: float) -> void:
 		
 "
 
-[sub_resource type="GDScript" id="GDScript_gp44b"]
-script/source = "extends Area2D
-var invincible = false
-
-
-@export var enemy_layer = 2
-@export var goal_layer = 4
-@export var max_blood: float = 2
-
-@onready var blood = max_blood
-@onready var level = $\"..\"
-@onready var invincibility_timer = $InvincibilityTimer
-@onready var bg = $\"../BG\"
-@onready var health_bar =  $\"../HealthBar\"
-@onready var screen_rect = get_viewport_rect()
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	global_position = get_global_mouse_position()
-	if blood > max_blood:
-		blood = max_blood
-	bg.modulate.a = invincibility_timer.time_left
-	health_bar.scale.x = blood/max_blood
-
-
-
-func _on_area_entered(area: Area2D) -> void:
-	if area.collision_layer == enemy_layer:
-		if not invincible:
-			blood -= area.damage 
-			if blood <= 0:
-				get_tree().quit()
-			
-			invincibility_timer.start()
-			invincible = true
-			
-			
-	if area.collision_layer == goal_layer:
-		if area.mode == area.SCREEN_CHANGE:
-			level.next_screen()
-		if area.mode == area.SCRIPT:
-			area.on_collected.call()
-		area.queue_free()
-		blood += area.heal
-		
-		
-
-
-func _on_invincibility_timer_timeout() -> void:
-	invincible = false
-"
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_1vguc"]
-radius = 23.0868
-
-[sub_resource type="Gradient" id="Gradient_uyvyb"]
-interpolation_mode = 1
-offsets = PackedFloat32Array(0, 0.5)
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
-metadata/_snap_enabled = true
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_2cts2"]
-gradient = SubResource("Gradient_uyvyb")
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-
-[sub_resource type="Gradient" id="Gradient_mdaw6"]
-offsets = PackedFloat32Array(1)
-colors = PackedColorArray(1, 0, 0, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_7n8io"]
-gradient = SubResource("Gradient_mdaw6")
-
-[sub_resource type="Gradient" id="Gradient_j41ph"]
-offsets = PackedFloat32Array(1)
-colors = PackedColorArray(1, 1, 1, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_j13k2"]
-gradient = SubResource("Gradient_j41ph")
-width = 1000
-fill_from = Vector2(1, 1)
-fill_to = Vector2(1, 1)
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_2dcn3"]
 radius = 23.0868
 
@@ -121,6 +36,19 @@ metadata/_snap_enabled = true
 gradient = SubResource("Gradient_6quts")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1vguc"]
+radius = 23.0868
+
+[sub_resource type="Gradient" id="Gradient_u67e2"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_j13k2"]
+gradient = SubResource("Gradient_u67e2")
+width = 1000
+fill_from = Vector2(1, 1)
+fill_to = Vector2(1, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yvbls"]
 radius = 23.0868
@@ -174,47 +102,9 @@ script = SubResource("GDScript_56xki")
 [node name="Level" type="Node2D" parent="."]
 process_mode = 1
 script = ExtResource("2_q5hl2")
-start_screen = 15
-
-[node name="Player" type="Area2D" parent="Level"]
-collision_layer = 7
-collision_mask = 7
-script = SubResource("GDScript_gp44b")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Player"]
-shape = SubResource("CircleShape2D_1vguc")
-
-[node name="Sprite2D" type="Sprite2D" parent="Level/Player"]
-texture = SubResource("GradientTexture2D_2cts2")
-
-[node name="InvincibilityTimer" type="Timer" parent="Level/Player"]
-wait_time = 0.3
-one_shot = true
-
-[node name="BG" type="Sprite2D" parent="Level"]
-modulate = Color(1, 1, 1, 0)
-position = Vector2(541, 554)
-scale = Vector2(5.16406, 1104.5)
-texture = SubResource("GradientTexture1D_7n8io")
-
-[node name="HealthBarCover" type="Node2D" parent="Level"]
-modulate = Color(0, 0, 0, 1)
-
-[node name="Sprite2D" type="Sprite2D" parent="Level/HealthBarCover"]
-position = Vector2(500, 32)
-scale = Vector2(1, 1.006)
-texture = SubResource("GradientTexture2D_j13k2")
-
-[node name="HealthBar" type="Node2D" parent="Level"]
-
-[node name="Sprite2D" type="Sprite2D" parent="Level/HealthBar"]
-position = Vector2(500, 32)
-scale = Vector2(1, 1.006)
-texture = SubResource("GradientTexture2D_j13k2")
 
 [node name="Screen1" type="Node2D" parent="Level"]
 process_mode = 4
-visible = false
 
 [node name="Goal" type="Area2D" parent="Level/Screen1"]
 modulate = Color(0, 1, 0, 1)
@@ -232,6 +122,7 @@ texture = SubResource("GradientTexture2D_fkhia")
 
 [node name="Screen2" type="Node2D" parent="Level"]
 process_mode = 4
+visible = false
 script = ExtResource("8_esyo2")
 goals_needed = 1
 
@@ -621,32 +512,7 @@ texture = SubResource("GradientTexture2D_lj7f6")
 
 [node name="Screen15" type="Node2D" parent="Level"]
 process_mode = 4
-
-[node name="Abilities" type="Area2D" parent="Level/Screen15"]
-collision_layer = 0
-collision_mask = 0
-script = ExtResource("7_e6stj")
-
-[node name="AbilityBar" type="Node2D" parent="Level/Screen15/Abilities"]
-modulate = Color(0, 1, 0, 1)
-position = Vector2(0, 64)
-
-[node name="Sprite2D" type="Sprite2D" parent="Level/Screen15/Abilities/AbilityBar"]
-position = Vector2(500, 9)
-scale = Vector2(1, 0.3155)
-texture = SubResource("GradientTexture2D_j13k2")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen15/Abilities"]
-shape = SubResource("CircleShape2D_2dcn3")
-
-[node name="Sprite2D" type="Sprite2D" parent="Level/Screen15/Abilities"]
-texture = SubResource("GradientTexture2D_fkhia")
-
-[node name="SlowmoBG" type="Sprite2D" parent="Level/Screen15/Abilities"]
-modulate = Color(0, 0, 0, 0)
-position = Vector2(500, 500)
-scale = Vector2(5.16406, 1104.5)
-texture = SubResource("GradientTexture1D_7n8io")
+visible = false
 
 [node name="Goal" type="Area2D" parent="Level/Screen15"]
 modulate = Color(0, 1, 0, 1)
@@ -678,8 +544,52 @@ texture = SubResource("GradientTexture2D_7ft2s")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="Level/Screen15/TestBullet"]
 
-[node name="TimeManager" parent="." instance=ExtResource("9_xov5p")]
+[node name="Screen16" type="Node2D" parent="Level"]
+process_mode = 4
+visible = false
+script = ExtResource("8_esyo2")
+goals_needed = 5
+goal_heal = 0.1
+max_blood = 1.0
 
-[connection signal="area_entered" from="Level/Player" to="Level/Player" method="_on_area_entered"]
-[connection signal="timeout" from="Level/Player/InvincibilityTimer" to="Level/Player" method="_on_invincibility_timer_timeout"]
+[node name="ProgressBar" type="Node2D" parent="Level/Screen16"]
+modulate = Color(0, 1, 0, 1)
+position = Vector2(0, 935)
+
+[node name="Sprite2D" type="Sprite2D" parent="Level/Screen16/ProgressBar"]
+position = Vector2(500, 32)
+scale = Vector2(1, 1.006)
+texture = SubResource("GradientTexture2D_j13k2")
+
+[node name="Overcrowding" type="Area2D" parent="Level/Screen16"]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("7_73ty3")
+safe_radius = 300.0
+bullet_speed = 400.0
+bullet_count = 30
+lin_acc = -100.0
+center_delete = false
+wait_time = 3.0
+one_shot = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen16/Overcrowding"]
+shape = SubResource("CircleShape2D_yvbls")
+
+[node name="Target" type="Area2D" parent="Level/Screen16/Overcrowding"]
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen16/Overcrowding/Target"]
+shape = SubResource("CircleShape2D_yvbls")
+
+[node name="CompositeSprite" type="Node2D" parent="Level/Screen16/Overcrowding/Target"]
+modulate = Color(1, 0, 0, 1)
+
+[node name="Sprite2D1" type="Sprite2D" parent="Level/Screen16/Overcrowding/Target/CompositeSprite"]
+texture = SubResource("GradientTexture2D_iuhaq")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Level/Screen16/Overcrowding/Target/CompositeSprite"]
+texture = SubResource("GradientTexture2D_lj7f6")
+
 [connection signal="screen_exited" from="Level/Screen15/TestBullet/VisibleOnScreenNotifier2D" to="Level/Screen15/TestBullet" method="_on_visible_on_screen_notifier_2d_screen_exited"]

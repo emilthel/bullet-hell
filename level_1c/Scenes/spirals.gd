@@ -74,7 +74,7 @@ func _spawn_bullets():
 
 "Runs on first frame active"
 func _frame1() -> void:
-	player = $"../../Player"
+	player = Player
 	sprite = $Target/CompositeSprite
 	spawn_timer = $SpawnTimer
 	screen = $".."
@@ -89,6 +89,7 @@ func _frame1() -> void:
 	
 # Called every frame. 'time_speed*delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	delta *= TimeManager.time_speed
 	if is_frame1:
 		_frame1()
 		is_frame1 = false

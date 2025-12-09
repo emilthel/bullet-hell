@@ -4,7 +4,7 @@ var time_speed: float = 1
 enum{COOLDOWN, SLOWMO}
 var state = COOLDOWN
 var slowmo_time: float = 1
-var slowmo_cooldown: float = 10 
+var slowmo_cooldown: float = 2
 
 var is_frame1: bool = true
 var slowmo_time_left: float
@@ -25,7 +25,8 @@ func _process(delta: float) -> void:
 	if is_frame1:
 		_frame1()
 		is_frame1 = false
-			
+	TimeManager.time_speed = time_speed
+	
 	match state:
 		COOLDOWN:
 			time_speed = 1
@@ -44,8 +45,6 @@ func _process(delta: float) -> void:
 				_enter_cooldown_state()
 			if slowmo_time_left < 0:
 				_enter_cooldown_state()
-		
-	print(slowmo_time_left)
 
 
 func _enter_slowmo_state():

@@ -30,6 +30,7 @@ func _enter_active_state():
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	delta *= TimeManager.time_speed
 	match state:
 		SLEEP:
 			log.append(player.global_position)

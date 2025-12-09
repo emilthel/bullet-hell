@@ -17,8 +17,9 @@ config/icon="res://Scripts/icon.svg"
 
 [autoload]
 
-Player="*res://level_1c/player.gd"
+Player="*res://level_1c/Scenes/player.tscn"
 TimeManager="*res://level_1c/Scenes/time_manager.gd"
+SlowMo="*res://level_1c/Scenes/slow_mo.tscn"
 
 [display]
 

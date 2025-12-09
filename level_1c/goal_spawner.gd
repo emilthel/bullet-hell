@@ -6,6 +6,8 @@ var is_frame1: bool = true
 var goals_collected: int = 0
 
 @export var goals_needed: int = 2
+@export var goal_heal = 0.2
+@export var max_blood: float = 2
 
 @onready var spawn_timer = $SpawnTimer
 @onready var level = $".."
@@ -14,8 +16,9 @@ var goals_collected: int = 0
 # Called when the node enters the scene tree for the first time.
 func _frame1() -> void:
 	screen = get_viewport_rect()
-	print(screen)
 	spawn_child(_random_point())
+	Player.max_blood = max_blood
+	Player.blood = max_blood
 	
 func goal_collected():
 	spawn_child(_random_point())
@@ -30,6 +33,7 @@ func spawn_child(point):
 	goal.velocity = Vector2(0,0)
 	goal.scale *= 0.9
 	goal.mode = goal.SCRIPT
+	goal.heal = goal_heal
 	goal.on_collected = Callable(goal_collected)
 	add_child(goal)
 	return goal
@@ -40,13 +44,14 @@ func _random_point():
 	return Vector2(x,y)
 		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(delta: float) -> void: 
 	if is_frame1:
 		_frame1()
 		is_frame1 = false
 	else:
+		print(goals_collected, " ", goals_needed)
 		progress_bar.scale.x = float(goals_collected) / float(goals_needed)
-
+		#print("progress scale: ", progress_bar.scale.x)
 			
 func _on_spawn_timer_timeout() -> void:
 	spawn_child(_random_point())

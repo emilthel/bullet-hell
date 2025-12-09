@@ -24,7 +24,7 @@ func _random_point():
 				
 "Runs on first frame active"
 func _frame1() -> void:
-	player = $"../../Player"
+	player = Player
 	level = $"../.."
 	position = player.position
 	screen = get_viewport_rect()
@@ -38,6 +38,7 @@ func _frame1() -> void:
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	delta *= TimeManager.time_speed
 	if is_frame1:
 		_frame1()
 		is_frame1 = false
