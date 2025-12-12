@@ -7,7 +7,6 @@ var goals_collected: int = 0
 
 @export var goals_needed: int = 2
 @export var goal_heal = 0.2
-@export var max_blood: float = 2
 
 @onready var spawn_timer = $SpawnTimer
 @onready var level = $".."
@@ -17,8 +16,6 @@ var goals_collected: int = 0
 func _frame1() -> void:
 	screen = get_viewport_rect()
 	spawn_child(_random_point())
-	Player.max_blood = max_blood
-	Player.blood = max_blood
 	
 func goal_collected():
 	spawn_child(_random_point())
@@ -49,7 +46,6 @@ func _process(delta: float) -> void:
 		_frame1()
 		is_frame1 = false
 	else:
-		print(goals_collected, " ", goals_needed)
 		progress_bar.scale.x = float(goals_collected) / float(goals_needed)
 		#print("progress scale: ", progress_bar.scale.x)
 			

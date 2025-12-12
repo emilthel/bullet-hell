@@ -34,7 +34,6 @@ func _frame1() -> void:
 		var bullet = spawn_child(spawn_point, 100)
 		if (spawn_point - position).length() < 200:
 			bullet.queue_free()
-	print(screen)
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
