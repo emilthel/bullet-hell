@@ -8,7 +8,8 @@ var mode = TO_SCREEN
 var transition_scene = "res://level_1c/Scenes/transition.tscn"
 
 var screen
-var transition
+@onready var transition  = $Transition
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -17,7 +18,6 @@ func _ready() -> void:
 	
 	#transition = load(transition_scene).instantiate()
 	#add_child(transition)
-
 	print(screen_name)
 	Player.level = self
 	
@@ -36,22 +36,24 @@ func next_screen():
 	"If entering screen"
 	if mode == TO_SCREEN:		
 		"Finds next screen"
-		var screen2_index = screen_index + 1
-		var screen2_name = "Screen" + str(screen2_index)
-		var screen2 = get_node(screen2_name)
+		var new_screen_index = screen_index + 1
+		var new_screen_name = "Screen" + str(new_screen_index)
+		var new_screen = get_node(new_screen_name)
 		
 		"If next screen exists:"
-		if screen2:
+		if new_screen:
 			#Unloads transition
 			transition.queue_free()
 
 			#Switches screen
-			screen = screen2
-			screen_index = screen2_index
+			screen = new_screen
+			screen_index = new_screen_index
 			
 			#Loads new screen
 			screen.process_mode = Node.PROCESS_MODE_INHERIT
 			screen.visible = true
+			
+			mode = TO_TRANSITION
 		else:
 			print("Screen transition failed")
 			

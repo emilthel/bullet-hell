@@ -1,8 +1,7 @@
-[gd_scene load_steps=20 format=3 uid="uid://dximobfhg52x5"]
+[gd_scene load_steps=16 format=3 uid="uid://dximobfhg52x5"]
 
+[ext_resource type="PackedScene" uid="uid://cstg22wx5ohe7" path="res://level_1c/Scenes/transition.tscn" id="2_moqu4"]
 [ext_resource type="Script" path="res://level_1c/level.gd" id="2_q5hl2"]
-[ext_resource type="PackedScene" uid="uid://ci7m6vunac8os" path="res://level_1c/Scenes/enemy.tscn" id="3_cvfdr"]
-[ext_resource type="Script" path="res://level_1c/goal.gd" id="5_pbqm7"]
 [ext_resource type="Script" path="res://level_1c/Scenes/bullet_spawner_2.gd" id="7_73ty3"]
 [ext_resource type="Script" path="res://level_1c/distortion_grid.gd" id="7_mkago"]
 [ext_resource type="Script" path="res://level_1c/Scenes/grid_2.gd" id="8_ciey6"]
@@ -22,20 +21,6 @@ func _process(delta: float) -> void:
 		get_tree().paused = not get_tree().paused
 		
 "
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_2dcn3"]
-radius = 23.0868
-
-[sub_resource type="Gradient" id="Gradient_6quts"]
-interpolation_mode = 1
-offsets = PackedFloat32Array(0, 0.5)
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
-metadata/_snap_enabled = true
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_fkhia"]
-gradient = SubResource("Gradient_6quts")
-fill = 1
-fill_from = Vector2(0.5, 0.5)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1vguc"]
 radius = 23.0868
@@ -89,25 +74,7 @@ script = SubResource("GDScript_56xki")
 process_mode = 1
 script = ExtResource("2_q5hl2")
 
-[node name="Transition" type="Node2D" parent="Level"]
-process_mode = 4
-
-[node name="Goal" type="Area2D" parent="Level/Transition"]
-modulate = Color(0, 1, 0, 1)
-position = Vector2(500, 500)
-collision_layer = 4
-collision_mask = 4
-script = ExtResource("5_pbqm7")
-velocity = Vector2(0, 0)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Transition/Goal"]
-shape = SubResource("CircleShape2D_2dcn3")
-
-[node name="Sprite2D" type="Sprite2D" parent="Level/Transition/Goal"]
-texture = SubResource("GradientTexture2D_fkhia")
-
-[node name="Enemy" parent="Level/Transition" instance=ExtResource("3_cvfdr")]
-position = Vector2(533, 309)
+[node name="Transition" parent="Level" instance=ExtResource("2_moqu4")]
 
 [node name="Screen1" type="Node2D" parent="Level"]
 process_mode = 4

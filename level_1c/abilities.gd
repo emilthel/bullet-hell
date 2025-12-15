@@ -4,7 +4,7 @@ var time_speed: float = 1
 enum{COOLDOWN, SLOWMO}
 var state = COOLDOWN
 var slowmo_time: float = 1
-var slowmo_cooldown: float = 2
+var slowmo_cooldown: float = 2 
 
 var is_frame1: bool = true
 var slowmo_time_left: float
