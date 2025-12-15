@@ -48,12 +48,10 @@ func _process(delta: float) -> void:
 
 
 func _enter_slowmo_state():
-	print("enter slowmo")
 	slowmo_time_left = slowmo_time
 	state = SLOWMO
 		
 func _enter_cooldown_state():
-	print("enter cooldown")
 	state = COOLDOWN
 	slowmo_cooldown_left = slowmo_cooldown
 	

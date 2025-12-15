@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var start_screen = 1
+@export var start_screen = 0
 
 @onready var screen_index = start_screen
 enum{TO_TRANSITION, TO_SCREEN}
@@ -18,11 +18,9 @@ func _ready() -> void:
 	
 	#transition = load(transition_scene).instantiate()
 	#add_child(transition)
-	print(screen_name)
 	Player.level = self
 	
 func next_screen():	
-	print("Screen transition attempt")
 	"If entering transition"
 	if mode == TO_TRANSITION: 
 		#Unloads current screen
@@ -31,7 +29,10 @@ func next_screen():
 
 		#Loads transition
 		transition = load(transition_scene).instantiate()
+		add_child(transition)
 		mode = TO_SCREEN
+		return
+
 		
 	"If entering screen"
 	if mode == TO_SCREEN:		
@@ -53,8 +54,12 @@ func next_screen():
 			screen.process_mode = Node.PROCESS_MODE_INHERIT
 			screen.visible = true
 			
+			print(screen.name)
+
 			mode = TO_TRANSITION
+			return
 		else:
 			print("Screen transition failed")
+			
 			
 	

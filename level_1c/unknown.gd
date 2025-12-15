@@ -44,4 +44,4 @@ func _on_area_entered(area: Area2D) -> void:
 
 func _on_invincibility_timer_timeout() -> void:
 	invincible = false
-	print("timeout")
+	pass

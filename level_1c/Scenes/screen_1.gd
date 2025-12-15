@@ -12,7 +12,6 @@ var goals_collected: int = 0
 # Called when the node enters the scene tree for the first time.
 func _frame1() -> void:
 	screen = get_viewport_rect()
-	print(screen)
 	spawn_child(_random_point())
 	
 func goal_collected():

@@ -1,4 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://bsa55u6yhunt"]
+[gd_scene load_steps=10 format=3 uid="uid://bsa55u6yhunt"]
+
+[ext_resource type="PackedScene" uid="uid://d3fv46bax7aea" path="res://level_1c/Scenes/slow_mo.tscn" id="1_sl6ca"]
 
 [sub_resource type="GDScript" id="GDScript_gp44b"]
 script/source = "extends Area2D
@@ -14,7 +16,7 @@ var invincible = false
 @onready var bg = $Node/BG
 @onready var health_bar =  $Node/HealthBar
 @onready var screen_rect = get_viewport_rect()
-
+@onready var slow_mo = $Node/SlowMo
 var level
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -24,13 +26,13 @@ func _process(_delta: float) -> void:
 		blood = max_blood
 	bg.modulate.a = invincibility_timer.time_left
 	health_bar.scale.x = blood/max_blood
+	print(slow_mo.process_mode)
 
 func _on_invincibility_timer_timeout() -> void:
 	invincible = false
 
 
 func _on_area_entered(area: Area2D) -> void:
-	print(\"Collision\")
 	if area.collision_layer == enemy_layer:
 		if not invincible:
 			blood -= area.damage 
@@ -49,6 +51,11 @@ func _on_area_entered(area: Area2D) -> void:
 		area.queue_free()
 		blood += area.heal
 		
+	slowmo_activate()
+	
+func slowmo_activate():
+	slow_mo.process_mode = Node.PROCESS_MODE_INHERIT
+	slow_mo.visible = true
 "
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1vguc"]
@@ -109,7 +116,7 @@ scale = Vector2(1, 1.006)
 texture = SubResource("GradientTexture2D_k7nop")
 
 [node name="HealthBar" type="Node2D" parent="Node"]
-z_index = -1
+z_index = 5
 
 [node name="Sprite2D" type="Sprite2D" parent="Node/HealthBar"]
 position = Vector2(500, 32)
@@ -121,6 +128,11 @@ modulate = Color(1, 1, 1, 0)
 position = Vector2(541, 554)
 scale = Vector2(5.16406, 1104.5)
 texture = SubResource("GradientTexture1D_dtbe7")
+
+[node name="SlowMo" parent="Node" instance=ExtResource("1_sl6ca")]
+process_mode = 4
+visible = false
+visibility_layer = 257
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="timeout" from="InvincibilityTimer" to="." method="_on_invincibility_timer_timeout"]

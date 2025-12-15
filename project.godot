@@ -19,7 +19,6 @@ config/icon="res://icon.png"
 
 Player="*res://level_1c/Scenes/player.tscn"
 TimeManager="*res://level_1c/Scenes/time_manager.gd"
-SlowMo="*res://level_1c/Scenes/slow_mo.tscn"
 
 [display]
 

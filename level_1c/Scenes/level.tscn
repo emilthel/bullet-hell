@@ -137,7 +137,7 @@ texture = SubResource("GradientTexture2D_j13k2")
 process_mode = 4
 visible = false
 script = ExtResource("8_esyo2")
-goals_needed = 3
+goals_needed = 1
 
 [node name="ProgressBar" type="Node2D" parent="Level/Screen3"]
 modulate = Color(0, 1, 0, 1)
