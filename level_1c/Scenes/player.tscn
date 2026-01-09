@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bsa55u6yhunt"]
+[gd_scene load_steps=11 format=3 uid="uid://bsa55u6yhunt"]
 
 [ext_resource type="PackedScene" uid="uid://d3fv46bax7aea" path="res://level_1c/Scenes/slow_mo.tscn" id="1_sl6ca"]
 
@@ -17,6 +17,9 @@ var invincible = false
 @onready var health_bar =  $Node/HealthBar
 @onready var screen_rect = get_viewport_rect()
 @onready var slow_mo = $Node/SlowMo
+@onready var screen_counter = $Node/ScreenCounter
+@onready var progress_bar = $Node/ProgressBar
+
 var level
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -89,6 +92,8 @@ colors = PackedColorArray(1, 0, 0, 1)
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_dtbe7"]
 gradient = SubResource("Gradient_mdaw6")
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_glxa5"]
+
 [node name="Player" type="Area2D"]
 collision_mask = 7
 script = SubResource("GDScript_gp44b")
@@ -105,6 +110,16 @@ wait_time = 0.3
 one_shot = true
 
 [node name="Node" type="Node" parent="."]
+
+[node name="ProgressBar" type="Node2D" parent="Node"]
+modulate = Color(0, 1, 0, 1)
+z_index = 5
+position = Vector2(0, 935)
+
+[node name="Sprite2D" type="Sprite2D" parent="Node/ProgressBar"]
+position = Vector2(500, 32)
+scale = Vector2(1, 1.006)
+texture = SubResource("GradientTexture2D_k7nop")
 
 [node name="HealthBarCover" type="Node2D" parent="Node"]
 modulate = Color(0, 0, 0, 1)
@@ -131,8 +146,20 @@ texture = SubResource("GradientTexture1D_dtbe7")
 
 [node name="SlowMo" parent="Node" instance=ExtResource("1_sl6ca")]
 process_mode = 4
-visible = false
 visibility_layer = 257
+
+[node name="ScreenCounter" type="LineEdit" parent="Node"]
+z_index = 10
+offset_left = -40.0
+offset_top = 92.0
+offset_right = 27.0625
+offset_bottom = 123.0
+scale = Vector2(2.5017, 2.05624)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxEmpty_glxa5")
+text = "1"
+alignment = 1
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="timeout" from="InvincibilityTimer" to="." method="_on_invincibility_timer_timeout"]

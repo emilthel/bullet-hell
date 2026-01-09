@@ -6,7 +6,6 @@ extends Node2D
 enum{TO_TRANSITION, TO_SCREEN}
 var mode = TO_SCREEN
 var transition_scene = "res://level_1c/Scenes/transition.tscn"
-
 var screen
 @onready var transition  = $Transition
 
@@ -31,6 +30,10 @@ func next_screen():
 		transition = load(transition_scene).instantiate()
 		add_child(transition)
 		mode = TO_SCREEN
+		
+		#Changes displayed screen number
+		Player.screen_counter.text = str(screen_index+1)
+
 		return
 
 		
@@ -39,8 +42,7 @@ func next_screen():
 		"Finds next screen"
 		var new_screen_index = screen_index + 1
 		var new_screen_name = "Screen" + str(new_screen_index)
-		var new_screen = get_node(new_screen_name)
-		
+		var new_screen = get_node(new_screen_name)			
 		"If next screen exists:"
 		if new_screen:
 			#Unloads transition

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dximobfhg52x5"]
+[gd_scene load_steps=14 format=3 uid="uid://dximobfhg52x5"]
 
 [ext_resource type="PackedScene" uid="uid://cstg22wx5ohe7" path="res://level_1c/Scenes/transition.tscn" id="2_moqu4"]
 [ext_resource type="Script" path="res://level_1c/level.gd" id="2_q5hl2"]
@@ -24,16 +24,6 @@ func _process(delta: float) -> void:
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1vguc"]
 radius = 23.0868
-
-[sub_resource type="Gradient" id="Gradient_u67e2"]
-offsets = PackedFloat32Array(1)
-colors = PackedColorArray(1, 1, 1, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_j13k2"]
-gradient = SubResource("Gradient_u67e2")
-width = 1000
-fill_from = Vector2(1, 1)
-fill_to = Vector2(1, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yvbls"]
 radius = 23.0868
@@ -96,15 +86,6 @@ distortion_speed = 0.5
 shape = SubResource("CircleShape2D_1vguc")
 disabled = true
 
-[node name="ProgressBar" type="Node2D" parent="Level/Screen1"]
-modulate = Color(0, 1, 0, 1)
-position = Vector2(0, 935)
-
-[node name="Sprite2D" type="Sprite2D" parent="Level/Screen1/ProgressBar"]
-position = Vector2(500, 32)
-scale = Vector2(1, 1.006)
-texture = SubResource("GradientTexture2D_j13k2")
-
 [node name="Screen2" type="Node2D" parent="Level"]
 process_mode = 4
 visible = false
@@ -124,29 +105,11 @@ distortion_speed = 0.8
 shape = SubResource("CircleShape2D_1vguc")
 disabled = true
 
-[node name="ProgressBar" type="Node2D" parent="Level/Screen2"]
-modulate = Color(0, 1, 0, 1)
-position = Vector2(0, 935)
-
-[node name="Sprite2D" type="Sprite2D" parent="Level/Screen2/ProgressBar"]
-position = Vector2(500, 32)
-scale = Vector2(1, 1.006)
-texture = SubResource("GradientTexture2D_j13k2")
-
 [node name="Screen3" type="Node2D" parent="Level"]
 process_mode = 4
 visible = false
 script = ExtResource("8_esyo2")
 goals_needed = 1
-
-[node name="ProgressBar" type="Node2D" parent="Level/Screen3"]
-modulate = Color(0, 1, 0, 1)
-position = Vector2(0, 935)
-
-[node name="Sprite2D" type="Sprite2D" parent="Level/Screen3/ProgressBar"]
-position = Vector2(500, 32)
-scale = Vector2(1, 1.006)
-texture = SubResource("GradientTexture2D_j13k2")
 
 [node name="BulletSpawner2" type="Area2D" parent="Level/Screen3"]
 collision_layer = 0
@@ -183,15 +146,6 @@ visible = false
 script = ExtResource("8_esyo2")
 goals_needed = 3
 
-[node name="ProgressBar" type="Node2D" parent="Level/Screen4"]
-modulate = Color(0, 1, 0, 1)
-position = Vector2(0, 935)
-
-[node name="Sprite2D" type="Sprite2D" parent="Level/Screen4/ProgressBar"]
-position = Vector2(500, 32)
-scale = Vector2(1, 1.006)
-texture = SubResource("GradientTexture2D_j13k2")
-
 [node name="BulletSpawner2" type="Area2D" parent="Level/Screen4"]
 collision_layer = 0
 collision_mask = 0
@@ -227,15 +181,6 @@ texture = SubResource("GradientTexture2D_lj7f6")
 process_mode = 4
 visible = false
 script = ExtResource("8_esyo2")
-
-[node name="ProgressBar" type="Node2D" parent="Level/Screen5"]
-modulate = Color(0, 1, 0, 1)
-position = Vector2(0, 935)
-
-[node name="Sprite2D" type="Sprite2D" parent="Level/Screen5/ProgressBar"]
-position = Vector2(500, 32)
-scale = Vector2(1, 1.006)
-texture = SubResource("GradientTexture2D_j13k2")
 
 [node name="BulletSpawner2" type="Area2D" parent="Level/Screen5"]
 collision_layer = 0
@@ -274,15 +219,6 @@ process_mode = 4
 visible = false
 script = ExtResource("8_esyo2")
 
-[node name="ProgressBar" type="Node2D" parent="Level/Screen6"]
-modulate = Color(0, 1, 0, 1)
-position = Vector2(0, 935)
-
-[node name="Sprite2D" type="Sprite2D" parent="Level/Screen6/ProgressBar"]
-position = Vector2(500, 32)
-scale = Vector2(1, 1.006)
-texture = SubResource("GradientTexture2D_j13k2")
-
 [node name="BigBullets" type="Area2D" parent="Level/Screen6"]
 collision_layer = 0
 collision_mask = 0
@@ -320,15 +256,6 @@ visible = false
 script = ExtResource("8_esyo2")
 goals_needed = 5
 
-[node name="ProgressBar" type="Node2D" parent="Level/Screen7"]
-modulate = Color(0, 1, 0, 1)
-position = Vector2(0, 935)
-
-[node name="Sprite2D" type="Sprite2D" parent="Level/Screen7/ProgressBar"]
-position = Vector2(500, 32)
-scale = Vector2(1, 1.006)
-texture = SubResource("GradientTexture2D_j13k2")
-
 [node name="Overcrowding" type="Area2D" parent="Level/Screen7"]
 collision_layer = 0
 collision_mask = 0
@@ -365,15 +292,6 @@ visible = false
 script = ExtResource("8_esyo2")
 goals_needed = 5
 goal_heal = 0.1
-
-[node name="ProgressBar" type="Node2D" parent="Level/Screen8"]
-modulate = Color(0, 1, 0, 1)
-position = Vector2(0, 935)
-
-[node name="Sprite2D" type="Sprite2D" parent="Level/Screen8/ProgressBar"]
-position = Vector2(500, 32)
-scale = Vector2(1, 1.006)
-texture = SubResource("GradientTexture2D_j13k2")
 
 [node name="Overcrowding" type="Area2D" parent="Level/Screen8"]
 collision_layer = 0
