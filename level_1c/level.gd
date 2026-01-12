@@ -7,6 +7,8 @@ enum{TO_TRANSITION, TO_SCREEN}
 var mode = TO_SCREEN
 var transition_scene = "res://level_1c/Scenes/transition.tscn"
 var screen
+var new_screen
+var new_screen_index
 @onready var transition  = $Transition
 
 
@@ -19,30 +21,43 @@ func _ready() -> void:
 	#add_child(transition)
 	Player.level = self
 	
+func enter_transition():
+	#print("Enter transition", screen_index)
+	#Unloads current screen
+	screen.process_mode = Node.PROCESS_MODE_DISABLED
+	screen.visible = false
+
+	#Loads transition
+	transition = load(transition_scene).instantiate()
+	add_child(transition)
+	mode = TO_SCREEN
+
+	#Displays screen
+	transition.screen_counter.text = str(screen_index+1)
+	#Updates progress bar
+	Player.on_transition_entered()
+
+	return transition
+
+func get_next_screen():
+	var new_screen_index = screen_index + 1
+	var new_screen_name = "Screen" + str(new_screen_index)
+	var new_screen = get_node(new_screen_name)	
+	return new_screen
+	
 func next_screen():	
 	"If entering transition"
 	if mode == TO_TRANSITION: 
-		#Unloads current screen
-		screen.process_mode = Node.PROCESS_MODE_DISABLED
-		screen.visible = false
-
-		#Loads transition
-		transition = load(transition_scene).instantiate()
-		add_child(transition)
-		mode = TO_SCREEN
-		
-		#Changes displayed screen number
-		Player.screen_counter.text = str(screen_index+1)
-
+		transition = enter_transition()
 		return
-
-		
+				
 	"If entering screen"
 	if mode == TO_SCREEN:		
 		"Finds next screen"
 		var new_screen_index = screen_index + 1
 		var new_screen_name = "Screen" + str(new_screen_index)
-		var new_screen = get_node(new_screen_name)			
+		var new_screen = get_node(new_screen_name)	
+				
 		"If next screen exists:"
 		if new_screen:
 			#Unloads transition
@@ -56,7 +71,7 @@ func next_screen():
 			screen.process_mode = Node.PROCESS_MODE_INHERIT
 			screen.visible = true
 			
-			print(screen.name)
+			#print(screen.name)
 
 			mode = TO_TRANSITION
 			return

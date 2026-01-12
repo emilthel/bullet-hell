@@ -41,6 +41,7 @@ script = ExtResource("1_8bc4r")
 
 [node name="AbilityBar" type="Node2D" parent="."]
 modulate = Color(0, 1, 0, 1)
+z_index = 99
 position = Vector2(0, 64)
 
 [node name="Sprite2D" type="Sprite2D" parent="AbilityBar"]

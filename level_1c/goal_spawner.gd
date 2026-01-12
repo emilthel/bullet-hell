@@ -11,15 +11,18 @@ var goals_collected: int = 0
 @onready var spawn_timer = $SpawnTimer
 @onready var level = $".."
 @onready var progress_bar = Player.progress_bar
+@onready var progress_bar_cover = Player.progress_bar_cover
 
 # Called when the node enters the scene tree for the first time.
 func _frame1() -> void:
 	screen = get_viewport_rect()
 	spawn_child(_random_point())
 	
+	
 func goal_collected():
 	spawn_child(_random_point())
 	goals_collected += 1
+	Player.goals_collected = goals_collected
 	if goals_collected == goals_needed:
 		goals_collected == 0
 		level.next_screen()
@@ -46,7 +49,7 @@ func _process(delta: float) -> void:
 		_frame1()
 		is_frame1 = false
 	else:
-		progress_bar.scale.x = (float(goals_collected) / float(goals_needed))
+		pass
 		#print("progress scale: ", progress_bar.scale.x)
 			
 func _on_spawn_timer_timeout() -> void:

@@ -9,6 +9,7 @@ var invincible = false
 @export var enemy_layer = 2
 @export var goal_layer = 4
 @export var max_blood: float = 2
+@export var lives = 2
 
 @onready var blood = max_blood
 @onready var test = max_blood
@@ -17,11 +18,16 @@ var invincible = false
 @onready var health_bar =  $Node/HealthBar
 @onready var screen_rect = get_viewport_rect()
 @onready var slow_mo = $Node/SlowMo
-@onready var screen_counter = $Node/ScreenCounter
 @onready var progress_bar = $Node/ProgressBar
+@onready var progress_bar_cover = $Node/ProgressBarCover
+@onready var lives_counter = $Node/LivesCounter
+@onready var goals_collected = 0
 
 var level
 
+func _ready() -> void:
+	lives_counter.text = str(lives)
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	global_position = get_global_mouse_position()
@@ -29,19 +35,31 @@ func _process(_delta: float) -> void:
 		blood = max_blood
 	bg.modulate.a = invincibility_timer.time_left
 	health_bar.scale.x = blood/max_blood
-	print(slow_mo.process_mode)
+	progress_bar.scale.x = 0.1 * goals_collected
+	#print(slow_mo.process_mode)
 
 func _on_invincibility_timer_timeout() -> void:
 	invincible = false
 
+func _die():
+	lives -= 1
+	if lives == 0:
+		get_tree().quit()
+	lives_counter.text = str(lives)
+	level.enter_transition()				
+	blood = max_blood
 
+func on_transition_entered():
+	var new_screen = level.get_next_screen()
+	progress_bar_cover.scale.x = 0.1 * (new_screen.goals_needed -1)
+	goals_collected = 0
+	
 func _on_area_entered(area: Area2D) -> void:
 	if area.collision_layer == enemy_layer:
 		if not invincible:
 			blood -= area.damage 
-			if blood <= 0:
-				get_tree().quit()
-			
+			if blood <= 0: #Death
+				_die()
 			invincibility_timer.start()
 			invincible = true
 			
@@ -75,12 +93,12 @@ gradient = SubResource("Gradient_uyvyb")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
-[sub_resource type="Gradient" id="Gradient_j41ph"]
+[sub_resource type="Gradient" id="Gradient_jyd8w"]
 offsets = PackedFloat32Array(1)
 colors = PackedColorArray(1, 1, 1, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_k7nop"]
-gradient = SubResource("Gradient_j41ph")
+gradient = SubResource("Gradient_jyd8w")
 width = 1000
 fill_from = Vector2(1, 1)
 fill_to = Vector2(1, 1)
@@ -111,9 +129,19 @@ one_shot = true
 
 [node name="Node" type="Node" parent="."]
 
+[node name="ProgressBarCover" type="Node2D" parent="Node"]
+modulate = Color(0, 0, 0, 1)
+z_index = 98
+position = Vector2(0, 935)
+
+[node name="Sprite2D" type="Sprite2D" parent="Node/ProgressBarCover"]
+position = Vector2(500, 32)
+scale = Vector2(1, 1.006)
+texture = SubResource("GradientTexture2D_k7nop")
+
 [node name="ProgressBar" type="Node2D" parent="Node"]
 modulate = Color(0, 1, 0, 1)
-z_index = 5
+z_index = 99
 position = Vector2(0, 935)
 
 [node name="Sprite2D" type="Sprite2D" parent="Node/ProgressBar"]
@@ -123,7 +151,7 @@ texture = SubResource("GradientTexture2D_k7nop")
 
 [node name="HealthBarCover" type="Node2D" parent="Node"]
 modulate = Color(0, 0, 0, 1)
-z_index = -2
+z_index = 98
 
 [node name="Sprite2D" type="Sprite2D" parent="Node/HealthBarCover"]
 position = Vector2(500, 32)
@@ -131,7 +159,7 @@ scale = Vector2(1, 1.006)
 texture = SubResource("GradientTexture2D_k7nop")
 
 [node name="HealthBar" type="Node2D" parent="Node"]
-z_index = 5
+z_index = 99
 
 [node name="Sprite2D" type="Sprite2D" parent="Node/HealthBar"]
 position = Vector2(500, 32)
@@ -148,14 +176,15 @@ texture = SubResource("GradientTexture1D_dtbe7")
 process_mode = 4
 visibility_layer = 257
 
-[node name="ScreenCounter" type="LineEdit" parent="Node"]
-z_index = 10
-offset_left = -40.0
-offset_top = 92.0
-offset_right = 27.0625
-offset_bottom = 123.0
+[node name="LivesCounter" type="LineEdit" parent="Node"]
+z_index = 100
+offset_left = -33.0
+offset_right = 34.0625
+offset_bottom = 31.0
 scale = Vector2(2.5017, 2.05624)
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 9
 theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("StyleBoxEmpty_glxa5")
 text = "1"
