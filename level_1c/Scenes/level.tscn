@@ -1,7 +1,9 @@
-[gd_scene load_steps=14 format=3 uid="uid://dximobfhg52x5"]
+[gd_scene load_steps=18 format=3 uid="uid://dximobfhg52x5"]
 
+[ext_resource type="Script" path="res://level_1c/Scenes/start_menu.gd" id="1_ka8c3"]
 [ext_resource type="PackedScene" uid="uid://cstg22wx5ohe7" path="res://level_1c/Scenes/transition.tscn" id="2_moqu4"]
 [ext_resource type="Script" path="res://level_1c/level.gd" id="2_q5hl2"]
+[ext_resource type="PackedScene" uid="uid://bhvduqbnsfwr2" path="res://level_1c/Scenes/goal.tscn" id="4_d5g8u"]
 [ext_resource type="Script" path="res://level_1c/Scenes/bullet_spawner_2.gd" id="7_73ty3"]
 [ext_resource type="Script" path="res://level_1c/distortion_grid.gd" id="7_mkago"]
 [ext_resource type="Script" path="res://level_1c/Scenes/grid_2.gd" id="8_ciey6"]
@@ -11,16 +13,21 @@
 script/source = "extends Node
 
 @onready var level = $Level
+@export var start_paused = true
 
 
 func _ready():
-	get_tree().paused = true  
+	get_tree().paused = start_paused  
 	
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed(\"pause\"):
 		get_tree().paused = not get_tree().paused
 		
 "
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ox8rf"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yqh3q"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1vguc"]
 radius = 23.0868
@@ -59,12 +66,102 @@ fill_to = Vector2(0.6, 0.6)
 [node name="PauseManager" type="Node"]
 process_mode = 3
 script = SubResource("GDScript_56xki")
+start_paused = false
+
+[node name="StartMenu" type="Node2D" parent="."]
+visible = false
+script = ExtResource("1_ka8c3")
+
+[node name="ScoreCounter" type="LineEdit" parent="StartMenu"]
+z_index = 10
+offset_left = -1363.0
+offset_top = -69.0
+offset_right = 121.0
+offset_bottom = 485.0
+scale = Vector2(2.5017, 2.05624)
+theme_override_colors/font_color = Color(1, 1, 1, 0.278431)
+theme_override_font_sizes/font_size = 400
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ox8rf")
+text = "0"
+alignment = 1
+
+[node name="Text" type="LineEdit" parent="StartMenu"]
+z_index = 10
+offset_left = -1371.0
+offset_top = -443.0
+offset_right = 113.0
+offset_bottom = 111.0
+scale = Vector2(2.5017, 2.05624)
+theme_override_colors/font_color = Color(1, 1, 1, 0.278431)
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ox8rf")
+text = "Personal best"
+alignment = 1
+
+[node name="Row1" type="LineEdit" parent="StartMenu"]
+z_index = 10
+offset_top = 784.0
+offset_right = 400.0
+offset_bottom = 866.0
+scale = Vector2(2.5017, 2.05624)
+theme_override_colors/font_color = Color(1, 1, 1, 0.278431)
+theme_override_font_sizes/font_size = 35
+theme_override_styles/normal = SubResource("StyleBoxEmpty_yqh3q")
+text = "Press any key to"
+alignment = 1
+
+[node name="Row2" type="LineEdit" parent="StartMenu"]
+z_index = 10
+offset_top = 872.0
+offset_right = 400.0
+offset_bottom = 954.0
+scale = Vector2(2.5017, 2.05624)
+theme_override_colors/font_color = Color(1, 1, 1, 0.278431)
+theme_override_font_sizes/font_size = 35
+theme_override_styles/normal = SubResource("StyleBoxEmpty_yqh3q")
+text = "start"
+alignment = 1
 
 [node name="Level" type="Node2D" parent="."]
-process_mode = 1
+process_mode = 4
 script = ExtResource("2_q5hl2")
 
+[node name="TutorialTransition" type="Node2D" parent="Level"]
+process_mode = 4
+script = ExtResource("8_esyo2")
+goals_needed = 1
+
+[node name="0" type="LineEdit" parent="Level/TutorialTransition"]
+visible = false
+z_index = 10
+offset_left = -1363.0
+offset_top = -69.0
+offset_right = 121.0
+offset_bottom = 487.0
+scale = Vector2(2.5017, 2.05624)
+theme_override_colors/font_color = Color(1, 1, 1, 0.278431)
+theme_override_font_sizes/font_size = 400
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ox8rf")
+text = "0"
+alignment = 1
+
+[node name="instruction" type="LineEdit" parent="Level/TutorialTransition"]
+z_index = 10
+offset_left = 454.0
+offset_top = 9.00006
+offset_right = 736.0
+offset_bottom = 145.0
+scale = Vector2(2.5017, 2.05624)
+theme_override_colors/font_color = Color(0, 1, 0, 0.541176)
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ox8rf")
+text = "Eat this"
+alignment = 1
+
+[node name="Goal" parent="Level/TutorialTransition" instance=ExtResource("4_d5g8u")]
+
 [node name="Transition" parent="Level" instance=ExtResource("2_moqu4")]
+visible = false
 
 [node name="Screen1" type="Node2D" parent="Level"]
 process_mode = 4

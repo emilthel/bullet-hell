@@ -3,8 +3,8 @@ extends Node2D
 @export var start_screen = 0
 
 @onready var screen_index = start_screen
-enum{TO_TRANSITION, TO_SCREEN}
-var mode = TO_SCREEN
+enum{SCREEN, TRANSITION}
+var mode = TRANSITION
 var transition_scene = "res://level_1c/Scenes/transition.tscn"
 var screen
 var new_screen
@@ -30,13 +30,10 @@ func enter_transition():
 	#Loads transition
 	transition = load(transition_scene).instantiate()
 	add_child(transition)
-	mode = TO_SCREEN
+	mode = TRANSITION
 
 	#Displays screen
 	transition.screen_counter.text = str(screen_index+1)
-	#Updates progress bar
-	Player.on_transition_entered()
-
 	return transition
 
 func get_next_screen():
@@ -47,12 +44,12 @@ func get_next_screen():
 	
 func next_screen():	
 	"If entering transition"
-	if mode == TO_TRANSITION: 
+	if mode == SCREEN: 
 		transition = enter_transition()
 		return
 				
 	"If entering screen"
-	if mode == TO_SCREEN:		
+	if mode == TRANSITION:		
 		"Finds next screen"
 		var new_screen_index = screen_index + 1
 		var new_screen_name = "Screen" + str(new_screen_index)
@@ -73,7 +70,9 @@ func next_screen():
 			
 			#print(screen.name)
 
-			mode = TO_TRANSITION
+			mode = SCREEN
+			#Updates GUI
+			Player.on_screen_entered()
 			return
 		else:
 			print("Screen transition failed")

@@ -13,67 +13,94 @@ var invincible = false
 
 @onready var blood = max_blood
 @onready var test = max_blood
-@onready var invincibility_timer = $InvincibilityTimer
-@onready var bg = $Node/BG
-@onready var health_bar =  $Node/HealthBar
+@onready var invincibility: float = 0
+@onready var bg = $GUI/BG
+@onready var health_bar =  $GUI/HealthBar
 @onready var screen_rect = get_viewport_rect()
-@onready var slow_mo = $Node/SlowMo
-@onready var progress_bar = $Node/ProgressBar
-@onready var progress_bar_cover = $Node/ProgressBarCover
-@onready var lives_counter = $Node/LivesCounter
+@onready var slow_mo = $GUI/SlowMo
+@onready var progress_bar = $GUI/ProgressBar
+@onready var progress_bar_cover = $GUI/ProgressBarCover
+@onready var lives_counter = $GUI/LivesCounter
 @onready var goals_collected = 0
-
+@onready var score = \"res://Score.txt\"
 var level
+var start_menu
 
 func _ready() -> void:
 	lives_counter.text = str(lives)
+	slowmo_activate()
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	global_position = get_global_mouse_position()
-	if blood > max_blood:
+	if blood > max_blood: #Caps health (blood) at max
 		blood = max_blood
-	bg.modulate.a = invincibility_timer.time_left
-	health_bar.scale.x = blood/max_blood
-	progress_bar.scale.x = 0.1 * goals_collected
+	
+	if invincibility > 0: #Decreases invincibility until 0
+		invincibility -= delta
+	else:
+		invincibility = 0  
+				
+	bg.modulate.a = invincibility #Sets background color
+	health_bar.scale.x = blood/max_blood #Sets healthbar
+	
+	progress_bar.scale.x = 0.1 * goals_collected #Sets progress bar
 	#print(slow_mo.process_mode)
 
-func _on_invincibility_timer_timeout() -> void:
-	invincible = false
+#func _on_invincibility_timer_timeout() -> void:
+	#invincible = false
 
 func _die():
+	print(\"Die\")
 	lives -= 1
-	if lives == 0:
-		get_tree().quit()
+	if lives == 0: #Game over
+		game_over()
 	lives_counter.text = str(lives)
 	level.enter_transition()				
 	blood = max_blood
+	invincibility = 1
 
+func game_over():
+	var screen_index = level.screen_index
+	start_menu.update_score(screen_index)
+	get_tree().quit()
+		
 func on_transition_entered():
 	var new_screen = level.get_next_screen()
-	progress_bar_cover.scale.x = 0.1 * (new_screen.goals_needed -1)
+	progress_bar_cover.scale.x = 0.3 * (new_screen.goals_needed -1)
 	goals_collected = 0
+	invincibility = 1
+	bg.modulate = Color(0,1,0,0)
 	
-func _on_area_entered(area: Area2D) -> void:
-	if area.collision_layer == enemy_layer:
-		if not invincible:
+func on_screen_entered():
+	bg.modulate = Color(1,0,0,0)
+	
+func on_level_entered():
+	var new_screen = level.get_next_screen()
+	progress_bar_cover.scale.x = 0.3 * (new_screen.goals_needed -1)
+	goals_collected = 0
+	invincibility = 1
+	bg.modulate = Color(0,1,0,0)
+	
+func _on_area_entered(area: Area2D) -> void: #Collision
+	if area.collision_layer == enemy_layer: #Hit
+		if invincibility == 0:
 			blood -= area.damage 
+			invincibility = 0.5
 			if blood <= 0: #Death
 				_die()
-			invincibility_timer.start()
-			invincible = true
 			
-			
-	if area.collision_layer == goal_layer:
-		if area.mode == area.SCREEN_CHANGE:
+	if area.collision_layer == goal_layer: #Goal collection
+		if area.mode == area.SCREEN_CHANGE: 
 			level.next_screen()
 		if area.mode == area.SCRIPT:
 			area.on_collected.call()
 		area.queue_free()
 		blood += area.heal
-		
-	slowmo_activate()
 	
+	slowmo_activate()
+
+			
 func slowmo_activate():
 	slow_mo.process_mode = Node.PROCESS_MODE_INHERIT
 	slow_mo.visible = true
@@ -103,14 +130,14 @@ width = 1000
 fill_from = Vector2(1, 1)
 fill_to = Vector2(1, 1)
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_glxa5"]
+
 [sub_resource type="Gradient" id="Gradient_mdaw6"]
 offsets = PackedFloat32Array(1)
-colors = PackedColorArray(1, 0, 0, 1)
+colors = PackedColorArray(1, 1, 1, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_dtbe7"]
 gradient = SubResource("Gradient_mdaw6")
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_glxa5"]
 
 [node name="Player" type="Area2D"]
 collision_mask = 7
@@ -123,60 +150,51 @@ shape = SubResource("CircleShape2D_1vguc")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = SubResource("GradientTexture2D_2cts2")
 
-[node name="InvincibilityTimer" type="Timer" parent="."]
-wait_time = 0.3
-one_shot = true
+[node name="GUI" type="Node" parent="."]
 
-[node name="Node" type="Node" parent="."]
-
-[node name="ProgressBarCover" type="Node2D" parent="Node"]
+[node name="ProgressBarCover" type="Node2D" parent="GUI"]
+visible = false
 modulate = Color(0, 0, 0, 1)
 z_index = 98
 position = Vector2(0, 935)
 
-[node name="Sprite2D" type="Sprite2D" parent="Node/ProgressBarCover"]
+[node name="Sprite2D" type="Sprite2D" parent="GUI/ProgressBarCover"]
 position = Vector2(500, 32)
 scale = Vector2(1, 1.006)
 texture = SubResource("GradientTexture2D_k7nop")
 
-[node name="ProgressBar" type="Node2D" parent="Node"]
+[node name="ProgressBar" type="Node2D" parent="GUI"]
 modulate = Color(0, 1, 0, 1)
 z_index = 99
 position = Vector2(0, 935)
 
-[node name="Sprite2D" type="Sprite2D" parent="Node/ProgressBar"]
+[node name="Sprite2D" type="Sprite2D" parent="GUI/ProgressBar"]
 position = Vector2(500, 32)
 scale = Vector2(1, 1.006)
 texture = SubResource("GradientTexture2D_k7nop")
 
-[node name="HealthBarCover" type="Node2D" parent="Node"]
+[node name="HealthBarCover" type="Node2D" parent="GUI"]
 modulate = Color(0, 0, 0, 1)
 z_index = 98
 
-[node name="Sprite2D" type="Sprite2D" parent="Node/HealthBarCover"]
+[node name="Sprite2D" type="Sprite2D" parent="GUI/HealthBarCover"]
 position = Vector2(500, 32)
 scale = Vector2(1, 1.006)
 texture = SubResource("GradientTexture2D_k7nop")
 
-[node name="HealthBar" type="Node2D" parent="Node"]
+[node name="HealthBar" type="Node2D" parent="GUI"]
 z_index = 99
 
-[node name="Sprite2D" type="Sprite2D" parent="Node/HealthBar"]
+[node name="Sprite2D" type="Sprite2D" parent="GUI/HealthBar"]
 position = Vector2(500, 32)
 scale = Vector2(1, 1.006)
 texture = SubResource("GradientTexture2D_k7nop")
 
-[node name="BG" type="Sprite2D" parent="Node"]
-modulate = Color(1, 1, 1, 0)
-position = Vector2(541, 554)
-scale = Vector2(5.16406, 1104.5)
-texture = SubResource("GradientTexture1D_dtbe7")
-
-[node name="SlowMo" parent="Node" instance=ExtResource("1_sl6ca")]
+[node name="SlowMo" parent="GUI" instance=ExtResource("1_sl6ca")]
 process_mode = 4
 visibility_layer = 257
 
-[node name="LivesCounter" type="LineEdit" parent="Node"]
+[node name="LivesCounter" type="LineEdit" parent="GUI"]
 z_index = 100
 offset_left = -33.0
 offset_right = 34.0625
@@ -190,5 +208,10 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_glxa5")
 text = "1"
 alignment = 1
 
+[node name="BG" type="Sprite2D" parent="GUI"]
+modulate = Color(1, 0, 0, 0)
+position = Vector2(541, 554)
+scale = Vector2(5.16406, 1104.5)
+texture = SubResource("GradientTexture1D_dtbe7")
+
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
-[connection signal="timeout" from="InvincibilityTimer" to="." method="_on_invincibility_timer_timeout"]

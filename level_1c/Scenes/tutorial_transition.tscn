@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://bs18tm3o4pcmh"]
+
+[ext_resource type="PackedScene" uid="uid://cstg22wx5ohe7" path="res://level_1c/Scenes/transition.tscn" id="1_tmsca"]
+
+[node name="Transition" instance=ExtResource("1_tmsca")]
