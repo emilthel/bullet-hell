@@ -1,6 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://bsa55u6yhunt"]
+[gd_scene load_steps=14 format=3 uid="uid://bsa55u6yhunt"]
 
 [ext_resource type="PackedScene" uid="uid://d3fv46bax7aea" path="res://level_1c/Scenes/slow_mo.tscn" id="1_sl6ca"]
+[ext_resource type="AudioStream" uid="uid://cl8ybpqm3cq4m" path="res://sounds/hit-windy-thud-399086.mp3" id="2_xtwg7"]
+[ext_resource type="AudioStream" uid="uid://5hs8ec58txg" path="res://sounds/hit-watchtower-399087.mp3" id="3_bwiib"]
+[ext_resource type="AudioStream" uid="uid://d1iqjgbu3cpbc" path="res://sounds/error-83494.mp3" id="3_s1cva"]
 
 [sub_resource type="GDScript" id="GDScript_gp44b"]
 script/source = "extends Area2D
@@ -21,11 +24,13 @@ var invincible = false
 @onready var progress_bar = $GUI/ProgressBar
 @onready var progress_bar_cover = $GUI/ProgressBarCover
 @onready var lives_counter = $GUI/LivesCounter
+@onready var hit_sound = $Sounds/HitSound
+@onready var death_sound = $Sounds/DeathSound
+@onready var game_over_sound = $Sounds/GameOverSound
 @onready var goals_collected = 0
 @onready var score = \"res://Score.txt\"
 var level
 var start_menu
-
 func _ready() -> void:
 	lives_counter.text = str(lives)
 	slowmo_activate()
@@ -55,16 +60,29 @@ func _die():
 	lives -= 1
 	if lives == 0: #Game over
 		game_over()
-	lives_counter.text = str(lives)
-	level.enter_transition()				
-	blood = max_blood
-	invincibility = 1
+	else:
+		lives_counter.text = str(lives)
+		level.enter_transition()				
+		blood = max_blood
+		invincibility = 1
+		death_sound.play()
 
+func _hit(damage):	
+	if invincibility == 0:
+		blood -= damage 
+		invincibility = 0.5
+		hit_sound.play()
+	if blood <= 0: #Death
+		_die()
+		
+
+	
 func game_over():
 	var screen_index = level.screen_index
 	start_menu.update_score(screen_index)
-	get_tree().quit()
-		
+	print(\"game over\")
+	get_tree().reload_current_scene()
+			
 func on_transition_entered():
 	var new_screen = level.get_next_screen()
 	progress_bar_cover.scale.x = 0.3 * (new_screen.goals_needed -1)
@@ -84,12 +102,8 @@ func on_level_entered():
 	
 func _on_area_entered(area: Area2D) -> void: #Collision
 	if area.collision_layer == enemy_layer: #Hit
-		if invincibility == 0:
-			blood -= area.damage 
-			invincibility = 0.5
-			if blood <= 0: #Death
-				_die()
-			
+		_hit(area.damage)
+		
 	if area.collision_layer == goal_layer: #Goal collection
 		if area.mode == area.SCREEN_CHANGE: 
 			level.next_screen()
@@ -213,5 +227,18 @@ modulate = Color(1, 0, 0, 0)
 position = Vector2(541, 554)
 scale = Vector2(5.16406, 1104.5)
 texture = SubResource("GradientTexture1D_dtbe7")
+
+[node name="Sounds" type="Node" parent="."]
+
+[node name="HitSound" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("2_xtwg7")
+volume_db = -30.0
+
+[node name="DeathSound" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("3_s1cva")
+volume_db = -30.0
+
+[node name="GameOverSound" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("3_bwiib")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

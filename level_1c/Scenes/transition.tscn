@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cstg22wx5ohe7"]
+[gd_scene load_steps=7 format=3 uid="uid://cstg22wx5ohe7"]
 
 [ext_resource type="Script" path="res://level_1c/goal.gd" id="1_wirfv"]
 [ext_resource type="Script" path="res://level_1c/Scenes/transition.gd" id="1_x4nrd"]
@@ -18,8 +18,6 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k6r10"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k54e6"]
 
 [node name="Transition" type="Node2D"]
 script = ExtResource("1_x4nrd")
@@ -49,28 +47,4 @@ theme_override_colors/font_color = Color(1, 1, 1, 0.278431)
 theme_override_font_sizes/font_size = 400
 theme_override_styles/normal = SubResource("StyleBoxEmpty_k6r10")
 text = "1"
-alignment = 1
-
-[node name="Row1" type="LineEdit" parent="."]
-z_index = 10
-offset_top = 784.0
-offset_right = 400.0
-offset_bottom = 866.0
-scale = Vector2(2.5017, 2.05624)
-theme_override_colors/font_color = Color(1, 1, 1, 0.278431)
-theme_override_font_sizes/font_size = 35
-theme_override_styles/normal = SubResource("StyleBoxEmpty_k54e6")
-text = "Press space to"
-alignment = 1
-
-[node name="Row2" type="LineEdit" parent="."]
-z_index = 10
-offset_top = 872.0
-offset_right = 400.0
-offset_bottom = 954.0
-scale = Vector2(2.5017, 2.05624)
-theme_override_colors/font_color = Color(1, 1, 1, 0.278431)
-theme_override_font_sizes/font_size = 35
-theme_override_styles/normal = SubResource("StyleBoxEmpty_k54e6")
-text = "slow time"
 alignment = 1

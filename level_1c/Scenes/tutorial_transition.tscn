@@ -1,5 +1,38 @@
-[gd_scene load_steps=2 format=3 uid="uid://bs18tm3o4pcmh"]
+[gd_scene load_steps=3 format=3 uid="uid://bs18tm3o4pcmh"]
 
 [ext_resource type="PackedScene" uid="uid://cstg22wx5ohe7" path="res://level_1c/Scenes/transition.tscn" id="1_tmsca"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jt5yj"]
+
 [node name="Transition" instance=ExtResource("1_tmsca")]
+
+[node name="ScreenCounter" parent="." index="1"]
+text = "0"
+
+[node name="instruction2" type="LineEdit" parent="." index="2"]
+visible = false
+z_index = 10
+offset_left = -1363.0
+offset_top = -69.0
+offset_right = 121.0
+offset_bottom = 487.0
+scale = Vector2(2.5017, 2.05624)
+theme_override_colors/font_color = Color(1, 1, 1, 0.278431)
+theme_override_font_sizes/font_size = 400
+theme_override_styles/normal = SubResource("StyleBoxEmpty_jt5yj")
+text = "0"
+alignment = 1
+
+[node name="instruction" type="LineEdit" parent="." index="3"]
+z_index = 10
+offset_left = 454.0
+offset_top = 9.00006
+offset_right = 736.0
+offset_bottom = 145.0
+scale = Vector2(2.5017, 2.05624)
+theme_override_colors/font_color = Color(0, 1, 0, 0.541176)
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxEmpty_jt5yj")
+text = "Eat this"
+alignment = 1
+metadata/_edit_use_anchors_ = true
