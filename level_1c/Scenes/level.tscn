@@ -1,28 +1,11 @@
-[gd_scene load_steps=17 format=3 uid="uid://dximobfhg52x5"]
+[gd_scene load_steps=15 format=3 uid="uid://dximobfhg52x5"]
 
 [ext_resource type="Script" path="res://level_1c/Scenes/start_menu.gd" id="1_ka8c3"]
 [ext_resource type="Script" path="res://level_1c/level.gd" id="2_q5hl2"]
-[ext_resource type="PackedScene" uid="uid://ci7m6vunac8os" path="res://level_1c/Scenes/enemy.tscn" id="4_kvmav"]
 [ext_resource type="Script" path="res://level_1c/Scenes/bullet_spawner_2.gd" id="7_73ty3"]
 [ext_resource type="Script" path="res://level_1c/distortion_grid.gd" id="7_mkago"]
 [ext_resource type="Script" path="res://level_1c/Scenes/grid_2.gd" id="8_ciey6"]
 [ext_resource type="Script" path="res://level_1c/goal_spawner.gd" id="8_esyo2"]
-
-[sub_resource type="GDScript" id="GDScript_56xki"]
-script/source = "extends Node
-
-@onready var level = $Level
-@export var start_paused = true
-
-
-func _ready():
-	get_tree().paused = start_paused  
-	
-func _process(delta: float) -> void:
-	if Input.is_action_just_pressed(\"pause\"):
-		get_tree().paused = not get_tree().paused
-		
-"
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ox8rf"]
 
@@ -64,10 +47,8 @@ fill_to = Vector2(0.6, 0.6)
 
 [node name="PauseManager" type="Node"]
 process_mode = 3
-script = SubResource("GDScript_56xki")
 
 [node name="StartMenu" type="Node2D" parent="."]
-visible = false
 script = ExtResource("1_ka8c3")
 
 [node name="ScoreCounter" type="LineEdit" parent="StartMenu"]
@@ -126,11 +107,9 @@ script = ExtResource("2_q5hl2")
 
 [node name="Screen0" type="Node2D" parent="Level"]
 process_mode = 4
+visible = false
 script = ExtResource("8_esyo2")
 goals_needed = 1
-
-[node name="Enemy" parent="Level/Screen0" instance=ExtResource("4_kvmav")]
-position = Vector2(365, 485)
 
 [node name="Screen1" type="Node2D" parent="Level"]
 process_mode = 4

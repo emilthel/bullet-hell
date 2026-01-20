@@ -1,11 +1,10 @@
 extends Node2D
 
-@export var start_screen = -1
+@export var start_screen = 0
 
 @onready var screen_index = start_screen
 enum{SCREEN, TRANSITION}
 var mode = TRANSITION
-var tutorial_transition_scene = "res://level_1c/Scenes/tutorial_transition.tscn"
 var transition_scene = "res://level_1c/Scenes/transition.tscn"
 var screen
 var new_screen
@@ -17,7 +16,6 @@ var transition
 func _ready() -> void:
 	transition = load(transition_scene).instantiate()	#Loads tutorial
 	add_child(transition)
-	transition.screen_counter.text = str(screen_index + 1) #Displays number of upcoming screen
 	var screen_name = "Screen" + str(screen_index)
 	screen = get_node(screen_name)
 	
@@ -36,8 +34,6 @@ func enter_transition():
 	add_child(transition)
 	mode = TRANSITION
 
-	#Displays screen
-	transition.screen_counter.text = str(screen_index + 1) #Displays number of upcoming screen
 	return transition
 
 func get_next_screen():
@@ -81,6 +77,9 @@ func next_screen():
 		else:
 			print("Screen transition failed")
 			
-			
+	
+func restart():
+	get_tree().reload_current_scene()
+	
 func _process(delta: float) -> void:
 	pass

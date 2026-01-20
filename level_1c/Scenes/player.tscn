@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bsa55u6yhunt"]
+[gd_scene load_steps=15 format=3 uid="uid://bsa55u6yhunt"]
 
 [ext_resource type="PackedScene" uid="uid://d3fv46bax7aea" path="res://level_1c/Scenes/slow_mo.tscn" id="1_sl6ca"]
 [ext_resource type="AudioStream" uid="uid://cl8ybpqm3cq4m" path="res://sounds/hit-windy-thud-399086.mp3" id="2_xtwg7"]
@@ -24,6 +24,7 @@ var invincible = false
 @onready var progress_bar = $GUI/ProgressBar
 @onready var progress_bar_cover = $GUI/ProgressBarCover
 @onready var lives_counter = $GUI/LivesCounter
+@onready var screen_counter = $GUI/ScreenCounter
 @onready var hit_sound = $Sounds/HitSound
 @onready var death_sound = $Sounds/DeathSound
 @onready var game_over_sound = $Sounds/GameOverSound
@@ -48,7 +49,9 @@ func _process(delta: float) -> void:
 				
 	bg.modulate.a = invincibility #Sets background color
 	health_bar.scale.x = blood/max_blood #Sets healthbar
-	
+
+	lives_counter.text = str(lives)
+	screen_counter.text = str(level.screen_index)
 	progress_bar.scale.x = 0.1 * goals_collected #Sets progress bar
 	#print(slow_mo.process_mode)
 
@@ -74,14 +77,17 @@ func _hit(damage):
 		hit_sound.play()
 	if blood <= 0: #Death
 		_die()
-		
-
 	
 func game_over():
-	var screen_index = level.screen_index
-	start_menu.update_score(screen_index)
 	print(\"game over\")
-	get_tree().reload_current_scene()
+	start_menu.update_score(level.screen_index)
+	level.restart()
+
+	\"Restarts player values\"
+	lives = 2
+	blood = max_blood
+	screen_counter.visible = false
+	#get_tree().reload_current_scene()
 			
 func on_transition_entered():
 	var new_screen = level.get_next_screen()
@@ -153,6 +159,8 @@ colors = PackedColorArray(1, 1, 1, 1)
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_dtbe7"]
 gradient = SubResource("Gradient_mdaw6")
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tnd7w"]
+
 [node name="Player" type="Area2D"]
 collision_mask = 7
 script = SubResource("GDScript_gp44b")
@@ -178,6 +186,7 @@ scale = Vector2(1, 1.006)
 texture = SubResource("GradientTexture2D_k7nop")
 
 [node name="ProgressBar" type="Node2D" parent="GUI"]
+visible = false
 modulate = Color(0, 1, 0, 1)
 z_index = 99
 position = Vector2(0, 935)
@@ -227,6 +236,20 @@ modulate = Color(1, 0, 0, 0)
 position = Vector2(541, 554)
 scale = Vector2(5.16406, 1104.5)
 texture = SubResource("GradientTexture1D_dtbe7")
+
+[node name="ScreenCounter" type="LineEdit" parent="GUI"]
+visible = false
+z_index = 10
+offset_left = -1363.0
+offset_top = -69.0
+offset_right = 121.0
+offset_bottom = 485.0
+scale = Vector2(2.5017, 2.05624)
+theme_override_colors/font_color = Color(1, 1, 1, 0.278431)
+theme_override_font_sizes/font_size = 400
+theme_override_styles/normal = SubResource("StyleBoxEmpty_tnd7w")
+text = "1"
+alignment = 1
 
 [node name="Sounds" type="Node" parent="."]
 
