@@ -1,0 +1,48 @@
+[gd_scene load_steps=6 format=3 uid="uid://cbyw71gyhh8uj"]
+
+[ext_resource type="Script" path="res://level_1c/goal.gd" id="1_gemnq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2dcn3"]
+radius = 23.0868
+
+[sub_resource type="Gradient" id="Gradient_6quts"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.5)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_fkhia"]
+gradient = SubResource("Gradient_6quts")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kvuvh"]
+
+[node name="Tutorial" type="Node2D"]
+
+[node name="Goal" type="Area2D" parent="."]
+modulate = Color(0, 1, 0, 1)
+position = Vector2(500, 500)
+collision_layer = 4
+collision_mask = 4
+script = ExtResource("1_gemnq")
+velocity = Vector2(0, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Goal"]
+shape = SubResource("CircleShape2D_2dcn3")
+
+[node name="Sprite2D" type="Sprite2D" parent="Goal"]
+texture = SubResource("GradientTexture2D_fkhia")
+
+[node name="Row1" type="LineEdit" parent="."]
+z_index = 10
+offset_left = 12.0
+offset_top = 510.0
+offset_right = 412.0
+offset_bottom = 592.0
+scale = Vector2(2.5017, 2.05624)
+theme_override_colors/font_color = Color(0, 1, 0, 0.278431)
+theme_override_font_sizes/font_size = 35
+theme_override_styles/normal = SubResource("StyleBoxEmpty_kvuvh")
+text = "Eat this"
+alignment = 1

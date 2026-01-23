@@ -8,6 +8,7 @@ var on_collected = Callable(on_collected_script)
 
 func _ready() -> void:
 	pass	
+	
 #For SCRIPT mode
 func on_collected_script():
 	pass

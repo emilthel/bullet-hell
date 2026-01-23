@@ -2,7 +2,6 @@ extends Node2D
 
 @onready var score_counter = $ScoreCounter
 @onready var level = $"../Level"
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	Player.start_menu = self
@@ -28,13 +27,11 @@ func start():
 	"Unloads self"
 	process_mode = PROCESS_MODE_DISABLED
 	visible = false
-	
+
 	"Loads game engine"
 	level.process_mode = Node.PROCESS_MODE_INHERIT
-	level.visible = true
-	
-	Player.screen_counter.visible = true
-	
+	level.visible = true	
+
 func _process(delta: float) -> void:
 	if Input.is_anything_pressed(): #Press any key to start
 		start()

@@ -12,13 +12,14 @@ var slowmo_cooldown_left: float
 var ability_bar
 var level
 var slowmo_bg
-
+var ability_bar_cover
 
 func _frame1():
 	slowmo_time_left = slowmo_time
 	slowmo_cooldown_left = 0
 	slowmo_bg = $SlowmoBG
 	ability_bar = $AbilityBar
+	ability_bar_cover = $AbilityBarCover
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -32,6 +33,7 @@ func _process(delta: float) -> void:
 			time_speed = 1
 			slowmo_cooldown_left -= delta
 			slowmo_bg.modulate.a *= 0.00000001**delta
+			ability_bar_cover.modulate.a = slowmo_bg.modulate.a
 			ability_bar.scale.x = 1 - slowmo_cooldown_left/slowmo_cooldown
 			if slowmo_cooldown_left < 0:
 				if Input.is_action_just_pressed("slowmo"):
@@ -40,7 +42,9 @@ func _process(delta: float) -> void:
 		SLOWMO:
 			time_speed = 0.2
 			slowmo_time_left -= delta
-			slowmo_bg.modulate.a = (1- slowmo_time_left)*0.5
+			slowmo_bg.modulate.a = (1- slowmo_time_left)
+			ability_bar_cover.modulate.a = slowmo_bg.modulate.a
+			
 			if Input.is_action_just_released("slowmo"):
 				_enter_cooldown_state()
 			if slowmo_time_left < 0:
@@ -50,8 +54,8 @@ func _process(delta: float) -> void:
 func _enter_slowmo_state():
 	slowmo_time_left = slowmo_time
 	state = SLOWMO
-		
+
+	
 func _enter_cooldown_state():
 	state = COOLDOWN
 	slowmo_cooldown_left = slowmo_cooldown
-	

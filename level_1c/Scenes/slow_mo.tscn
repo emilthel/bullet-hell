@@ -49,6 +49,16 @@ position = Vector2(500, 9)
 scale = Vector2(1, 0.3155)
 texture = SubResource("GradientTexture2D_j13k2")
 
+[node name="AbilityBarCover" type="Node2D" parent="."]
+modulate = Color(0, 0, 0, 0)
+z_index = 99
+position = Vector2(0, 64)
+
+[node name="Sprite2D" type="Sprite2D" parent="AbilityBarCover"]
+position = Vector2(500, 9)
+scale = Vector2(1, 0.3155)
+texture = SubResource("GradientTexture2D_j13k2")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_2dcn3")
 

@@ -96,7 +96,11 @@ func on_transition_entered():
 	invincibility = 1
 	bg.modulate = Color(0,1,0,0)
 	
+func on_tutorial_exited():
+	screen_counter.visible = true
+	
 func on_screen_entered():
+	\"Changes invincibility color to red\"
 	bg.modulate = Color(1,0,0,0)
 	
 func on_level_entered():
@@ -104,6 +108,7 @@ func on_level_entered():
 	progress_bar_cover.scale.x = 0.3 * (new_screen.goals_needed -1)
 	goals_collected = 0
 	invincibility = 1
+	\"Changes invincibility color to green\"
 	bg.modulate = Color(0,1,0,0)
 	
 func _on_area_entered(area: Area2D) -> void: #Collision
@@ -170,6 +175,7 @@ max_blood = 0.6
 shape = SubResource("CircleShape2D_1vguc")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 5
 texture = SubResource("GradientTexture2D_2cts2")
 
 [node name="GUI" type="Node" parent="."]
@@ -239,7 +245,7 @@ texture = SubResource("GradientTexture1D_dtbe7")
 
 [node name="ScreenCounter" type="LineEdit" parent="GUI"]
 visible = false
-z_index = 10
+z_index = -2
 offset_left = -1363.0
 offset_top = -69.0
 offset_right = 121.0
