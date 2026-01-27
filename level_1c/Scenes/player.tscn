@@ -1,6 +1,7 @@
-[gd_scene load_steps=15 format=3 uid="uid://bsa55u6yhunt"]
+[gd_scene load_steps=16 format=3 uid="uid://bsa55u6yhunt"]
 
 [ext_resource type="PackedScene" uid="uid://d3fv46bax7aea" path="res://level_1c/Scenes/slow_mo.tscn" id="1_sl6ca"]
+[ext_resource type="PackedScene" uid="uid://igbc5ubn32dx" path="res://level_1c/Scenes/progress_slot.tscn" id="1_w84oy"]
 [ext_resource type="AudioStream" uid="uid://cl8ybpqm3cq4m" path="res://sounds/hit-windy-thud-399086.mp3" id="2_xtwg7"]
 [ext_resource type="AudioStream" uid="uid://5hs8ec58txg" path="res://sounds/hit-watchtower-399087.mp3" id="3_bwiib"]
 [ext_resource type="AudioStream" uid="uid://d1iqjgbu3cpbc" path="res://sounds/error-83494.mp3" id="3_s1cva"]
@@ -28,13 +29,23 @@ var invincible = false
 @onready var hit_sound = $Sounds/HitSound
 @onready var death_sound = $Sounds/DeathSound
 @onready var game_over_sound = $Sounds/GameOverSound
+@onready var progress_checklist = $GUI/ProgressChecklist
+@onready var progress_slot_scene = \"res://level_1c/Scenes/progress_slot.tscn\"
 @onready var goals_collected = 0
 @onready var score = \"res://Score.txt\"
 var level
 var start_menu
+var progress_slots_filled = 0
+var progress_slots: Dictionary = {}
+
 func _ready() -> void:
 	lives_counter.text = str(lives)
 	slowmo_activate()
+	for n in range(3):
+		var slot = load(progress_slot_scene).instantiate()
+		slot.position.x = 100*n
+		progress_checklist.add_child(slot)
+		progress_slots[n] = slot
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -180,6 +191,11 @@ texture = SubResource("GradientTexture2D_2cts2")
 
 [node name="GUI" type="Node" parent="."]
 
+[node name="ProgressChecklist" type="Node2D" parent="GUI"]
+position = Vector2(40, 945)
+
+[node name="ProgressSlot" parent="GUI/ProgressChecklist" instance=ExtResource("1_w84oy")]
+
 [node name="ProgressBarCover" type="Node2D" parent="GUI"]
 visible = false
 modulate = Color(0, 0, 0, 1)
@@ -222,6 +238,7 @@ texture = SubResource("GradientTexture2D_k7nop")
 [node name="SlowMo" parent="GUI" instance=ExtResource("1_sl6ca")]
 process_mode = 4
 visibility_layer = 257
+position = Vector2(0, 1)
 
 [node name="LivesCounter" type="LineEdit" parent="GUI"]
 z_index = 100

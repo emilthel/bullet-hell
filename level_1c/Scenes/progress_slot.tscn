@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://igbc5ubn32dx"]
+
+[sub_resource type="Gradient" id="Gradient_uyvyb"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.5)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_2cts2"]
+gradient = SubResource("Gradient_uyvyb")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[node name="ProgressSlot" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 1)
+z_index = 5
+scale = Vector2(1.1, 1.1)
+texture = SubResource("GradientTexture2D_2cts2")
+
+[node name="ProgressPoint" type="Node2D" parent="."]
+visible = false
+scale = Vector2(0.5, 0.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="ProgressPoint"]
+modulate = Color(0, 1, 0, 1)
+z_index = 5
+scale = Vector2(1.1, 1.1)
+texture = SubResource("GradientTexture2D_2cts2")
