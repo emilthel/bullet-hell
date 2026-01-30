@@ -1,7 +1,6 @@
-[gd_scene load_steps=16 format=3 uid="uid://bsa55u6yhunt"]
+[gd_scene load_steps=15 format=3 uid="uid://bsa55u6yhunt"]
 
 [ext_resource type="PackedScene" uid="uid://d3fv46bax7aea" path="res://level_1c/Scenes/slow_mo.tscn" id="1_sl6ca"]
-[ext_resource type="PackedScene" uid="uid://igbc5ubn32dx" path="res://level_1c/Scenes/progress_slot.tscn" id="1_w84oy"]
 [ext_resource type="AudioStream" uid="uid://cl8ybpqm3cq4m" path="res://sounds/hit-windy-thud-399086.mp3" id="2_xtwg7"]
 [ext_resource type="AudioStream" uid="uid://5hs8ec58txg" path="res://sounds/hit-watchtower-399087.mp3" id="3_bwiib"]
 [ext_resource type="AudioStream" uid="uid://d1iqjgbu3cpbc" path="res://sounds/error-83494.mp3" id="3_s1cva"]
@@ -41,12 +40,9 @@ var progress_slots: Dictionary = {}
 func _ready() -> void:
 	lives_counter.text = str(lives)
 	slowmo_activate()
-	for n in range(3):
-		var slot = load(progress_slot_scene).instantiate()
-		slot.position.x = 100*n
-		progress_checklist.add_child(slot)
-		progress_slots[n] = slot
-	
+	_progress_checklist_length(6)
+	_progress_checklist_score(1)
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	global_position = get_global_mouse_position()
@@ -64,13 +60,48 @@ func _process(delta: float) -> void:
 	lives_counter.text = str(lives)
 	screen_counter.text = str(level.screen_index)
 	progress_bar.scale.x = 0.1 * goals_collected #Sets progress bar
+	
+	if Input.is_action_just_pressed(\"test\"):
+		print(\"test\")
+		_progress_checklist_score(2)
 	#print(slow_mo.process_mode)
 
+
+\"Changes length of checklist\"
+func _progress_checklist_length(length):
+	\"Clears progress checklist\"
+	for slot in progress_checklist.get_children():
+		slot.queue_free()
+		
+	\"Generates progress checklist\"
+	for n in range(length):
+		var slot = load(progress_slot_scene).instantiate()
+		slot.position.x = 100*n
+		progress_checklist.add_child(slot)
+		progress_slots[n] = slot
+
+
+\"Changes displayed score\"
+func _progress_checklist_score(count):
+	for n in range(len(progress_slots)):
+		\"Fills in points up to count\"
+		if n < count:
+			var slot = progress_slots[n]
+			var point = slot.get_node(\"ProgressPoint\")
+			point.visible = true
+	
+		\"Empties remaining points\"
+		if n >= count:
+			var slot = progress_slots[n]
+			var point = slot.get_node(\"ProgressPoint\")
+			point.visible = false
+		
+	
 #func _on_invincibility_timer_timeout() -> void:
 	#invincible = false
 
 func _die():
-	print(\"Die\")
+	print(\"die\")
 	lives -= 1
 	if lives == 0: #Game over
 		game_over()
@@ -90,7 +121,7 @@ func _hit(damage):
 		_die()
 	
 func game_over():
-	print(\"game over\")
+	print(\"game_over\")
 	start_menu.update_score(level.screen_index)
 	level.restart()
 
@@ -101,6 +132,7 @@ func game_over():
 	#get_tree().reload_current_scene()
 			
 func on_transition_entered():
+	print(\"on_transition_entered\")
 	var new_screen = level.get_next_screen()
 	progress_bar_cover.scale.x = 0.3 * (new_screen.goals_needed -1)
 	goals_collected = 0
@@ -108,21 +140,28 @@ func on_transition_entered():
 	bg.modulate = Color(0,1,0,0)
 	
 func on_tutorial_exited():
+	print(\"on_tutorial_exited\")
 	screen_counter.visible = true
 	
 func on_screen_entered():
+	print(\"on_screen_entered\")
 	\"Changes invincibility color to red\"
 	bg.modulate = Color(1,0,0,0)
 	
-func on_level_entered():
-	var new_screen = level.get_next_screen()
-	progress_bar_cover.scale.x = 0.3 * (new_screen.goals_needed -1)
-	goals_collected = 0
-	invincibility = 1
-	\"Changes invincibility color to green\"
-	bg.modulate = Color(0,1,0,0)
+	_progress_checklist_length(level.screen.goals_needed)
+	#
+#func on_level_entered():
+	#print(\"on_level_entered\")
+	#var new_screen = level.get_next_screen()
+	#progress_bar_cover.scale.x = 0.3 * (new_screen.goals_needed -1)
+	#_progress_checklist_length(new_screen.goals_needed)
+	#goals_collected = 0
+	#invincibility = 1
+	#\"Changes invincibility color to green\"
+	#bg.modulate = Color(0,1,0,0)
 	
 func _on_area_entered(area: Area2D) -> void: #Collision
+	#print(\"on_area_entered\")
 	if area.collision_layer == enemy_layer: #Hit
 		_hit(area.damage)
 		
@@ -134,6 +173,7 @@ func _on_area_entered(area: Area2D) -> void: #Collision
 		area.queue_free()
 		blood += area.heal
 	
+		
 	slowmo_activate()
 
 			
@@ -193,8 +233,6 @@ texture = SubResource("GradientTexture2D_2cts2")
 
 [node name="ProgressChecklist" type="Node2D" parent="GUI"]
 position = Vector2(40, 945)
-
-[node name="ProgressSlot" parent="GUI/ProgressChecklist" instance=ExtResource("1_w84oy")]
 
 [node name="ProgressBarCover" type="Node2D" parent="GUI"]
 visible = false
