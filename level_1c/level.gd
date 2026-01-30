@@ -67,7 +67,7 @@ func next_screen():
 
 			mode = SCREEN
 			#Updates GUI
-			Player.on_tutorial_exited()
+			Player.on_screen_0_entered()
 
 			return
 		else:

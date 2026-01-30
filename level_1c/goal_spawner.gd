@@ -7,6 +7,8 @@ var goals_collected: int = 0
 
 @export var goals_needed: int = 2
 @export var goal_heal = 0.2
+@export var spawns_goals: bool = true
+@export var goal_path: String
 
 @onready var spawn_timer = $SpawnTimer
 @onready var level = $".."
@@ -16,13 +18,17 @@ var goals_collected: int = 0
 # Called when the node enters the scene tree for the first time.
 func _frame1() -> void:
 	screen = get_viewport_rect()
-	spawn_child(_random_point())
-	
+	if spawns_goals:
+		spawn_child(_random_point())
+	if goal_path:
+		var goal = get_node(goal_path)
+		goal.mode = goal.SCRIPT
+		goal.heal = goal_heal
+		goal.on_collected = Callable(goal_collected)
 	
 func goal_collected():
 	spawn_child(_random_point())
 	goals_collected += 1
-	Player.goals_collected = goals_collected
 	if goals_collected == goals_needed:
 		goals_collected == 0
 		level.next_screen()

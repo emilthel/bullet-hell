@@ -111,6 +111,10 @@ script = ExtResource("2_q5hl2")
 [node name="Screen0" type="Node2D" parent="Level"]
 process_mode = 4
 visible = false
+script = ExtResource("8_esyo2")
+goals_needed = 1
+spawns_goals = false
+goal_path = "Goal"
 
 [node name="Goal" parent="Level/Screen0" instance=ExtResource("4_r8jqn")]
 position = Vector2(913, 507)
@@ -145,7 +149,6 @@ alignment = 1
 
 [node name="Screen1" type="Node2D" parent="Level"]
 process_mode = 4
-visible = false
 script = ExtResource("8_esyo2")
 goals_needed = 1
 

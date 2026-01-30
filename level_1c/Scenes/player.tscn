@@ -30,7 +30,7 @@ var invincible = false
 @onready var game_over_sound = $Sounds/GameOverSound
 @onready var progress_checklist = $GUI/ProgressChecklist
 @onready var progress_slot_scene = \"res://level_1c/Scenes/progress_slot.tscn\"
-@onready var goals_collected = 0
+#@onready var goals_collected = 0
 @onready var score = \"res://Score.txt\"
 var level
 var start_menu
@@ -40,8 +40,7 @@ var progress_slots: Dictionary = {}
 func _ready() -> void:
 	lives_counter.text = str(lives)
 	slowmo_activate()
-	_progress_checklist_length(6)
-	_progress_checklist_score(1)
+	_progress_checklist_length(0)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -59,20 +58,22 @@ func _process(delta: float) -> void:
 
 	lives_counter.text = str(lives)
 	screen_counter.text = str(level.screen_index)
-	progress_bar.scale.x = 0.1 * goals_collected #Sets progress bar
+	#progress_bar.scale.x = 0.1 * goals_collected #Sets progress bar
 	
 	if Input.is_action_just_pressed(\"test\"):
 		print(\"test\")
-		_progress_checklist_score(2)
+		_progress_checklist_length(2)
+		_progress_checklist_score(1)
 	#print(slow_mo.process_mode)
 
 
 \"Changes length of checklist\"
 func _progress_checklist_length(length):
 	\"Clears progress checklist\"
-	for slot in progress_checklist.get_children():
-		slot.queue_free()
-		
+	for n in range(len(progress_slots)):
+		progress_slots[n].queue_free()
+		progress_slots.erase(n)
+	
 	\"Generates progress checklist\"
 	for n in range(length):
 		var slot = load(progress_slot_scene).instantiate()
@@ -89,7 +90,7 @@ func _progress_checklist_score(count):
 			var slot = progress_slots[n]
 			var point = slot.get_node(\"ProgressPoint\")
 			point.visible = true
-	
+		
 		\"Empties remaining points\"
 		if n >= count:
 			var slot = progress_slots[n]
@@ -129,27 +130,30 @@ func game_over():
 	lives = 2
 	blood = max_blood
 	screen_counter.visible = false
+	_progress_checklist_length(0)
 	#get_tree().reload_current_scene()
 			
 func on_transition_entered():
 	print(\"on_transition_entered\")
 	var new_screen = level.get_next_screen()
 	progress_bar_cover.scale.x = 0.3 * (new_screen.goals_needed -1)
-	goals_collected = 0
+	#goals_collected = 0
 	invincibility = 1
 	bg.modulate = Color(0,1,0,0)
 	
-func on_tutorial_exited():
-	print(\"on_tutorial_exited\")
+func on_screen_0_entered():
+	print(\"on_screen_0_entered\")
 	screen_counter.visible = true
 	
+	_progress_checklist_length(level.screen.goals_needed)
+
 func on_screen_entered():
 	print(\"on_screen_entered\")
 	\"Changes invincibility color to red\"
 	bg.modulate = Color(1,0,0,0)
 	
 	_progress_checklist_length(level.screen.goals_needed)
-	#
+	
 #func on_level_entered():
 	#print(\"on_level_entered\")
 	#var new_screen = level.get_next_screen()
@@ -172,7 +176,8 @@ func _on_area_entered(area: Area2D) -> void: #Collision
 			area.on_collected.call()
 		area.queue_free()
 		blood += area.heal
-	
+		
+		_progress_checklist_score(level.screen.goals_collected)
 		
 	slowmo_activate()
 
