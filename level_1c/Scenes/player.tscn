@@ -28,6 +28,7 @@ var invincible = false
 @onready var hit_sound = $Sounds/HitSound
 @onready var death_sound = $Sounds/DeathSound
 @onready var game_over_sound = $Sounds/GameOverSound
+@onready var game_over_screen = $GUI/GameOverScreen
 @onready var progress_checklist = $GUI/ProgressChecklist
 @onready var progress_slot_scene = \"res://level_1c/Scenes/progress_slot.tscn\"
 #@onready var goals_collected = 0
@@ -36,6 +37,9 @@ var level
 var start_menu
 var progress_slots_filled = 0
 var progress_slots: Dictionary = {}
+
+enum{GAME_OVER_RECOVERY}
+var state
 
 func _ready() -> void:
 	lives_counter.text = str(lives)
@@ -50,20 +54,27 @@ func _process(delta: float) -> void:
 	
 	if invincibility > 0: #Decreases invincibility until 0
 		invincibility -= delta
+		bg.modulate.a = invincibility #Sets background color
 	else:
 		invincibility = 0  
 				
-	bg.modulate.a = invincibility #Sets background color
 	health_bar.scale.x = blood/max_blood #Sets healthbar
 
 	lives_counter.text = str(lives)
 	screen_counter.text = str(level.screen_index)
 	#progress_bar.scale.x = 0.1 * goals_collected #Sets progress bar
 	
-	if Input.is_action_just_pressed(\"test\"):
-		print(\"test\")
-		_progress_checklist_length(2)
-		_progress_checklist_score(1)
+	if game_over_screen.visible: #Game over screen
+		if game_over_screen.modulate.a > 0:
+			game_over_screen.modulate.a -= 0.2 * delta
+		else:
+			game_over_screen.visible = false #Hides game over screen
+			game_over_screen.modulate.a = 0 #Resets transparency for next game over
+			print(game_over_screen.visible)
+
+	print(game_over_screen.visible)
+	print(game_over_screen.modulate.a)
+		
 	#print(slow_mo.process_mode)
 
 
@@ -126,6 +137,10 @@ func game_over():
 	start_menu.update_score(level.screen_index)
 	level.restart()
 
+	invincibility = 5 #Red flash
+	game_over_sound.play() #Plays sound
+	game_over_screen.visible = true 
+	
 	\"Restarts player values\"
 	lives = 2
 	blood = max_blood
@@ -223,6 +238,7 @@ gradient = SubResource("Gradient_mdaw6")
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tnd7w"]
 
 [node name="Player" type="Area2D"]
+z_index = 1
 collision_mask = 7
 script = SubResource("GDScript_gp44b")
 max_blood = 0.6
@@ -317,6 +333,72 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_tnd7w")
 text = "1"
 alignment = 1
 
+[node name="DeathScreen" type="Control" parent="GUI"]
+visible = false
+z_index = 10
+layout_mode = 3
+anchors_preset = 0
+
+[node name="YouDied" type="LineEdit" parent="GUI/DeathScreen"]
+z_index = -2
+offset_left = -1307.0
+offset_top = -309.0
+offset_right = 177.0
+offset_bottom = 245.0
+scale = Vector2(2.5017, 2.05624)
+theme_override_colors/font_color = Color(1, 1, 1, 0.278431)
+theme_override_font_sizes/font_size = 150
+theme_override_styles/normal = SubResource("StyleBoxEmpty_tnd7w")
+text = "You died"
+alignment = 1
+
+[node name="testtt" type="LineEdit" parent="GUI/DeathScreen"]
+z_index = -2
+offset_left = -1414.0
+offset_top = 99.0001
+offset_right = 70.0
+offset_bottom = 653.0
+scale = Vector2(2.5017, 2.05624)
+theme_override_colors/font_color = Color(1, 1, 1, 0.278431)
+theme_override_font_sizes/font_size = 150
+theme_override_styles/normal = SubResource("StyleBoxEmpty_tnd7w")
+text = " OVER"
+alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="GameOverScreen" type="Control" parent="GUI"]
+visible = false
+z_index = 10
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Game" type="LineEdit" parent="GUI/GameOverScreen"]
+z_index = -2
+offset_left = -1307.0
+offset_top = -309.0
+offset_right = 177.0
+offset_bottom = 245.0
+scale = Vector2(2.5017, 2.05624)
+theme_override_colors/font_color = Color(1, 1, 1, 0.278431)
+theme_override_font_sizes/font_size = 150
+theme_override_styles/normal = SubResource("StyleBoxEmpty_tnd7w")
+text = "GAME "
+alignment = 1
+
+[node name="Over" type="LineEdit" parent="GUI/GameOverScreen"]
+z_index = -2
+offset_left = -1414.0
+offset_top = 99.0001
+offset_right = 70.0
+offset_bottom = 653.0
+scale = Vector2(2.5017, 2.05624)
+theme_override_colors/font_color = Color(1, 1, 1, 0.278431)
+theme_override_font_sizes/font_size = 150
+theme_override_styles/normal = SubResource("StyleBoxEmpty_tnd7w")
+text = " OVER"
+alignment = 1
+metadata/_edit_use_anchors_ = true
+
 [node name="Sounds" type="Node" parent="."]
 
 [node name="HitSound" type="AudioStreamPlayer" parent="Sounds"]
@@ -329,5 +411,6 @@ volume_db = -30.0
 
 [node name="GameOverSound" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("3_bwiib")
+volume_db = -30.0
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
