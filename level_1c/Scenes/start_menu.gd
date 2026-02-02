@@ -31,7 +31,9 @@ func start():
 	"Loads game engine"
 	level.process_mode = Node.PROCESS_MODE_INHERIT
 	level.visible = true	
-
+	
+	Player.on_start_menu_exited()
+	
 func _process(delta: float) -> void:
 	if Input.is_anything_pressed(): #Press any key to start
 		start()

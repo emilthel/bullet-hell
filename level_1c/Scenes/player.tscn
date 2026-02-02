@@ -23,12 +23,13 @@ var invincible = false
 @onready var slow_mo = $GUI/SlowMo
 @onready var progress_bar = $GUI/ProgressBar
 @onready var progress_bar_cover = $GUI/ProgressBarCover
-@onready var lives_counter = $GUI/LivesCounter
+@onready var lives_counter = $GUI/DeathScreen/LivesCounter
 @onready var screen_counter = $GUI/ScreenCounter
 @onready var hit_sound = $Sounds/HitSound
 @onready var death_sound = $Sounds/DeathSound
 @onready var game_over_sound = $Sounds/GameOverSound
 @onready var game_over_screen = $GUI/GameOverScreen
+@onready var death_screen = $GUI/DeathScreen
 @onready var progress_checklist = $GUI/ProgressChecklist
 @onready var progress_slot_scene = \"res://level_1c/Scenes/progress_slot.tscn\"
 #@onready var goals_collected = 0
@@ -54,27 +55,32 @@ func _process(delta: float) -> void:
 	
 	if invincibility > 0: #Decreases invincibility until 0
 		invincibility -= delta
-		bg.modulate.a = invincibility #Sets background color
 	else:
 		invincibility = 0  
-				
+		
+	bg.modulate.a = invincibility #Sets background color
 	health_bar.scale.x = blood/max_blood #Sets healthbar
 
 	lives_counter.text = str(lives)
 	screen_counter.text = str(level.screen_index)
 	#progress_bar.scale.x = 0.1 * goals_collected #Sets progress bar
 	
-	if game_over_screen.visible: #Game over screen
+	if game_over_screen.visible: #Fades out game over screen
 		if game_over_screen.modulate.a > 0:
-			game_over_screen.modulate.a -= 0.2 * delta
+			game_over_screen.modulate.a -= 0.3 * delta
 		else:
 			game_over_screen.visible = false #Hides game over screen
-			game_over_screen.modulate.a = 0 #Resets transparency for next game over
+			game_over_screen.modulate.a = 1 #Resets transparency for next game over
 			print(game_over_screen.visible)
-
-	print(game_over_screen.visible)
-	print(game_over_screen.modulate.a)
-		
+	
+	if death_screen.visible: #Fades out death screen
+		if death_screen.modulate.a > 0:
+			death_screen.modulate.a -= 1 * delta
+		else:
+			death_screen.visible = false #Hides death screen
+			death_screen.modulate.a = 1 #Resets transparency for next death
+			print(death_screen.visible)
+			
 	#print(slow_mo.process_mode)
 
 
@@ -121,8 +127,11 @@ func _die():
 		lives_counter.text = str(lives)
 		level.enter_transition()				
 		blood = max_blood
-		invincibility = 1
+		
+		invincibility = 1.5 #Red flash
 		death_sound.play()
+		death_screen.visible = true 
+
 
 func _hit(damage):	
 	if invincibility == 0:
@@ -161,7 +170,12 @@ func on_screen_0_entered():
 	screen_counter.visible = true
 	
 	_progress_checklist_length(level.screen.goals_needed)
-
+	
+func on_start_menu_exited():
+	game_over_screen.visible = false #Hides game over text
+	invincibility = 0 #Stops red flash
+	game_over_sound.stop() #Stops game over sound
+	
 func on_screen_entered():
 	print(\"on_screen_entered\")
 	\"Changes invincibility color to red\"
@@ -299,7 +313,7 @@ process_mode = 4
 visibility_layer = 257
 position = Vector2(0, 1)
 
-[node name="LivesCounter" type="LineEdit" parent="GUI"]
+[node name="Livessssss" type="LineEdit" parent="GUI"]
 z_index = 100
 offset_left = -33.0
 offset_right = 34.0625
@@ -341,18 +355,18 @@ anchors_preset = 0
 
 [node name="YouDied" type="LineEdit" parent="GUI/DeathScreen"]
 z_index = -2
-offset_left = -1307.0
-offset_top = -309.0
-offset_right = 177.0
-offset_bottom = 245.0
+offset_left = -1360.0
+offset_top = -347.0
+offset_right = 124.0
+offset_bottom = 207.0
 scale = Vector2(2.5017, 2.05624)
 theme_override_colors/font_color = Color(1, 1, 1, 0.278431)
-theme_override_font_sizes/font_size = 150
+theme_override_font_sizes/font_size = 80
 theme_override_styles/normal = SubResource("StyleBoxEmpty_tnd7w")
 text = "You died"
 alignment = 1
 
-[node name="testtt" type="LineEdit" parent="GUI/DeathScreen"]
+[node name="LivesCounter" type="LineEdit" parent="GUI/DeathScreen"]
 z_index = -2
 offset_left = -1414.0
 offset_top = 99.0001
