@@ -5,7 +5,7 @@ extends Node2D
 @onready var screen_index = start_screen
 @onready var tutorial = $Tutorial
 
-enum{SCREEN, TRANSITION, TUTORIAL}
+enum{SCREEN, TRANSITION, TUTORIAL, DEAD}
 var mode = TUTORIAL
 var transition_scene = "res://level_1c/Scenes/transition.tscn"
 var tutorial_scene = "res://level_1c/Scenes/tutorial.tscn"
@@ -13,7 +13,8 @@ var screen
 var new_screen
 var new_screen_index
 var transition
-	
+var died: bool = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	var screen_name = "Screen" + str(screen_index)
@@ -23,7 +24,7 @@ func _ready() -> void:
 	tutorial = load(tutorial_scene).instantiate()
 	add_child(tutorial)
 
-func enter_transition():
+func enter_transition(died = true):
 	#print("Enter transition", screen_index)
 	#Unloads current screen
 	screen.process_mode = Node.PROCESS_MODE_DISABLED
@@ -32,10 +33,28 @@ func enter_transition():
 	#Loads transition
 	transition = load(transition_scene).instantiate()
 	add_child(transition)
-	mode = TRANSITION
 
+	Player.on_transition_entered()
+	mode = TRANSITION
+	
 	return transition
 
+func die():
+		#print("Enter transition", screen_index)
+	#Unloads current screen
+	print("level die() called")
+	screen.process_mode = Node.PROCESS_MODE_DISABLED
+	screen.visible = false
+	
+	#Loads transition
+	transition = load(transition_scene).instantiate()
+	add_child(transition)
+
+	Player.on_transition_entered()
+	mode = DEAD
+	
+	
+	return transition
 func get_next_screen():
 	var new_screen_index = screen_index + 1
 	var new_screen_name = "Screen" + str(new_screen_index)
@@ -78,7 +97,7 @@ func next_screen():
 	if mode == SCREEN: 
 		transition = enter_transition()
 		return
-			
+	
 				
 	"If entering screen"
 	if mode == TRANSITION:		
@@ -108,7 +127,29 @@ func next_screen():
 			return
 		else:
 			print("Screen transition failed")
-			
+
+	"If restarting screen after dying"
+	if mode == DEAD:
+		#Unloads transition
+		transition.queue_free()
+
+		#Loads previous screen			
+		screen.process_mode = Node.PROCESS_MODE_INHERIT
+		screen.visible = true
+		
+		print("dead load test")
+		
+		#Restarts previous screen 
+		"CRASHES"
+		screen.restart()
+		""
+		
+		#print(screen.name)
+
+		mode = SCREEN
+		#Updates GUI
+		Player.on_screen_entered()
+		return
 	
 func restart():
 	get_tree().reload_current_scene()

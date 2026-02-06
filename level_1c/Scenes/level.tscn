@@ -114,6 +114,7 @@ goals_needed = 1
 goal_heal = 0.05
 spawns_goals = false
 goal_path = "Goal"
+screen_name = ""
 
 [node name="Goal" parent="Level/Screen0" instance=ExtResource("4_r8jqn")]
 position = Vector2(913, 507)
@@ -148,6 +149,7 @@ alignment = 1
 
 [node name="Screen1" type="Node2D" parent="Level"]
 process_mode = 4
+visible = false
 script = ExtResource("8_esyo2")
 goals_needed = 1
 goal_heal = 0.05
@@ -172,6 +174,7 @@ visible = false
 script = ExtResource("8_esyo2")
 goals_needed = 1
 goal_heal = 0.05
+screen_name = "Wonky Grid"
 
 [node name="Grid2" type="Area2D" parent="Level/Screen2"]
 position = Vector2(500, 500)
@@ -192,6 +195,7 @@ visible = false
 script = ExtResource("8_esyo2")
 goals_needed = 1
 goal_heal = 0.05
+screen_name = "Think Fast"
 
 [node name="BulletSpawner2" type="Area2D" parent="Level/Screen3"]
 collision_layer = 0
@@ -304,6 +308,7 @@ visible = false
 script = ExtResource("8_esyo2")
 goals_needed = 5
 goal_heal = 0.05
+screen_name = "Big Bullets"
 
 [node name="BigBullets" type="Area2D" parent="Level/Screen6"]
 collision_layer = 0

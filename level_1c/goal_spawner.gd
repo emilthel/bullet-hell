@@ -9,6 +9,7 @@ var goals_collected: int = 0
 @export var goal_heal = 0.2
 @export var spawns_goals: bool = true
 @export var goal_path: String
+@export var screen_name: String = "Grid"
 
 @onready var spawn_timer = $SpawnTimer
 @onready var level = $".."

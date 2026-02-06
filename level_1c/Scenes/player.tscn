@@ -31,7 +31,10 @@ var invincible = false
 @onready var game_over_screen = $GUI/GameOverScreen
 @onready var death_screen = $GUI/DeathScreen
 @onready var progress_checklist = $GUI/ProgressChecklist
+@onready var screen_name = $GUI/NameIndicator/ScreenName
+@onready var next_up_text = $GUI/NameIndicator/NextUpText
 @onready var progress_slot_scene = \"res://level_1c/Scenes/progress_slot.tscn\"
+ 
 #@onready var goals_collected = 0
 @onready var score = \"res://Score.txt\"
 var level
@@ -46,6 +49,7 @@ func _ready() -> void:
 	lives_counter.text = str(lives)
 	slowmo_activate()
 	_progress_checklist_length(0)
+	bg.visible = true #Initializes background
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -125,13 +129,12 @@ func _die():
 		game_over()
 	else:
 		lives_counter.text = str(lives)
-		level.enter_transition()				
+		level.die()				
 		blood = max_blood
 		
 		invincibility = 1.5 #Red flash
 		death_sound.play()
 		death_screen.visible = true 
-
 
 func _hit(damage):	
 	if invincibility == 0:
@@ -161,28 +164,39 @@ func on_transition_entered():
 	print(\"on_transition_entered\")
 	var new_screen = level.get_next_screen()
 	progress_bar_cover.scale.x = 0.3 * (new_screen.goals_needed -1)
+	screen_name.text = new_screen.screen_name
+	print(new_screen)
+	print(new_screen.screen_name)
+	
+	\"Initializes screen name,for when entering level 1\"
+	screen_name.visible = true
+	\"Shows 'next up' text\"
+	next_up_text.visible = true
 	#goals_collected = 0
 	invincibility = 1
-	bg.modulate = Color(0,1,0,0)
 	
 func on_screen_0_entered():
 	print(\"on_screen_0_entered\")
 	screen_counter.visible = true
 	
 	_progress_checklist_length(level.screen.goals_needed)
-	
-func on_start_menu_exited():
-	game_over_screen.visible = false #Hides game over text
-	invincibility = 0 #Stops red flash
-	game_over_sound.stop() #Stops game over sound
+
 	
 func on_screen_entered():
 	print(\"on_screen_entered\")
 	\"Changes invincibility color to red\"
 	bg.modulate = Color(1,0,0,0)
 	
+	\"Removes 'next up' text\"
+	next_up_text.visible = false
 	_progress_checklist_length(level.screen.goals_needed)
 	
+	
+func on_start_menu_exited():
+	game_over_screen.visible = false #Hides game over text
+	invincibility = 0 #Stops red flash
+	game_over_sound.stop() #Stops game over sound
+
 #func on_level_entered():
 	#print(\"on_level_entered\")
 	#var new_screen = level.get_next_screen()
@@ -230,6 +244,8 @@ gradient = SubResource("Gradient_uyvyb")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tnd7w"]
+
 [sub_resource type="Gradient" id="Gradient_jyd8w"]
 offsets = PackedFloat32Array(1)
 colors = PackedColorArray(1, 1, 1, 1)
@@ -249,8 +265,6 @@ colors = PackedColorArray(1, 1, 1, 1)
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_dtbe7"]
 gradient = SubResource("Gradient_mdaw6")
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tnd7w"]
-
 [node name="Player" type="Area2D"]
 z_index = 1
 collision_mask = 7
@@ -265,6 +279,55 @@ z_index = 5
 texture = SubResource("GradientTexture2D_2cts2")
 
 [node name="GUI" type="Node" parent="."]
+
+[node name="NameIndicator" type="Control" parent="GUI"]
+layout_mode = 3
+anchor_top = 0.082
+anchor_right = 0.765
+anchor_bottom = 0.533
+offset_left = 45.0
+offset_top = 737.0
+offset_right = 46.0
+offset_bottom = 738.0
+scale = Vector2(0.685934, 0.692728)
+metadata/_edit_use_anchors_ = true
+
+[node name="NextUpText" type="LineEdit" parent="GUI/NameIndicator"]
+z_index = -2
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.0361612
+anchor_top = -1.51533
+anchor_right = -0.0361612
+anchor_bottom = -1.51533
+offset_top = 568.0
+offset_right = 217.0
+offset_bottom = 671.0
+scale = Vector2(2.5017, 2.05624)
+theme_override_colors/font_color = Color(1, 1, 1, 0.278431)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxEmpty_tnd7w")
+text = "Next up:"
+metadata/_edit_use_anchors_ = true
+
+[node name="ScreenName" type="LineEdit" parent="GUI/NameIndicator"]
+z_index = -2
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0699339
+anchor_top = -1.44359
+anchor_right = 0.0699339
+anchor_bottom = -1.44359
+offset_left = -98.7632
+offset_top = 561.559
+offset_right = 277.237
+offset_bottom = 717.559
+scale = Vector2(2.5017, 2.05624)
+theme_override_colors/font_color = Color(1, 1, 1, 0.278431)
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxEmpty_tnd7w")
+text = "Grid"
+metadata/_edit_use_anchors_ = true
 
 [node name="ProgressChecklist" type="Node2D" parent="GUI"]
 position = Vector2(40, 945)
@@ -311,9 +374,9 @@ texture = SubResource("GradientTexture2D_k7nop")
 [node name="SlowMo" parent="GUI" instance=ExtResource("1_sl6ca")]
 process_mode = 4
 visibility_layer = 257
-position = Vector2(0, 1)
 
 [node name="Livessssss" type="LineEdit" parent="GUI"]
+visible = false
 z_index = 100
 offset_left = -33.0
 offset_right = 34.0625
@@ -328,6 +391,7 @@ text = "1"
 alignment = 1
 
 [node name="BG" type="Sprite2D" parent="GUI"]
+visible = false
 modulate = Color(1, 0, 0, 0)
 position = Vector2(541, 554)
 scale = Vector2(5.16406, 1104.5)
@@ -352,12 +416,17 @@ visible = false
 z_index = 10
 layout_mode = 3
 anchors_preset = 0
+offset_left = 12.0
+offset_right = 13.0
+offset_bottom = 1.0
+metadata/_edit_use_anchors_ = true
 
 [node name="YouDied" type="LineEdit" parent="GUI/DeathScreen"]
 z_index = -2
-offset_left = -1360.0
+layout_mode = 0
+offset_left = -1356.0
 offset_top = -347.0
-offset_right = 124.0
+offset_right = 128.0
 offset_bottom = 207.0
 scale = Vector2(2.5017, 2.05624)
 theme_override_colors/font_color = Color(1, 1, 1, 0.278431)
@@ -368,6 +437,12 @@ alignment = 1
 
 [node name="LivesCounter" type="LineEdit" parent="GUI/DeathScreen"]
 z_index = -2
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 2.0
+anchor_top = 1.0
+anchor_right = 2.0
+anchor_bottom = 1.0
 offset_left = -1414.0
 offset_top = 99.0001
 offset_right = 70.0
@@ -376,7 +451,7 @@ scale = Vector2(2.5017, 2.05624)
 theme_override_colors/font_color = Color(1, 1, 1, 0.278431)
 theme_override_font_sizes/font_size = 150
 theme_override_styles/normal = SubResource("StyleBoxEmpty_tnd7w")
-text = " OVER"
+text = " 3"
 alignment = 1
 metadata/_edit_use_anchors_ = true
 
@@ -388,6 +463,7 @@ anchors_preset = 0
 
 [node name="Game" type="LineEdit" parent="GUI/GameOverScreen"]
 z_index = -2
+layout_mode = 0
 offset_left = -1307.0
 offset_top = -309.0
 offset_right = 177.0
@@ -401,6 +477,7 @@ alignment = 1
 
 [node name="Over" type="LineEdit" parent="GUI/GameOverScreen"]
 z_index = -2
+layout_mode = 0
 offset_left = -1414.0
 offset_top = 99.0001
 offset_right = 70.0
