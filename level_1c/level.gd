@@ -9,6 +9,7 @@ enum{SCREEN, TRANSITION, TUTORIAL, DEAD}
 var mode = TUTORIAL
 var transition_scene = "res://level_1c/Scenes/transition.tscn"
 var tutorial_scene = "res://level_1c/Scenes/tutorial.tscn"
+var screen_scene = "res://Screens/screen_0.tscn"
 var screen
 var new_screen
 var new_screen_index
@@ -50,7 +51,7 @@ func die():
 	transition = load(transition_scene).instantiate()
 	add_child(transition)
 
-	Player.on_transition_entered()
+	Player.on_transition_entered(false)
 	mode = DEAD
 	
 	
@@ -62,6 +63,7 @@ func get_next_screen():
 	return new_screen
 	
 func next_screen():	
+	print("goal collected next screen")
 	"If exiting tutorial"
 	if mode == TUTORIAL:		
 		"Finds next screen"
@@ -139,10 +141,17 @@ func next_screen():
 		
 		print("dead load test")
 		
-		#Restarts previous screen 
-		"CRASHES"
-		screen.restart()
-		""
+		#Despawns previous screen 
+		screen.queue_free()
+		
+		#Loads previous scene
+		var previous_screen_scene = "res://Screens/screen_" + str(screen_index) + ".tscn"
+		screen = load(previous_screen_scene).instantiate()
+		add_child(screen)
+	
+		#Loads spawned screen
+		screen.process_mode = Node.PROCESS_MODE_INHERIT
+		screen.visible = true
 		
 		#print(screen.name)
 

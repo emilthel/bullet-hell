@@ -61,3 +61,7 @@ func _process(delta: float) -> void:
 			
 func _on_spawn_timer_timeout() -> void:
 	spawn_child(_random_point())
+	
+func restart():
+	pass
+	

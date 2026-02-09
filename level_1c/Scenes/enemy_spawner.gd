@@ -1,8 +1,10 @@
 extends Node2D
 
 var cooldown = 0
-var max_cooldown = 0.02
+@export var velocity = 5e3
+@export var max_cooldown = 0.02
 var enemy_scene = "res://level_1c/Scenes/enemy.tscn"
+	
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -11,7 +13,7 @@ func _ready() -> void:
 func _spawn():
 	var enemy = load(enemy_scene).instantiate()
 	add_child(enemy)
-	enemy.velocity = Vector2(0,5e3)
+	enemy.velocity = Vector2(0,velocity)
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

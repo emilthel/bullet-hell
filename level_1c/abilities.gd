@@ -59,3 +59,6 @@ func _enter_slowmo_state():
 func _enter_cooldown_state():
 	state = COOLDOWN
 	slowmo_cooldown_left = slowmo_cooldown
+
+func reset_slowmo():
+	slowmo_cooldown_left = 0

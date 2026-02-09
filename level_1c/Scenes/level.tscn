@@ -1,51 +1,20 @@
-[gd_scene load_steps=17 format=3 uid="uid://dximobfhg52x5"]
+[gd_scene load_steps=14 format=3 uid="uid://dximobfhg52x5"]
 
 [ext_resource type="Script" path="res://level_1c/Scenes/start_menu.gd" id="1_ka8c3"]
 [ext_resource type="Script" path="res://level_1c/level.gd" id="2_q5hl2"]
-[ext_resource type="PackedScene" uid="uid://bhvduqbnsfwr2" path="res://level_1c/Scenes/goal.tscn" id="4_r8jqn"]
-[ext_resource type="Script" path="res://level_1c/Scenes/enemy_spawner.gd" id="5_v1fli"]
-[ext_resource type="Script" path="res://level_1c/Scenes/bullet_spawner_2.gd" id="7_73ty3"]
-[ext_resource type="Script" path="res://level_1c/distortion_grid.gd" id="7_mkago"]
-[ext_resource type="Script" path="res://level_1c/Scenes/grid_2.gd" id="8_ciey6"]
-[ext_resource type="Script" path="res://level_1c/goal_spawner.gd" id="8_esyo2"]
+[ext_resource type="PackedScene" uid="uid://c1cqudyety7ep" path="res://Screens/screen_0.tscn" id="3_y3r6h"]
+[ext_resource type="PackedScene" uid="uid://ty5a21qj1dox" path="res://Screens/screen_1.tscn" id="4_egxnw"]
+[ext_resource type="PackedScene" uid="uid://b5yvy6uep1vpb" path="res://Screens/screen_2.tscn" id="5_dmxua"]
+[ext_resource type="PackedScene" uid="uid://c4p83p57cbpxr" path="res://Screens/screen_3.tscn" id="6_o8bsa"]
+[ext_resource type="PackedScene" uid="uid://b1lgeeg7qt1bj" path="res://Screens/screen_4.tscn" id="7_t00sh"]
+[ext_resource type="PackedScene" uid="uid://cr7fwps35hv8b" path="res://Screens/screen_5.tscn" id="8_bi5dl"]
+[ext_resource type="PackedScene" uid="uid://vior5g720rvw" path="res://Screens/screen_6.tscn" id="9_pxqm1"]
+[ext_resource type="PackedScene" uid="uid://p2r6u006262g" path="res://Screens/screen_7.tscn" id="10_dc4h5"]
+[ext_resource type="PackedScene" uid="uid://c7maari225eu5" path="res://Screens/screen_8.tscn" id="11_m6tho"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ox8rf"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yqh3q"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_1vguc"]
-radius = 23.0868
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_yvbls"]
-radius = 23.0868
-
-[sub_resource type="Gradient" id="Gradient_yi808"]
-interpolation_mode = 1
-offsets = PackedFloat32Array(0.3, 1)
-colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1)
-metadata/_snap_enabled = true
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_iuhaq"]
-gradient = SubResource("Gradient_yi808")
-width = 1000
-height = 1000
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(1, 0.5)
-
-[sub_resource type="Gradient" id="Gradient_bi6tm"]
-interpolation_mode = 1
-offsets = PackedFloat32Array(0.2, 0.5)
-colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
-metadata/_snap_enabled = true
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_lj7f6"]
-gradient = SubResource("Gradient_bi6tm")
-width = 10000
-height = 10000
-fill = 2
-fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(0.6, 0.6)
 
 [node name="PauseManager" type="Node"]
 process_mode = 3
@@ -106,312 +75,20 @@ process_mode = 4
 visible = false
 script = ExtResource("2_q5hl2")
 
-[node name="Screen0" type="Node2D" parent="Level"]
-process_mode = 4
-visible = false
-script = ExtResource("8_esyo2")
-goals_needed = 1
-goal_heal = 0.05
-spawns_goals = false
-goal_path = "Goal"
-screen_name = ""
+[node name="Screen0" parent="Level" instance=ExtResource("3_y3r6h")]
 
-[node name="Goal" parent="Level/Screen0" instance=ExtResource("4_r8jqn")]
-position = Vector2(913, 507)
+[node name="Screen1" parent="Level" instance=ExtResource("4_egxnw")]
 
-[node name="EnemySpawner" type="Node2D" parent="Level/Screen0"]
-position = Vector2(764, 33)
-script = ExtResource("5_v1fli")
+[node name="Screen2" parent="Level" instance=ExtResource("5_dmxua")]
 
-[node name="Row1" type="LineEdit" parent="Level/Screen0"]
-z_index = -2
-offset_top = 784.0
-offset_right = 400.0
-offset_bottom = 866.0
-scale = Vector2(2.5017, 2.05624)
-theme_override_colors/font_color = Color(1, 1, 1, 0.278431)
-theme_override_font_sizes/font_size = 35
-theme_override_styles/normal = SubResource("StyleBoxEmpty_yqh3q")
-text = "Press space to"
-alignment = 1
+[node name="Screen3" parent="Level" instance=ExtResource("6_o8bsa")]
 
-[node name="Row2" type="LineEdit" parent="Level/Screen0"]
-z_index = -2
-offset_top = 872.0
-offset_right = 400.0
-offset_bottom = 954.0
-scale = Vector2(2.5017, 2.05624)
-theme_override_colors/font_color = Color(1, 1, 1, 0.278431)
-theme_override_font_sizes/font_size = 35
-theme_override_styles/normal = SubResource("StyleBoxEmpty_yqh3q")
-text = "slow down time"
-alignment = 1
+[node name="Screen4" parent="Level" instance=ExtResource("7_t00sh")]
 
-[node name="Screen1" type="Node2D" parent="Level"]
-process_mode = 4
-visible = false
-script = ExtResource("8_esyo2")
-goals_needed = 1
-goal_heal = 0.05
+[node name="Screen5" parent="Level" instance=ExtResource("8_bi5dl")]
 
-[node name="Grid1" type="Area2D" parent="Level/Screen1"]
-position = Vector2(500, 500)
-collision_layer = 2
-collision_mask = 2
-script = ExtResource("7_mkago")
-count = 5
-factor = 0.0
-spacing = 130.0
-distortion_speed = 0.5
+[node name="Screen6" parent="Level" instance=ExtResource("9_pxqm1")]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen1/Grid1"]
-shape = SubResource("CircleShape2D_1vguc")
-disabled = true
+[node name="Screen7" parent="Level" instance=ExtResource("10_dc4h5")]
 
-[node name="Screen2" type="Node2D" parent="Level"]
-process_mode = 4
-visible = false
-script = ExtResource("8_esyo2")
-goals_needed = 1
-goal_heal = 0.05
-screen_name = "Wonky Grid"
-
-[node name="Grid2" type="Area2D" parent="Level/Screen2"]
-position = Vector2(500, 500)
-collision_layer = 2
-collision_mask = 2
-script = ExtResource("8_ciey6")
-count = 4
-spacing = 130.0
-distortion_speed = 0.8
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen2/Grid2"]
-shape = SubResource("CircleShape2D_1vguc")
-disabled = true
-
-[node name="Screen3" type="Node2D" parent="Level"]
-process_mode = 4
-visible = false
-script = ExtResource("8_esyo2")
-goals_needed = 1
-goal_heal = 0.05
-screen_name = "Think Fast"
-
-[node name="BulletSpawner2" type="Area2D" parent="Level/Screen3"]
-collision_layer = 0
-collision_mask = 0
-script = ExtResource("7_73ty3")
-safe_radius = 200.0
-bullet_count = 50
-acceleration_mode = "exp"
-center_delete = false
-wait_time = 0.4
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen3/BulletSpawner2"]
-shape = SubResource("CircleShape2D_yvbls")
-
-[node name="Target" type="Area2D" parent="Level/Screen3/BulletSpawner2"]
-collision_layer = 0
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen3/BulletSpawner2/Target"]
-shape = SubResource("CircleShape2D_yvbls")
-
-[node name="CompositeSprite" type="Node2D" parent="Level/Screen3/BulletSpawner2/Target"]
-modulate = Color(1, 0, 0, 1)
-
-[node name="Sprite2D1" type="Sprite2D" parent="Level/Screen3/BulletSpawner2/Target/CompositeSprite"]
-texture = SubResource("GradientTexture2D_iuhaq")
-
-[node name="Sprite2D2" type="Sprite2D" parent="Level/Screen3/BulletSpawner2/Target/CompositeSprite"]
-texture = SubResource("GradientTexture2D_lj7f6")
-
-[node name="Screen4" type="Node2D" parent="Level"]
-process_mode = 4
-visible = false
-script = ExtResource("8_esyo2")
-goals_needed = 3
-goal_heal = 0.05
-
-[node name="BulletSpawner2" type="Area2D" parent="Level/Screen4"]
-collision_layer = 0
-collision_mask = 0
-script = ExtResource("7_73ty3")
-safe_radius = 200.0
-bullet_speed = 5.0
-bullet_count = 15
-acceleration_mode = "exp"
-center_delete = false
-wait_time = 1.0
-one_shot = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen4/BulletSpawner2"]
-shape = SubResource("CircleShape2D_yvbls")
-
-[node name="Target" type="Area2D" parent="Level/Screen4/BulletSpawner2"]
-collision_layer = 0
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen4/BulletSpawner2/Target"]
-shape = SubResource("CircleShape2D_yvbls")
-
-[node name="CompositeSprite" type="Node2D" parent="Level/Screen4/BulletSpawner2/Target"]
-modulate = Color(1, 0, 0, 1)
-
-[node name="Sprite2D1" type="Sprite2D" parent="Level/Screen4/BulletSpawner2/Target/CompositeSprite"]
-texture = SubResource("GradientTexture2D_iuhaq")
-
-[node name="Sprite2D2" type="Sprite2D" parent="Level/Screen4/BulletSpawner2/Target/CompositeSprite"]
-texture = SubResource("GradientTexture2D_lj7f6")
-
-[node name="Screen5" type="Node2D" parent="Level"]
-process_mode = 4
-visible = false
-script = ExtResource("8_esyo2")
-goal_heal = 0.05
-
-[node name="BulletSpawner2" type="Area2D" parent="Level/Screen5"]
-collision_layer = 0
-collision_mask = 0
-script = ExtResource("7_73ty3")
-safe_radius = 200.0
-bullet_speed = 5.0
-bullet_count = 3
-acceleration_mode = "exp"
-bullet_size = 15.0
-center_delete = false
-wait_time = 1.0
-one_shot = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen5/BulletSpawner2"]
-shape = SubResource("CircleShape2D_yvbls")
-
-[node name="Target" type="Area2D" parent="Level/Screen5/BulletSpawner2"]
-collision_layer = 0
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen5/BulletSpawner2/Target"]
-shape = SubResource("CircleShape2D_yvbls")
-
-[node name="CompositeSprite" type="Node2D" parent="Level/Screen5/BulletSpawner2/Target"]
-modulate = Color(1, 0, 0, 1)
-
-[node name="Sprite2D1" type="Sprite2D" parent="Level/Screen5/BulletSpawner2/Target/CompositeSprite"]
-texture = SubResource("GradientTexture2D_iuhaq")
-
-[node name="Sprite2D2" type="Sprite2D" parent="Level/Screen5/BulletSpawner2/Target/CompositeSprite"]
-texture = SubResource("GradientTexture2D_lj7f6")
-
-[node name="Screen6" type="Node2D" parent="Level"]
-process_mode = 4
-visible = false
-script = ExtResource("8_esyo2")
-goals_needed = 5
-goal_heal = 0.05
-screen_name = "Big Bullets"
-
-[node name="BigBullets" type="Area2D" parent="Level/Screen6"]
-collision_layer = 0
-collision_mask = 0
-script = ExtResource("7_73ty3")
-safe_radius = 200.0
-bullet_speed = 5.0
-bullet_count = 1
-acceleration_mode = "exp"
-center_delete = false
-wait_time = 0.2
-one_shot = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen6/BigBullets"]
-shape = SubResource("CircleShape2D_yvbls")
-
-[node name="Target" type="Area2D" parent="Level/Screen6/BigBullets"]
-collision_layer = 0
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen6/BigBullets/Target"]
-shape = SubResource("CircleShape2D_yvbls")
-
-[node name="CompositeSprite" type="Node2D" parent="Level/Screen6/BigBullets/Target"]
-modulate = Color(1, 0, 0, 1)
-
-[node name="Sprite2D1" type="Sprite2D" parent="Level/Screen6/BigBullets/Target/CompositeSprite"]
-texture = SubResource("GradientTexture2D_iuhaq")
-
-[node name="Sprite2D2" type="Sprite2D" parent="Level/Screen6/BigBullets/Target/CompositeSprite"]
-texture = SubResource("GradientTexture2D_lj7f6")
-
-[node name="Screen7" type="Node2D" parent="Level"]
-process_mode = 4
-visible = false
-script = ExtResource("8_esyo2")
-goals_needed = 8
-goal_heal = 0.05
-
-[node name="Overcrowding" type="Area2D" parent="Level/Screen7"]
-collision_layer = 0
-collision_mask = 0
-script = ExtResource("7_73ty3")
-safe_radius = 300.0
-bullet_speed = 400.0
-bullet_count = 15
-center_delete = false
-wait_time = 3.0
-one_shot = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen7/Overcrowding"]
-shape = SubResource("CircleShape2D_yvbls")
-
-[node name="Target" type="Area2D" parent="Level/Screen7/Overcrowding"]
-collision_layer = 0
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen7/Overcrowding/Target"]
-shape = SubResource("CircleShape2D_yvbls")
-
-[node name="CompositeSprite" type="Node2D" parent="Level/Screen7/Overcrowding/Target"]
-modulate = Color(1, 0, 0, 1)
-
-[node name="Sprite2D1" type="Sprite2D" parent="Level/Screen7/Overcrowding/Target/CompositeSprite"]
-texture = SubResource("GradientTexture2D_iuhaq")
-
-[node name="Sprite2D2" type="Sprite2D" parent="Level/Screen7/Overcrowding/Target/CompositeSprite"]
-texture = SubResource("GradientTexture2D_lj7f6")
-
-[node name="Screen8" type="Node2D" parent="Level"]
-process_mode = 4
-visible = false
-script = ExtResource("8_esyo2")
-goals_needed = 8
-goal_heal = 0.05
-
-[node name="Overcrowding" type="Area2D" parent="Level/Screen8"]
-collision_layer = 0
-collision_mask = 0
-script = ExtResource("7_73ty3")
-safe_radius = 300.0
-bullet_speed = 400.0
-bullet_count = 30
-lin_acc = -100.0
-center_delete = false
-wait_time = 3.0
-one_shot = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen8/Overcrowding"]
-shape = SubResource("CircleShape2D_yvbls")
-
-[node name="Target" type="Area2D" parent="Level/Screen8/Overcrowding"]
-collision_layer = 0
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Screen8/Overcrowding/Target"]
-shape = SubResource("CircleShape2D_yvbls")
-
-[node name="CompositeSprite" type="Node2D" parent="Level/Screen8/Overcrowding/Target"]
-modulate = Color(1, 0, 0, 1)
-
-[node name="Sprite2D1" type="Sprite2D" parent="Level/Screen8/Overcrowding/Target/CompositeSprite"]
-texture = SubResource("GradientTexture2D_iuhaq")
-
-[node name="Sprite2D2" type="Sprite2D" parent="Level/Screen8/Overcrowding/Target/CompositeSprite"]
-texture = SubResource("GradientTexture2D_lj7f6")
+[node name="Screen8" parent="Level" instance=ExtResource("11_m6tho")]

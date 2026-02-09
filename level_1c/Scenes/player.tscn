@@ -17,7 +17,8 @@ var invincible = false
 @onready var blood = max_blood
 @onready var test = max_blood
 @onready var invincibility: float = 0
-@onready var bg = $GUI/BG
+@onready var green_bg = $GreenBG
+@onready var red_bg = $GUI/BG
 @onready var health_bar =  $GUI/HealthBar
 @onready var screen_rect = get_viewport_rect()
 @onready var slow_mo = $GUI/SlowMo
@@ -34,7 +35,7 @@ var invincible = false
 @onready var screen_name = $GUI/NameIndicator/ScreenName
 @onready var next_up_text = $GUI/NameIndicator/NextUpText
 @onready var progress_slot_scene = \"res://level_1c/Scenes/progress_slot.tscn\"
- 
+
 #@onready var goals_collected = 0
 @onready var score = \"res://Score.txt\"
 var level
@@ -44,13 +45,16 @@ var progress_slots: Dictionary = {}
 
 enum{GAME_OVER_RECOVERY}
 var state
+var bg
 
 func _ready() -> void:
 	lives_counter.text = str(lives)
 	slowmo_activate()
 	_progress_checklist_length(0)
-	bg.visible = true #Initializes background
-
+	red_bg.visible = true #Initializes background
+	green_bg.visible = false
+	bg = red_bg
+		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	global_position = get_global_mouse_position()
@@ -135,7 +139,7 @@ func _die():
 		invincibility = 1.5 #Red flash
 		death_sound.play()
 		death_screen.visible = true 
-
+		
 func _hit(damage):	
 	if invincibility == 0:
 		blood -= damage 
@@ -153,21 +157,26 @@ func game_over():
 	game_over_sound.play() #Plays sound
 	game_over_screen.visible = true 
 	
-	\"Restarts player values\"
+	\"Restarts /resets player values\"
 	lives = 2
 	blood = max_blood
 	screen_counter.visible = false
 	_progress_checklist_length(0)
+	next_up_text.visible = false
+	screen_name.visible = false
+	slow_mo.reset_slowmo()
 	#get_tree().reload_current_scene()
 			
-func on_transition_entered():
+func name_indicator_update():
 	print(\"on_transition_entered\")
 	var new_screen = level.get_next_screen()
 	progress_bar_cover.scale.x = 0.3 * (new_screen.goals_needed -1)
 	screen_name.text = new_screen.screen_name
 	print(new_screen)
 	print(new_screen.screen_name)
-	
+	slow_mo.reset_slowmo()
+
+
 	\"Initializes screen name,for when entering level 1\"
 	screen_name.visible = true
 	\"Shows 'next up' text\"
@@ -175,6 +184,10 @@ func on_transition_entered():
 	#goals_collected = 0
 	invincibility = 1
 	
+func on_transition_entered(update_name_indicator = true):
+	if update_name_indicator:
+		name_indicator_update()
+
 func on_screen_0_entered():
 	print(\"on_screen_0_entered\")
 	screen_counter.visible = true
@@ -228,6 +241,9 @@ func _on_area_entered(area: Area2D) -> void: #Collision
 func slowmo_activate():
 	slow_mo.process_mode = Node.PROCESS_MODE_INHERIT
 	slow_mo.visible = true
+	
+func green_flash():
+	bg.modulate = Color(0,1,0,0)
 "
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1vguc"]
@@ -293,6 +309,7 @@ scale = Vector2(0.685934, 0.692728)
 metadata/_edit_use_anchors_ = true
 
 [node name="NextUpText" type="LineEdit" parent="GUI/NameIndicator"]
+visible = false
 z_index = -2
 layout_mode = 1
 anchors_preset = -1
@@ -311,6 +328,7 @@ text = "Next up:"
 metadata/_edit_use_anchors_ = true
 
 [node name="ScreenName" type="LineEdit" parent="GUI/NameIndicator"]
+visible = false
 z_index = -2
 layout_mode = 1
 anchors_preset = -1
@@ -376,7 +394,6 @@ process_mode = 4
 visibility_layer = 257
 
 [node name="Livessssss" type="LineEdit" parent="GUI"]
-visible = false
 z_index = 100
 offset_left = -33.0
 offset_right = 34.0625
@@ -457,7 +474,6 @@ metadata/_edit_use_anchors_ = true
 
 [node name="GameOverScreen" type="Control" parent="GUI"]
 visible = false
-z_index = 10
 layout_mode = 3
 anchors_preset = 0
 
@@ -489,6 +505,13 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_tnd7w")
 text = " OVER"
 alignment = 1
 metadata/_edit_use_anchors_ = true
+
+[node name="GreenBG" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(1, 0, 0, 0)
+position = Vector2(541, 554)
+scale = Vector2(5.16406, 1104.5)
+texture = SubResource("GradientTexture1D_dtbe7")
 
 [node name="Sounds" type="Node" parent="."]
 
