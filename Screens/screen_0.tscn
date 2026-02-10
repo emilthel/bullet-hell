@@ -45,9 +45,3 @@ theme_override_font_sizes/font_size = 35
 theme_override_styles/normal = SubResource("StyleBoxEmpty_yqh3q")
 text = "slow down time"
 alignment = 1
-
-[node name="EnemySpawner2" type="Node2D" parent="."]
-position = Vector2(906, 39)
-script = ExtResource("3_o61uf")
-velocity = 2000.0
-max_cooldown = 0.01

@@ -67,7 +67,7 @@ func next_screen():
 	"If exiting tutorial"
 	if mode == TUTORIAL:		
 		"Finds next screen"
-		var new_screen_index = 0
+		var new_screen_index = start_screen
 		var new_screen_name = "Screen" + str(new_screen_index)
 		var new_screen = get_node(new_screen_name)	
 				

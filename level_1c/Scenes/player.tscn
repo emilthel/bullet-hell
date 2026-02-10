@@ -4,6 +4,7 @@
 [ext_resource type="AudioStream" uid="uid://cl8ybpqm3cq4m" path="res://sounds/hit-windy-thud-399086.mp3" id="2_xtwg7"]
 [ext_resource type="AudioStream" uid="uid://5hs8ec58txg" path="res://sounds/hit-watchtower-399087.mp3" id="3_bwiib"]
 [ext_resource type="AudioStream" uid="uid://d1iqjgbu3cpbc" path="res://sounds/error-83494.mp3" id="3_s1cva"]
+[ext_resource type="AudioStream" uid="uid://ba1qd6bthlb68" path="res://sounds/meaning.mp3" id="5_fvffa"]
 
 [sub_resource type="GDScript" id="GDScript_gp44b"]
 script/source = "extends Area2D
@@ -35,6 +36,7 @@ var invincible = false
 @onready var screen_name = $GUI/NameIndicator/ScreenName
 @onready var next_up_text = $GUI/NameIndicator/NextUpText
 @onready var progress_slot_scene = \"res://level_1c/Scenes/progress_slot.tscn\"
+@onready var meaning_corrupted_music = $Sounds/MeaningCorruptedMusic
 
 #@onready var goals_collected = 0
 @onready var score = \"res://Score.txt\"
@@ -157,6 +159,8 @@ func game_over():
 	game_over_sound.play() #Plays sound
 	game_over_screen.visible = true 
 	
+	meaning_corrupted_music.stop() #Stops music
+	
 	\"Restarts /resets player values\"
 	lives = 2
 	blood = max_blood
@@ -209,6 +213,7 @@ func on_start_menu_exited():
 	game_over_screen.visible = false #Hides game over text
 	invincibility = 0 #Stops red flash
 	game_over_sound.stop() #Stops game over sound
+	meaning_corrupted_music.play() #Starts music
 
 #func on_level_entered():
 	#print(\"on_level_entered\")
@@ -272,8 +277,6 @@ width = 1000
 fill_from = Vector2(1, 1)
 fill_to = Vector2(1, 1)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_glxa5"]
-
 [sub_resource type="Gradient" id="Gradient_mdaw6"]
 offsets = PackedFloat32Array(1)
 colors = PackedColorArray(1, 1, 1, 1)
@@ -286,6 +289,7 @@ z_index = 1
 collision_mask = 7
 script = SubResource("GDScript_gp44b")
 max_blood = 0.6
+lives = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_1vguc")
@@ -393,20 +397,6 @@ texture = SubResource("GradientTexture2D_k7nop")
 process_mode = 4
 visibility_layer = 257
 
-[node name="Livessssss" type="LineEdit" parent="GUI"]
-z_index = 100
-offset_left = -33.0
-offset_right = 34.0625
-offset_bottom = 31.0
-scale = Vector2(2.5017, 2.05624)
-theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 9
-theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxEmpty_glxa5")
-text = "1"
-alignment = 1
-
 [node name="BG" type="Sprite2D" parent="GUI"]
 visible = false
 modulate = Color(1, 0, 0, 0)
@@ -478,7 +468,7 @@ layout_mode = 3
 anchors_preset = 0
 
 [node name="Game" type="LineEdit" parent="GUI/GameOverScreen"]
-z_index = -2
+z_index = 5
 layout_mode = 0
 offset_left = -1307.0
 offset_top = -309.0
@@ -492,7 +482,7 @@ text = "GAME "
 alignment = 1
 
 [node name="Over" type="LineEdit" parent="GUI/GameOverScreen"]
-z_index = -2
+z_index = 5
 layout_mode = 0
 offset_left = -1414.0
 offset_top = 99.0001
@@ -517,7 +507,7 @@ texture = SubResource("GradientTexture1D_dtbe7")
 
 [node name="HitSound" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("2_xtwg7")
-volume_db = -30.0
+volume_db = -20.0
 
 [node name="DeathSound" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("3_s1cva")
@@ -525,6 +515,10 @@ volume_db = -30.0
 
 [node name="GameOverSound" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("3_bwiib")
+volume_db = -30.0
+
+[node name="MeaningCorruptedMusic" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("5_fvffa")
 volume_db = -30.0
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

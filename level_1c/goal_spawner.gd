@@ -10,6 +10,7 @@ var goals_collected: int = 0
 @export var spawns_goals: bool = true
 @export var goal_path: String
 @export var screen_name: String = "Grid"
+@export var bullet_size: float = 0.9
 
 @onready var spawn_timer = $SpawnTimer
 @onready var level = $".."
@@ -38,7 +39,7 @@ func spawn_child(point):
 	var goal = goal_scene.instantiate()
 	goal.position = point
 	goal.velocity = Vector2(0,0)
-	goal.scale *= 0.9
+	goal.scale *= bullet_size
 	goal.mode = goal.SCRIPT
 	goal.heal = goal_heal
 	goal.on_collected = Callable(goal_collected)
