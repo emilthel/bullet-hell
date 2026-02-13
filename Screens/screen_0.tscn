@@ -1,10 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://c1cqudyety7ep"]
+[gd_scene load_steps=7 format=3 uid="uid://c1cqudyety7ep"]
 
 [ext_resource type="Script" path="res://level_1c/goal_spawner.gd" id="1_0rfar"]
 [ext_resource type="PackedScene" uid="uid://bhvduqbnsfwr2" path="res://level_1c/Scenes/goal.tscn" id="2_ibpry"]
 [ext_resource type="Script" path="res://level_1c/Scenes/enemy_spawner.gd" id="3_o61uf"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ehyjp"]
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yqh3q"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jlo2t"]
 
 [node name="Screen0" type="Node2D"]
 process_mode = 4
@@ -28,20 +32,23 @@ offset_top = 784.0
 offset_right = 400.0
 offset_bottom = 866.0
 scale = Vector2(2.5017, 2.05624)
-theme_override_colors/font_color = Color(1, 1, 1, 0.278431)
-theme_override_font_sizes/font_size = 35
+theme_override_styles/read_only = SubResource("StyleBoxEmpty_ehyjp")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_yqh3q")
 text = "Hold space to"
-alignment = 1
+editable = false
+selecting_enabled = false
 
 [node name="Row2" type="LineEdit" parent="."]
 z_index = -2
-offset_top = 872.0
-offset_right = 400.0
-offset_bottom = 954.0
+offset_left = 5.0
+offset_top = 831.0
+offset_right = 405.0
+offset_bottom = 913.0
 scale = Vector2(2.5017, 2.05624)
 theme_override_colors/font_color = Color(1, 1, 1, 0.278431)
 theme_override_font_sizes/font_size = 35
+theme_override_styles/read_only = SubResource("StyleBoxEmpty_jlo2t")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_yqh3q")
 text = "slow down time"
-alignment = 1
+editable = false
+selecting_enabled = false

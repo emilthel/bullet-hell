@@ -1,17 +1,17 @@
-[gd_scene load_steps=19 format=3 uid="uid://dximobfhg52x5"]
+[gd_scene load_steps=19 format=3 uid="uid://ccbef62bd0kjt"]
 
-[ext_resource type="Script" path="res://level_1c/Scenes/start_menu.gd" id="1_ka8c3"]
-[ext_resource type="PackedScene" uid="uid://coey5lfw3a3lk" path="res://debug_manager.tscn" id="1_urroc"]
-[ext_resource type="Script" path="res://level_1c/level.gd" id="2_q5hl2"]
-[ext_resource type="PackedScene" uid="uid://c1cqudyety7ep" path="res://Screens/screen_0.tscn" id="3_y3r6h"]
-[ext_resource type="PackedScene" uid="uid://ty5a21qj1dox" path="res://Screens/screen_1.tscn" id="4_egxnw"]
-[ext_resource type="PackedScene" uid="uid://b5yvy6uep1vpb" path="res://Screens/screen_2.tscn" id="5_dmxua"]
-[ext_resource type="PackedScene" uid="uid://c4p83p57cbpxr" path="res://Screens/screen_3.tscn" id="6_o8bsa"]
-[ext_resource type="PackedScene" uid="uid://b1lgeeg7qt1bj" path="res://Screens/screen_4.tscn" id="7_t00sh"]
-[ext_resource type="PackedScene" uid="uid://cr7fwps35hv8b" path="res://Screens/screen_5.tscn" id="8_bi5dl"]
-[ext_resource type="PackedScene" uid="uid://vior5g720rvw" path="res://Screens/screen_6.tscn" id="9_pxqm1"]
-[ext_resource type="PackedScene" uid="uid://p2r6u006262g" path="res://Screens/screen_7.tscn" id="10_dc4h5"]
-[ext_resource type="PackedScene" uid="uid://c7maari225eu5" path="res://Screens/screen_8.tscn" id="11_m6tho"]
+[ext_resource type="Script" path="res://level_1c/Scenes/start_menu.gd" id="1_2ip82"]
+[ext_resource type="Script" path="res://level_1c/level.gd" id="2_nm7s7"]
+[ext_resource type="PackedScene" uid="uid://c1cqudyety7ep" path="res://Screens/screen_0.tscn" id="3_m4ny4"]
+[ext_resource type="PackedScene" uid="uid://ty5a21qj1dox" path="res://Screens/screen_1.tscn" id="4_rs1m6"]
+[ext_resource type="PackedScene" uid="uid://b5yvy6uep1vpb" path="res://Screens/screen_2.tscn" id="5_pa4es"]
+[ext_resource type="PackedScene" uid="uid://c4p83p57cbpxr" path="res://Screens/screen_3.tscn" id="6_h4cg2"]
+[ext_resource type="PackedScene" uid="uid://b1lgeeg7qt1bj" path="res://Screens/screen_4.tscn" id="7_wq1nu"]
+[ext_resource type="PackedScene" uid="uid://cr7fwps35hv8b" path="res://Screens/screen_5.tscn" id="8_7vf2r"]
+[ext_resource type="PackedScene" uid="uid://vior5g720rvw" path="res://Screens/screen_6.tscn" id="9_jidrt"]
+[ext_resource type="PackedScene" uid="uid://p2r6u006262g" path="res://Screens/screen_7.tscn" id="10_ia8yc"]
+[ext_resource type="PackedScene" uid="uid://c7maari225eu5" path="res://Screens/screen_8.tscn" id="11_qb0cb"]
+[ext_resource type="Script" path="res://level_1c/Scenes/debug_manager.gd" id="12_uu85l"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pn8oq"]
 
@@ -28,11 +28,9 @@
 [node name="PauseManager" type="Node"]
 process_mode = 3
 
-[node name="DebugManager" parent="." instance=ExtResource("1_urroc")]
-
 [node name="StartMenu" type="Node2D" parent="."]
 z_index = -3
-script = ExtResource("1_ka8c3")
+script = ExtResource("1_2ip82")
 
 [node name="ScoreCounter" type="LineEdit" parent="StartMenu"]
 z_index = -2
@@ -48,8 +46,6 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_ox8rf")
 text = "0"
 alignment = 1
 editable = false
-clear_button_enabled = true
-selecting_enabled = false
 
 [node name="PersonalBest" type="LineEdit" parent="StartMenu"]
 offset_left = -1371.0
@@ -64,8 +60,6 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_ox8rf")
 text = "Personal best"
 alignment = 1
 editable = false
-clear_button_enabled = true
-selecting_enabled = false
 
 [node name="PressAnyKeyTo" type="LineEdit" parent="StartMenu"]
 offset_top = 784.0
@@ -79,8 +73,6 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_yqh3q")
 text = "Press any key to"
 alignment = 1
 editable = false
-clear_button_enabled = true
-selecting_enabled = false
 
 [node name="Start" type="LineEdit" parent="StartMenu"]
 offset_top = 872.0
@@ -94,33 +86,34 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_yqh3q")
 text = "start"
 alignment = 1
 editable = false
-clear_button_enabled = true
-selecting_enabled = false
 
 [node name="Level" type="Node2D" parent="."]
 process_mode = 4
 visible = false
-script = ExtResource("2_q5hl2")
+script = ExtResource("2_nm7s7")
 
-[node name="Screen0" parent="Level" instance=ExtResource("3_y3r6h")]
+[node name="Screen0" parent="Level" instance=ExtResource("3_m4ny4")]
 visible = false
 
-[node name="Screen1" parent="Level" instance=ExtResource("4_egxnw")]
+[node name="Screen1" parent="Level" instance=ExtResource("4_rs1m6")]
 
-[node name="Screen2" parent="Level" instance=ExtResource("5_dmxua")]
+[node name="Screen2" parent="Level" instance=ExtResource("5_pa4es")]
 
-[node name="Screen3" parent="Level" instance=ExtResource("6_o8bsa")]
+[node name="Screen3" parent="Level" instance=ExtResource("6_h4cg2")]
 
-[node name="Screen4" parent="Level" instance=ExtResource("7_t00sh")]
+[node name="Screen4" parent="Level" instance=ExtResource("7_wq1nu")]
 screen_name = "They Come"
 
-[node name="Screen5" parent="Level" instance=ExtResource("8_bi5dl")]
+[node name="Screen5" parent="Level" instance=ExtResource("8_7vf2r")]
 screen_name = "Big Bullets"
 
-[node name="Screen6" parent="Level" instance=ExtResource("9_pxqm1")]
+[node name="Screen6" parent="Level" instance=ExtResource("9_jidrt")]
 goal_heal = 0.2
 screen_name = "The Flood"
 
-[node name="Screen7" parent="Level" instance=ExtResource("10_dc4h5")]
+[node name="Screen7" parent="Level" instance=ExtResource("10_ia8yc")]
 
-[node name="Screen8" parent="Level" instance=ExtResource("11_m6tho")]
+[node name="Screen8" parent="Level" instance=ExtResource("11_qb0cb")]
+
+[node name="DebugManager" type="Node" parent="."]
+script = ExtResource("12_uu85l")

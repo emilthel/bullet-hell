@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bsa55u6yhunt"]
+[gd_scene load_steps=18 format=3 uid="uid://bsa55u6yhunt"]
 
 [ext_resource type="PackedScene" uid="uid://d3fv46bax7aea" path="res://level_1c/Scenes/slow_mo.tscn" id="1_sl6ca"]
 [ext_resource type="AudioStream" uid="uid://cl8ybpqm3cq4m" path="res://sounds/hit-windy-thud-399086.mp3" id="2_xtwg7"]
@@ -265,6 +265,8 @@ gradient = SubResource("Gradient_uyvyb")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ywwrm"]
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tnd7w"]
 
 [sub_resource type="Gradient" id="Gradient_jyd8w"]
@@ -283,6 +285,10 @@ colors = PackedColorArray(1, 1, 1, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_dtbe7"]
 gradient = SubResource("Gradient_mdaw6")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5ip4c"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ye6s3"]
 
 [node name="Player" type="Area2D"]
 z_index = 1
@@ -327,8 +333,11 @@ offset_bottom = 671.0
 scale = Vector2(2.5017, 2.05624)
 theme_override_colors/font_color = Color(1, 1, 1, 0.278431)
 theme_override_font_sizes/font_size = 20
+theme_override_styles/read_only = SubResource("StyleBoxEmpty_ywwrm")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_tnd7w")
 text = "Next up:"
+editable = false
+selecting_enabled = false
 metadata/_edit_use_anchors_ = true
 
 [node name="ScreenName" type="LineEdit" parent="GUI/NameIndicator"]
@@ -347,8 +356,11 @@ offset_bottom = 717.559
 scale = Vector2(2.5017, 2.05624)
 theme_override_colors/font_color = Color(1, 1, 1, 0.278431)
 theme_override_font_sizes/font_size = 50
+theme_override_styles/read_only = SubResource("StyleBoxEmpty_ywwrm")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_tnd7w")
 text = "Grid"
+editable = false
+selecting_enabled = false
 metadata/_edit_use_anchors_ = true
 
 [node name="ProgressChecklist" type="Node2D" parent="GUI"]
@@ -417,6 +429,7 @@ theme_override_font_sizes/font_size = 400
 theme_override_styles/normal = SubResource("StyleBoxEmpty_tnd7w")
 text = "1"
 alignment = 1
+editable = false
 
 [node name="DeathScreen" type="Control" parent="GUI"]
 visible = false
@@ -438,9 +451,12 @@ offset_bottom = 207.0
 scale = Vector2(2.5017, 2.05624)
 theme_override_colors/font_color = Color(1, 1, 1, 0.278431)
 theme_override_font_sizes/font_size = 80
+theme_override_styles/read_only = SubResource("StyleBoxEmpty_5ip4c")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_tnd7w")
 text = "You died"
 alignment = 1
+editable = false
+selecting_enabled = false
 
 [node name="LivesCounter" type="LineEdit" parent="GUI/DeathScreen"]
 z_index = -2
@@ -457,9 +473,12 @@ offset_bottom = 653.0
 scale = Vector2(2.5017, 2.05624)
 theme_override_colors/font_color = Color(1, 1, 1, 0.278431)
 theme_override_font_sizes/font_size = 150
+theme_override_styles/read_only = SubResource("StyleBoxEmpty_5ip4c")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_tnd7w")
 text = " 3"
 alignment = 1
+editable = false
+selecting_enabled = false
 metadata/_edit_use_anchors_ = true
 
 [node name="GameOverScreen" type="Control" parent="GUI"]
@@ -477,9 +496,12 @@ offset_bottom = 245.0
 scale = Vector2(2.5017, 2.05624)
 theme_override_colors/font_color = Color(1, 1, 1, 0.278431)
 theme_override_font_sizes/font_size = 150
+theme_override_styles/read_only = SubResource("StyleBoxEmpty_ye6s3")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_tnd7w")
 text = "GAME "
 alignment = 1
+editable = false
+selecting_enabled = false
 
 [node name="Over" type="LineEdit" parent="GUI/GameOverScreen"]
 z_index = 5
@@ -491,9 +513,12 @@ offset_bottom = 653.0
 scale = Vector2(2.5017, 2.05624)
 theme_override_colors/font_color = Color(1, 1, 1, 0.278431)
 theme_override_font_sizes/font_size = 150
+theme_override_styles/read_only = SubResource("StyleBoxEmpty_ye6s3")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_tnd7w")
 text = " OVER"
 alignment = 1
+editable = false
+selecting_enabled = false
 metadata/_edit_use_anchors_ = true
 
 [node name="GreenBG" type="Sprite2D" parent="."]
