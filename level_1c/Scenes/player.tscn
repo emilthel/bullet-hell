@@ -37,7 +37,7 @@ var invincible = false
 @onready var next_up_text = $GUI/NameIndicator/NextUpText
 @onready var progress_slot_scene = \"res://level_1c/Scenes/progress_slot.tscn\"
 @onready var meaning_corrupted_music = $Sounds/MeaningCorruptedMusic
-
+@onready var visibility_notifier = $VisibilityNotifier
 #@onready var goals_collected = 0
 @onready var score = \"res://Score.txt\"
 var level
@@ -57,24 +57,35 @@ func _ready() -> void:
 	green_bg.visible = false
 	bg = red_bg
 		
+	
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	global_position = get_global_mouse_position()
+	\"Movement\"
+	var target_position = get_global_mouse_position()
+	visibility_notifier.global_position =  target_position
+	
+	if visibility_notifier.is_on_screen():
+		global_position = target_position
+		
+	\"Health\"
+	health_bar.scale.x = blood/max_blood #Sets healthbar
 	if blood > max_blood: #Caps health (blood) at max
 		blood = max_blood
-	
+		
+		
+	\"Invinciblity\"
 	if invincibility > 0: #Decreases invincibility until 0
 		invincibility -= delta
 	else:
 		invincibility = 0  
-		
 	bg.modulate.a = invincibility #Sets background color
-	health_bar.scale.x = blood/max_blood #Sets healthbar
 
-	lives_counter.text = str(lives)
+	\"Death screen\"
 	screen_counter.text = str(level.screen_index)
 	#progress_bar.scale.x = 0.1 * goals_collected #Sets progress bar
 	
+	\"Game over screen\"
 	if game_over_screen.visible: #Fades out game over screen
 		if game_over_screen.modulate.a > 0:
 			game_over_screen.modulate.a -= 0.3 * delta
@@ -82,7 +93,8 @@ func _process(delta: float) -> void:
 			game_over_screen.visible = false #Hides game over screen
 			game_over_screen.modulate.a = 1 #Resets transparency for next game over
 			print(game_over_screen.visible)
-	
+			
+	\"Death screen\"
 	if death_screen.visible: #Fades out death screen
 		if death_screen.modulate.a > 0:
 			death_screen.modulate.a -= 1 * delta
@@ -90,7 +102,8 @@ func _process(delta: float) -> void:
 			death_screen.visible = false #Hides death screen
 			death_screen.modulate.a = 1 #Resets transparency for next death
 			print(death_screen.visible)
-			
+	lives_counter.text = str(lives)
+
 	#print(slow_mo.process_mode)
 
 
@@ -303,6 +316,8 @@ shape = SubResource("CircleShape2D_1vguc")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = 5
 texture = SubResource("GradientTexture2D_2cts2")
+
+[node name="VisibilityNotifier" type="VisibleOnScreenNotifier2D" parent="."]
 
 [node name="GUI" type="Node" parent="."]
 
