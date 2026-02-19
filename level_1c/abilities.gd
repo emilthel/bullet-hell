@@ -42,7 +42,7 @@ func _process(delta: float) -> void:
 		SLOWMO:
 			time_speed = 0.2
 			slowmo_time_left -= delta
-			slowmo_bg.modulate.a = (1- slowmo_time_left)
+			slowmo_bg.modulate.a = (slowmo_time - slowmo_time_left)/slowmo_time
 			ability_bar_cover.modulate.a = slowmo_bg.modulate.a
 			
 			if Input.is_action_just_released("slowmo"):

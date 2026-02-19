@@ -57,6 +57,7 @@ one_shot = false
 shape = SubResource("CircleShape2D_yvbls")
 
 [node name="Target" type="Area2D" parent="BigBullets"]
+visible = false
 collision_layer = 0
 collision_mask = 0
 

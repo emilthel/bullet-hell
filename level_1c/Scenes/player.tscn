@@ -10,10 +10,11 @@
 script/source = "extends Area2D
 var invincible = false
 
-@export var enemy_layer = 2
-@export var goal_layer = 4
+@export var enemy_layer: int = 2
+@export var goal_layer: int = 4
 @export var max_blood: float = 2
-@export var lives = 2
+@export var lives: int = 2
+@export var slowmo_time: float = 1
 
 @onready var blood = max_blood
 @onready var test = max_blood
@@ -56,6 +57,8 @@ func _ready() -> void:
 	red_bg.visible = true #Initializes background
 	green_bg.visible = false
 	bg = red_bg
+
+	slow_mo.slowmo_time = slowmo_time
 		
 	
 	
@@ -307,8 +310,9 @@ gradient = SubResource("Gradient_mdaw6")
 z_index = 1
 collision_mask = 7
 script = SubResource("GDScript_gp44b")
-max_blood = 0.6
+max_blood = 0.8
 lives = 5
+slowmo_time = 1.5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_1vguc")

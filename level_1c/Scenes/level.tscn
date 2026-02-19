@@ -1,7 +1,6 @@
-[gd_scene load_steps=18 format=3 uid="uid://dximobfhg52x5"]
+[gd_scene load_steps=17 format=3 uid="uid://dximobfhg52x5"]
 
 [ext_resource type="Script" path="res://level_1c/Scenes/start_menu.gd" id="1_ka8c3"]
-[ext_resource type="PackedScene" uid="uid://coey5lfw3a3lk" path="res://debug_manager.tscn" id="1_urroc"]
 [ext_resource type="Script" path="res://level_1c/level.gd" id="2_q5hl2"]
 [ext_resource type="PackedScene" uid="uid://c1cqudyety7ep" path="res://Screens/screen_0.tscn" id="3_y3r6h"]
 [ext_resource type="PackedScene" uid="uid://ty5a21qj1dox" path="res://Screens/screen_1.tscn" id="4_egxnw"]
@@ -26,8 +25,6 @@
 
 [node name="PauseManager" type="Node"]
 process_mode = 3
-
-[node name="(BUGGED) DebugManage" parent="." instance=ExtResource("1_urroc")]
 
 [node name="StartMenu" type="Node2D" parent="."]
 z_index = -3
@@ -103,6 +100,7 @@ script = ExtResource("2_q5hl2")
 
 [node name="Screen0" parent="Level" instance=ExtResource("3_y3r6h")]
 visible = false
+goal_heal = 0.08
 
 [node name="Screen1" parent="Level" instance=ExtResource("4_egxnw")]
 

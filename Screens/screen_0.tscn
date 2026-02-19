@@ -28,9 +28,10 @@ script = ExtResource("3_o61uf")
 
 [node name="Row1" type="LineEdit" parent="."]
 z_index = -2
-offset_top = 784.0
-offset_right = 400.0
-offset_bottom = 866.0
+offset_left = 153.0
+offset_top = 33.9999
+offset_right = 553.0
+offset_bottom = 116.0
 scale = Vector2(2.5017, 2.05624)
 theme_override_styles/read_only = SubResource("StyleBoxEmpty_ehyjp")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_yqh3q")
@@ -40,10 +41,10 @@ selecting_enabled = false
 
 [node name="Row2" type="LineEdit" parent="."]
 z_index = -2
-offset_left = 5.0
-offset_top = 831.0
-offset_right = 405.0
-offset_bottom = 913.0
+offset_left = 158.0
+offset_top = 80.9999
+offset_right = 558.0
+offset_bottom = 163.0
 scale = Vector2(2.5017, 2.05624)
 theme_override_colors/font_color = Color(1, 1, 1, 0.278431)
 theme_override_font_sizes/font_size = 35
