@@ -50,6 +50,9 @@ enum{GAME_OVER_RECOVERY}
 var state
 var bg
 
+enum{RED,GREEN}
+var flash_color = RED
+
 func _ready() -> void:
 	lives_counter.text = str(lives)
 	slowmo_activate()
@@ -82,7 +85,15 @@ func _process(delta: float) -> void:
 		invincibility -= delta
 	else:
 		invincibility = 0  
-	bg.modulate.a = invincibility #Sets background color
+		
+	\"Background\"
+	match flash_color:
+		RED:
+			bg.modulate = Color(1,0,0)
+			bg.modulate.a = invincibility #Sets background color
+		GREEN:
+			bg.modulate = Color(0,1,0)
+			bg.modulate.a = invincibility #Sets background color
 
 	\"Death screen\"
 	screen_counter.text = str(level.screen_index)
@@ -253,6 +264,7 @@ func _on_area_entered(area: Area2D) -> void: #Collision
 			area.on_collected.call()
 		area.queue_free()
 		blood += area.heal
+		invincibility += 0.3
 		
 		_progress_checklist_score(level.screen.goals_collected)
 		
@@ -262,9 +274,6 @@ func _on_area_entered(area: Area2D) -> void: #Collision
 func slowmo_activate():
 	slow_mo.process_mode = Node.PROCESS_MODE_INHERIT
 	slow_mo.visible = true
-	
-func green_flash():
-	bg.modulate = Color(0,1,0,0)
 "
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1vguc"]
