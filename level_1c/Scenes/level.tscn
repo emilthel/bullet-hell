@@ -31,6 +31,7 @@ z_index = -3
 script = ExtResource("1_ka8c3")
 
 [node name="ScoreCounter" type="LineEdit" parent="StartMenu"]
+modulate = Color(1, 1, 1, 0.407843)
 z_index = -2
 offset_left = -1363.0
 offset_top = -69.0
@@ -48,6 +49,7 @@ clear_button_enabled = true
 selecting_enabled = false
 
 [node name="PersonalBest" type="LineEdit" parent="StartMenu"]
+modulate = Color(1, 1, 1, 0.407843)
 offset_left = -1371.0
 offset_top = -443.0
 offset_right = 113.0
@@ -64,6 +66,7 @@ clear_button_enabled = true
 selecting_enabled = false
 
 [node name="PressAnyKeyTo" type="LineEdit" parent="StartMenu"]
+modulate = Color(1, 1, 1, 0.407843)
 offset_top = 784.0
 offset_right = 400.0
 offset_bottom = 866.0
@@ -79,6 +82,7 @@ clear_button_enabled = true
 selecting_enabled = false
 
 [node name="Start" type="LineEdit" parent="StartMenu"]
+modulate = Color(1, 1, 1, 0.407843)
 offset_top = 872.0
 offset_right = 400.0
 offset_bottom = 954.0
@@ -92,6 +96,15 @@ alignment = 1
 editable = false
 clear_button_enabled = true
 selecting_enabled = false
+
+[node name="RichTextLabel" type="RichTextLabel" parent="StartMenu"]
+offset_left = -4.0
+offset_top = 393.0
+offset_right = 1059.0
+offset_bottom = 601.0
+scale = Vector2(0.964431, 0.803007)
+theme_override_font_sizes/normal_font_size = 150
+text = "ChronoSphere"
 
 [node name="Level" type="Node2D" parent="."]
 process_mode = 4

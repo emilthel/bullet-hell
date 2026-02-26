@@ -1,10 +1,11 @@
-[gd_scene load_steps=18 format=3 uid="uid://bsa55u6yhunt"]
+[gd_scene load_steps=19 format=3 uid="uid://bsa55u6yhunt"]
 
 [ext_resource type="PackedScene" uid="uid://d3fv46bax7aea" path="res://level_1c/Scenes/slow_mo.tscn" id="1_sl6ca"]
 [ext_resource type="AudioStream" uid="uid://cl8ybpqm3cq4m" path="res://sounds/hit-windy-thud-399086.mp3" id="2_xtwg7"]
 [ext_resource type="AudioStream" uid="uid://5hs8ec58txg" path="res://sounds/hit-watchtower-399087.mp3" id="3_bwiib"]
 [ext_resource type="AudioStream" uid="uid://d1iqjgbu3cpbc" path="res://sounds/error-83494.mp3" id="3_s1cva"]
 [ext_resource type="AudioStream" uid="uid://ba1qd6bthlb68" path="res://sounds/meaning.mp3" id="5_fvffa"]
+[ext_resource type="AudioStream" uid="uid://b8d7hqp1ksgy1" path="res://sounds/melancholy-chime.mp3" id="6_767p4"]
 
 [sub_resource type="GDScript" id="GDScript_gp44b"]
 script/source = "extends Area2D
@@ -31,6 +32,7 @@ var invincible = false
 @onready var hit_sound = $Sounds/HitSound
 @onready var death_sound = $Sounds/DeathSound
 @onready var game_over_sound = $Sounds/GameOverSound
+@onready var goal_sound = $Sounds/GoalSound
 @onready var game_over_screen = $GUI/GameOverScreen
 @onready var death_screen = $GUI/DeathScreen
 @onready var progress_checklist = $GUI/ProgressChecklist
@@ -94,6 +96,8 @@ func _process(delta: float) -> void:
 		GREEN:
 			bg.modulate = Color(0,1,0)
 			bg.modulate.a = invincibility #Sets background color
+			if invincibility == 0:
+				flash_color = RED
 
 	\"Death screen\"
 	screen_counter.text = str(level.screen_index)
@@ -252,20 +256,24 @@ func on_start_menu_exited():
 	#\"Changes invincibility color to green\"
 	#bg.modulate = Color(0,1,0,0)
 	
+	
+\"On hitting enemies or collecting goals\"
 func _on_area_entered(area: Area2D) -> void: #Collision
 	#print(\"on_area_entered\")
 	if area.collision_layer == enemy_layer: #Hit
 		_hit(area.damage)
 		
 	if area.collision_layer == goal_layer: #Goal collection
+		goal_sound.play()
+		area.queue_free()
+		blood += area.heal
+		invincibility += 0.3
+		flash_color = GREEN
+		
 		if area.mode == area.SCREEN_CHANGE: 
 			level.next_screen()
 		if area.mode == area.SCRIPT:
 			area.on_collected.call()
-		area.queue_free()
-		blood += area.heal
-		invincibility += 0.3
-		
 		_progress_checklist_score(level.screen.goals_collected)
 		
 	slowmo_activate()
@@ -573,5 +581,10 @@ volume_db = -30.0
 [node name="MeaningCorruptedMusic" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("5_fvffa")
 volume_db = -30.0
+
+[node name="GoalSound" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("6_767p4")
+volume_db = -20.0
+autoplay = true
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
