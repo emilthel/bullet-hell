@@ -97,7 +97,7 @@ editable = false
 clear_button_enabled = true
 selecting_enabled = false
 
-[node name="RichTextLabel" type="RichTextLabel" parent="StartMenu"]
+[node name="ChronoSphere" type="RichTextLabel" parent="StartMenu"]
 offset_left = -4.0
 offset_top = 393.0
 offset_right = 1059.0

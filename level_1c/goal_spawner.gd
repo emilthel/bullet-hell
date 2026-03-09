@@ -11,8 +11,10 @@ var goals_collected: int = 0
 @export var goal_path: String
 @export var screen_name: String = "Grid"
 @export var bullet_size: float = 0.9
+@export var spawn_cooldown: float = 1
+var spawn_cooldown_left: float = spawn_cooldown
+var spawn_cooldown_active: bool = true
 
-@onready var spawn_timer = $SpawnTimer
 @onready var level = $".."
 @onready var progress_bar = Player.progress_bar
 @onready var progress_bar_cover = Player.progress_bar_cover
@@ -20,17 +22,34 @@ var goals_collected: int = 0
 # Called when the node enters the scene tree for the first time.
 func _frame1() -> void:
 	screen = get_viewport_rect()
-	if spawns_goals:
-		spawn_child(_random_point())
 	if goal_path:
 		var goal = get_node(goal_path)
 		goal.mode = goal.SCRIPT
 		goal.heal = goal_heal
 		goal.on_collected = Callable(goal_collected)
-	
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void: 
+	delta *= TimeManager.time_speed
+	if is_frame1:
+		_frame1()
+		is_frame1 = false
+	else:
+		if spawn_cooldown_active:
+			if spawn_cooldown_left > 0:
+				spawn_cooldown_left -= delta
+				
+			if spawn_cooldown_left <= 0:
+				spawn_child(_random_point())
+				spawn_cooldown_left = spawn_cooldown
+				spawn_cooldown_active = false
+				
+		print(spawn_cooldown_left)
+				
+
 func goal_collected():
-	spawn_child(_random_point())
 	goals_collected += 1
+	spawn_child(_random_point())	
 	if goals_collected == goals_needed:
 		goals_collected == 0
 		level.next_screen()
@@ -50,19 +69,7 @@ func _random_point():
 	var x = randf_range(0, screen.size.x)
 	var y = randf_range(128, screen.size.y-128)
 	return Vector2(x,y)
-		
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void: 
-	if is_frame1:
-		_frame1()
-		is_frame1 = false
-	else:
-		pass
-		#print("progress scale: ", progress_bar.scale.x)
-			
-func _on_spawn_timer_timeout() -> void:
-	spawn_child(_random_point())
-	
+
 func restart():
 	pass
 	
