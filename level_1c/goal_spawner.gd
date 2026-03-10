@@ -49,7 +49,8 @@ func _process(delta: float) -> void:
 
 func goal_collected():
 	goals_collected += 1
-	spawn_child(_random_point())	
+	spawn_cooldown_active = true
+	spawn_cooldown_left = spawn_cooldown
 	if goals_collected == goals_needed:
 		goals_collected == 0
 		level.next_screen()

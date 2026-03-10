@@ -44,7 +44,6 @@ func _process(delta: float) -> void:
 			slowmo_time_left -= delta
 			slowmo_bg.modulate.a = (slowmo_time - slowmo_time_left)/slowmo_time
 			ability_bar_cover.modulate.a = slowmo_bg.modulate.a
-			
 			if Input.is_action_just_released("slowmo"):
 				_enter_cooldown_state()
 			if slowmo_time_left < 0:

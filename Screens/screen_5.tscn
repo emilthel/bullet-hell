@@ -38,6 +38,7 @@ fill_to = Vector2(0.6, 0.6)
 process_mode = 4
 visible = false
 script = ExtResource("1_7ieb5")
+goals_needed = 5
 goal_heal = 0.05
 screen_name = "Overcrowding"
 
@@ -49,7 +50,7 @@ safe_radius = 200.0
 bullet_speed = 5.0
 bullet_count = 3
 acceleration_mode = "exp"
-bullet_size = 15.0
+bullet_size = 10.0
 center_delete = false
 wait_time = 1.0
 one_shot = false

@@ -5,7 +5,7 @@ var invincible = false
 @export var goal_layer: int = 4
 @export var max_blood: float = 2
 @export var lives: int = 2
-@export var slowmo_time: float = 1
+@export var slowmo_time: float = 3
 
 @onready var blood = max_blood
 @onready var test = max_blood
@@ -107,6 +107,8 @@ func _process(delta: float) -> void:
 			print(death_screen.visible)
 	lives_counter.text = str(lives)
 
+	"Music speed"
+	meaning_corrupted_music.pitch_scale = TimeManager.time_speed ** 0.1
 	#print(slow_mo.process_mode)
 
 
@@ -161,7 +163,7 @@ func _die():
 func _hit(damage):	
 	if invincibility == 0:
 		blood -= damage 
-		invincibility = 0.2
+		invincibility = 0.4
 		hit_sound.play()
 	if blood <= 0: #Death
 		_die()
@@ -190,11 +192,12 @@ func game_over():
 func name_indicator_update():
 	print("on_transition_entered")
 	var new_screen = level.get_next_screen()
-	progress_bar_cover.scale.x = 0.3 * (new_screen.goals_needed -1)
-	screen_name.text = new_screen.screen_name
-	print(new_screen)
-	print(new_screen.screen_name)
-	slow_mo.reset_slowmo()
+	if new_screen:
+		progress_bar_cover.scale.x = 0.3 * (new_screen.goals_needed -1)
+		screen_name.text = new_screen.screen_name
+		print(new_screen)
+		print(new_screen.screen_name)
+		slow_mo.reset_slowmo()
 
 
 	"Initializes screen name,for when entering level 1"
@@ -245,14 +248,18 @@ func on_start_menu_exited():
 "On hitting enemies or collecting goals"
 func _on_area_entered(area: Area2D) -> void: #Collision
 	#print("on_area_entered")
-	if area.collision_layer == enemy_layer: #Hit
-		_hit(area.damage)
+	if area.collision_layer == enemy_layer and invincibility == 0: #Hit
+		blood -= 0.3 
+		invincibility = 0.3
+		hit_sound.play()
+		if blood <= 0: #Death
+			_die()
 		
-	if area.collision_layer == goal_layer: #Goal collection
+	if area.collision_layer == goal_layer and invincibility == 0: #Goal collection
 		goal_sound.play()
 		area.queue_free()
-		blood += area.heal
-		invincibility += 0.1
+		blood += 0.05
+		invincibility = 0.1
 		flash_color = GREEN
 		
 		if area.mode == area.SCREEN_CHANGE: 
