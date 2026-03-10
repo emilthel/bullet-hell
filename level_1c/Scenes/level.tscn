@@ -110,6 +110,7 @@ text = "ChronoSphere"
 process_mode = 4
 visible = false
 script = ExtResource("2_q5hl2")
+start_screen = 8
 
 [node name="Screen0" parent="Level" instance=ExtResource("3_y3r6h")]
 visible = false
@@ -132,4 +133,7 @@ goal_heal = 0.2
 screen_name = "The Flood"
 
 [node name="Screen7" parent="Level" instance=ExtResource("11_m6tho")]
+screen_name = "Rebound"
+
+[node name="Screen8" parent="Level" instance=ExtResource("11_m6tho")]
 screen_name = "Rebound"
