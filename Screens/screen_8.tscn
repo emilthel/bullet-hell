@@ -9,7 +9,7 @@ process_mode = 4
 visible = false
 script = ExtResource("1_ih443")
 goals_needed = 8
-goal_heal = 0.05
+screen_name = "Stay still?"
 
 [node name="CircleSpawner" type="Area2D" parent="."]
 collision_layer = 0
@@ -17,6 +17,7 @@ collision_mask = 0
 script = ExtResource("2_bgnjc")
 
 [node name="Target" parent="CircleSpawner" instance=ExtResource("3_spuew")]
+visible = false
 modulate = Color(1, 0, 0, 0.411765)
 scale = Vector2(10, 10)
 collision_layer = 0

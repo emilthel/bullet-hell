@@ -52,7 +52,7 @@ z_index = 1
 collision_mask = 7
 script = ExtResource("1_vgs1x")
 max_blood = 0.5
-lives = 3
+start_lives = 10
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_1vguc")

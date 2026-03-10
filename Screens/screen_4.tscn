@@ -39,7 +39,7 @@ process_mode = 4
 visible = false
 script = ExtResource("1_0m6i8")
 goals_needed = 3
-goal_heal = 0.05
+screen_name = "This level will be removed"
 
 [node name="BulletSpawner2" type="Area2D" parent="."]
 collision_layer = 0

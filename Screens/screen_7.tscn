@@ -38,9 +38,8 @@ fill_to = Vector2(0.6, 0.6)
 process_mode = 4
 visible = false
 script = ExtResource("1_80xm6")
-goals_needed = 8
-goal_heal = 0.05
-screen_name = "Overcrowding"
+goals_needed = 3
+screen_name = "Rebound"
 
 [node name="Overcrowding" type="Area2D" parent="."]
 collision_layer = 0
@@ -49,6 +48,7 @@ script = ExtResource("2_rf8m3")
 safe_radius = 300.0
 bullet_speed = 400.0
 bullet_count = 15
+lin_acc = -120.0
 center_delete = false
 wait_time = 3.0
 one_shot = false

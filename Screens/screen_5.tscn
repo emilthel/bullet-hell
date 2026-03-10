@@ -39,8 +39,7 @@ process_mode = 4
 visible = false
 script = ExtResource("1_7ieb5")
 goals_needed = 5
-goal_heal = 0.05
-screen_name = "Overcrowding"
+screen_name = "Big Bullets"
 
 [node name="BulletSpawner2" type="Area2D" parent="."]
 collision_layer = 0

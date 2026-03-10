@@ -14,7 +14,6 @@
 process_mode = 4
 script = ExtResource("1_0rfar")
 goals_needed = 1
-goal_heal = 0.05
 spawns_goals = false
 goal_path = "Goal"
 screen_name = ""

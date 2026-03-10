@@ -4,9 +4,9 @@ extends Area2D
 var d: Dictionary = {}
 var bullets = [] 
 var enemy_scene = "res://level_1c/Scenes/enemy.tscn"
-var spawn_cooldown: float = 0.2
+var spawn_cooldown: float = 1. / 2 
 var spawn_cooldown_left: float = spawn_cooldown
-var bullet_count: int = 3
+var bullet_count: int = 5
 const ONE = Vector2(1,0)
 
 
@@ -33,24 +33,52 @@ func _process(delta: float) -> void:
 			add_child(bullet)
 			bullets.append(bullet)
 			
-			"Starting variables"
-			bullet.velocity = Vector2(0,0)
-			var angle = randf_range(0,TAU)
-			var radius = 300
-			bullet.position = ONE.rotated(angle)*radius + target.position
-			
 			"Custom variables"
 			d[bullet] = {}
-			d[bullet]["angle"] = angle
+			d[bullet]["angle"] = randf_range(0,TAU)
 			d[bullet]["speed"] = -100
-		
-		
+			d[bullet]["state"] = "sleep"
+			d[bullet]["sleep_time"] = 2
+			d[bullet]["target_pos"] = target.position
+			
+			"Starting variables"
+			bullet.velocity = ONE.rotated(d[bullet]["angle"])*d[bullet]["speed"]
+			bullet.modulate.a = 0.4
+			bullet.collision_layer = 0
+			var radius = 500
+			bullet.position = ONE.rotated(d[bullet]["angle"])*radius + target.position
+
+
+
 	"Controls bullets"
 	for bullet in bullets:
 		var custom = d[bullet]
-		bullet.velocity = ONE.rotated(custom["angle"])*custom["speed"]
-	
-		
+		match custom["state"]:
+			"sleep":
+				"Movement - exponential"
+				bullet.velocity += bullet.velocity * delta
+								
+				"Sleeping"
+				custom["sleep_time"] -= delta
+				
+				"Enter wake state"
+				if custom["sleep_time"] < 0: #Waking
+					custom["state"] = "wake"
+					bullet.modulate.a = 1
+					bullet.collision_layer = 2
+
+			"wake":
+				"Movement - constant"
+				bullet.velocity = ONE.rotated(custom["angle"])*custom["speed"]
+						
+				"Despawning"
+				var distance = (custom["target_pos"] - bullet.position).length()
+				print("Distance: ", distance)
+				if distance < 10:
+					print("despawn_attempt")
+					bullet.queue_free()
+					bullets.erase(bullet)
+				
 		
 		
 		

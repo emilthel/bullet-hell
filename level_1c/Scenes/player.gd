@@ -4,7 +4,7 @@ var invincible = false
 @export var enemy_layer: int = 2
 @export var goal_layer: int = 4
 @export var max_blood: float = 2
-@export var lives: int = 2
+@export var start_lives: int = 2
 @export var slowmo_time: float = 3
 
 @onready var blood = max_blood
@@ -36,6 +36,7 @@ var level
 var start_menu
 var progress_slots_filled = 0
 var progress_slots: Dictionary = {}
+var lives
 
 enum{GAME_OVER_RECOVERY}
 var state
@@ -44,6 +45,7 @@ enum{RED,GREEN}
 var flash_color = RED
 
 func _ready() -> void:
+	lives = start_lives
 	lives_counter.text = str(lives)
 	
 	"Hides mouse"
@@ -180,7 +182,7 @@ func game_over():
 	meaning_corrupted_music.stop() #Stops music
 	
 	"Restarts /resets player values"
-	lives = 2
+	lives = start_lives
 	blood = max_blood
 	screen_counter.visible = false
 	_progress_checklist_length(0)

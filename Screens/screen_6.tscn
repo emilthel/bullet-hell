@@ -39,8 +39,7 @@ process_mode = 4
 visible = false
 script = ExtResource("1_h4gsp")
 goals_needed = 5
-goal_heal = 0.05
-screen_name = "Big Bullets"
+screen_name = "The Flood"
 
 [node name="BigBullets" type="Area2D" parent="."]
 collision_layer = 0
@@ -49,7 +48,6 @@ script = ExtResource("2_bu7vn")
 safe_radius = 200.0
 bullet_speed = 5.0
 bullet_count = 3
-center_delete = false
 wait_time = 0.2
 one_shot = false
 

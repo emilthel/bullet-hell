@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dximobfhg52x5"]
+[gd_scene load_steps=18 format=3 uid="uid://dximobfhg52x5"]
 
 [ext_resource type="Script" path="res://level_1c/Scenes/start_menu.gd" id="1_ka8c3"]
 [ext_resource type="Script" path="res://level_1c/level.gd" id="2_q5hl2"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://b1lgeeg7qt1bj" path="res://Screens/screen_4.tscn" id="7_t00sh"]
 [ext_resource type="PackedScene" uid="uid://cr7fwps35hv8b" path="res://Screens/screen_5.tscn" id="8_bi5dl"]
 [ext_resource type="PackedScene" uid="uid://vior5g720rvw" path="res://Screens/screen_6.tscn" id="9_pxqm1"]
+[ext_resource type="PackedScene" uid="uid://p2r6u006262g" path="res://Screens/screen_7.tscn" id="10_n242t"]
 [ext_resource type="PackedScene" uid="uid://c7maari225eu5" path="res://Screens/screen_8.tscn" id="11_m6tho"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pn8oq"]
@@ -110,11 +111,9 @@ text = "ChronoSphere"
 process_mode = 4
 visible = false
 script = ExtResource("2_q5hl2")
-start_screen = 8
+start_screen = 7
 
 [node name="Screen0" parent="Level" instance=ExtResource("3_y3r6h")]
-visible = false
-goal_heal = 0.08
 
 [node name="Screen1" parent="Level" instance=ExtResource("4_egxnw")]
 
@@ -123,17 +122,11 @@ goal_heal = 0.08
 [node name="Screen3" parent="Level" instance=ExtResource("6_o8bsa")]
 
 [node name="Screen4" parent="Level" instance=ExtResource("7_t00sh")]
-screen_name = "They Come"
 
 [node name="Screen5" parent="Level" instance=ExtResource("8_bi5dl")]
-screen_name = "Big Bullets"
 
 [node name="Screen6" parent="Level" instance=ExtResource("9_pxqm1")]
-goal_heal = 0.2
-screen_name = "The Flood"
 
-[node name="Screen7" parent="Level" instance=ExtResource("11_m6tho")]
-screen_name = "Rebound"
+[node name="Screen7" parent="Level" instance=ExtResource("10_n242t")]
 
 [node name="Screen8" parent="Level" instance=ExtResource("11_m6tho")]
-screen_name = "Rebound"
