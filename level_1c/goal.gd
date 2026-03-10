@@ -5,6 +5,7 @@ extends Area2D
 enum{SCREEN_CHANGE, SCRIPT, NONE}
 @export var mode = 0
 var on_collected = Callable(on_collected_script)
+@export var ignores_invincibility: bool = false
 
 func _ready() -> void:
 	pass	
@@ -15,5 +16,5 @@ func on_collected_script():
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	position += velocity*delta
-	
+	pass
+		

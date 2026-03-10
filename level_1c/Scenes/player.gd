@@ -16,8 +16,7 @@ var invincible = false
 @onready var slow_mo = $GUI/SlowMo
 @onready var progress_bar = $GUI/ProgressBar
 @onready var progress_bar_cover = $GUI/ProgressBarCover
-@onready var lives_counter = $GUI/DeathScreen/LivesCounter
-@onready var screen_counter = $GUI/ScreenCounter
+@onready var lives_counter = $GUI/LivesCounter
 @onready var hit_sound = $Sounds/HitSound
 @onready var death_sound = $Sounds/DeathSound
 @onready var game_over_sound = $Sounds/GameOverSound
@@ -46,8 +45,7 @@ var flash_color = RED
 
 func _ready() -> void:
 	lives = start_lives
-	lives_counter.text = str(lives)
-	
+		
 	"Hides mouse"
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE) 
 	
@@ -86,8 +84,9 @@ func _process(delta: float) -> void:
 				flash_color = RED
 	bg.modulate.a = invincibility #Sets transparency
 
-	"Death screen"
-	screen_counter.text = str(level.screen_index)
+
+	"Lives screen"
+	lives_counter.text = str(lives)
 	#progress_bar.scale.x = 0.1 * goals_collected #Sets progress bar
 	
 	"Game over screen"
@@ -107,7 +106,6 @@ func _process(delta: float) -> void:
 			death_screen.visible = false #Hides death screen
 			death_screen.modulate.a = 1 #Resets transparency for next death
 			print(death_screen.visible)
-	lives_counter.text = str(lives)
 
 	"Music speed"
 	meaning_corrupted_music.pitch_scale = TimeManager.time_speed ** 0.1
@@ -154,7 +152,6 @@ func _die():
 	if lives == 0: #Game over
 		game_over()
 	else:
-		lives_counter.text = str(lives)
 		level.die()				
 		blood = max_blood
 		
@@ -184,7 +181,7 @@ func game_over():
 	"Restarts /resets player values"
 	lives = start_lives
 	blood = max_blood
-	screen_counter.visible = false
+	lives_counter.visible = false
 	_progress_checklist_length(0)
 	next_up_text.visible = false
 	screen_name.visible = false
@@ -215,7 +212,7 @@ func on_transition_entered(update_name_indicator = true):
 
 func on_screen_0_entered():
 	print("on_screen_0_entered")
-	screen_counter.visible = true
+	lives_counter.visible = true
 	
 	_progress_checklist_length(level.screen.goals_needed)
 
@@ -257,19 +254,20 @@ func _on_area_entered(area: Area2D) -> void: #Collision
 		if blood <= 0: #Death
 			_die()
 		
-	if area.collision_layer == goal_layer and invincibility == 0: #Goal collection
-		goal_sound.play()
-		area.queue_free()
-		blood += 0.05
-		invincibility = 0.1
-		flash_color = GREEN
-		
-		if area.mode == area.SCREEN_CHANGE: 
-			level.next_screen()
-		if area.mode == area.SCRIPT:
-			area.on_collected.call()
-		_progress_checklist_score(level.screen.goals_collected)
-		
+	if area.collision_layer == goal_layer:			 #Goal collection
+		if invincibility == 0 or area.ignores_invincibility:
+			goal_sound.play()
+			area.queue_free()
+			blood += 0.05
+			invincibility = 0.1
+			flash_color = GREEN
+			
+			if area.mode == area.SCREEN_CHANGE: 
+				level.next_screen()
+			if area.mode == area.SCRIPT:
+				area.on_collected.call()
+			_progress_checklist_score(level.screen.goals_collected)
+			
 	slowmo_activate()
 
 			

@@ -111,9 +111,9 @@ text = "ChronoSphere"
 process_mode = 4
 visible = false
 script = ExtResource("2_q5hl2")
-start_screen = 7
 
 [node name="Screen0" parent="Level" instance=ExtResource("3_y3r6h")]
+visible = false
 
 [node name="Screen1" parent="Level" instance=ExtResource("4_egxnw")]
 
