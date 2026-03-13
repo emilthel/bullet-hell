@@ -169,7 +169,6 @@ func _hit(damage):
 	
 func game_over():
 	print("game_over")
-	start_menu.update_score(level.screen_index)
 	level.restart()
 
 	invincibility = 5 #Red flash

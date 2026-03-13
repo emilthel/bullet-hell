@@ -1,10 +1,24 @@
-[gd_scene load_steps=2 format=3 uid="uid://b1lgeeg7qt1bj"]
+[gd_scene load_steps=3 format=3 uid="uid://b1lgeeg7qt1bj"]
 
 [ext_resource type="Script" path="res://level_1c/goal_spawner.gd" id="1_0m6i8"]
+[ext_resource type="PackedScene" uid="uid://d0ugcnolxjnqv" path="res://level_1c/Scenes/1up.tscn" id="2_47sp5"]
 
 [node name="Screen4" type="Node2D"]
 process_mode = 4
-visible = false
 script = ExtResource("1_0m6i8")
 goals_needed = 3
 screen_name = "Nothing"
+
+[node name="1Up" parent="." instance=ExtResource("2_47sp5")]
+visible = false
+position = Vector2(826, 163)
+
+[node name="Life" type="RichTextLabel" parent="."]
+visible = false
+modulate = Color(0, 1, 0, 1)
+offset_left = 547.0
+offset_top = 89.0
+offset_right = 763.0
+offset_bottom = 238.0
+theme_override_font_sizes/normal_font_size = 100
+text = "Life"
