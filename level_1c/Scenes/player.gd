@@ -196,7 +196,6 @@ func name_indicator_update():
 		screen_name.text = new_screen.screen_name
 		print(new_screen)
 		print(new_screen.screen_name)
-		slow_mo.reset_slowmo()
 
 
 	"Initializes screen name,for when entering level 1"
@@ -209,6 +208,9 @@ func name_indicator_update():
 func on_transition_entered(update_name_indicator = true):
 	if update_name_indicator:
 		name_indicator_update()
+	slow_mo._enter_cooldown_state()
+	slow_mo.reset_slowmo()
+
 
 func on_screen_0_entered():
 	print("on_screen_0_entered")
@@ -258,7 +260,10 @@ func _on_area_entered(area: Area2D) -> void: #Collision
 		if invincibility == 0 or area.ignores_invincibility:
 			goal_sound.play()
 			area.queue_free()
-			blood += 0.05
+			if area.custom_heal:
+				blood += area.heal
+			else:
+				blood += 0.05
 			invincibility = 0.1
 			flash_color = GREEN
 			

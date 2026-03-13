@@ -1,11 +1,12 @@
 extends Area2D
 
 @export var velocity: Vector2 = Vector2(100,100)
-@export var heal: float = 0.05
 enum{SCREEN_CHANGE, SCRIPT, NONE}
 @export var mode = 0
 var on_collected = Callable(on_collected_script)
 @export var ignores_invincibility: bool = false
+@export var custom_heal = false
+@export var heal: float = 0.05
 
 func _ready() -> void:
 	pass	

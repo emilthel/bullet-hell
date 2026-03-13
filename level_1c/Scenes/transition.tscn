@@ -26,6 +26,8 @@ collision_mask = 4
 script = ExtResource("1_wirfv")
 velocity = Vector2(0, 0)
 ignores_invincibility = true
+custom_heal = true
+heal = 10.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Goal"]
 shape = SubResource("CircleShape2D_2dcn3")
