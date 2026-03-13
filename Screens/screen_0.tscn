@@ -21,10 +21,6 @@ screen_name = ""
 [node name="Goal" parent="." instance=ExtResource("2_ibpry")]
 position = Vector2(913, 507)
 
-[node name="EnemySpawner" type="Node2D" parent="."]
-position = Vector2(764, 33)
-script = ExtResource("3_o61uf")
-
 [node name="Row1" type="LineEdit" parent="."]
 z_index = -2
 offset_left = 153.0
@@ -52,3 +48,21 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_yqh3q")
 text = "slow down time"
 editable = false
 selecting_enabled = false
+
+[node name="EnemySpawner" type="Node2D" parent="."]
+position = Vector2(764, 33)
+script = ExtResource("3_o61uf")
+velocity = 1000.0
+max_cooldown = 0.015
+
+[node name="EnemySpawner2" type="Node2D" parent="."]
+position = Vector2(652, 33)
+script = ExtResource("3_o61uf")
+velocity = 1000.0
+max_cooldown = 0.015
+
+[node name="EnemySpawner3" type="Node2D" parent="."]
+position = Vector2(877, 33)
+script = ExtResource("3_o61uf")
+velocity = 1000.0
+max_cooldown = 0.015

@@ -10,8 +10,6 @@ radius = 23.0868
 process_mode = 4
 visible = false
 script = ExtResource("1_embb8")
-goals_needed = 1
-goal_heal = 0.05
 screen_name = "Wonky Grid"
 
 [node name="Grid2" type="Area2D" parent="."]
