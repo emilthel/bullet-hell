@@ -28,7 +28,7 @@ var invincible = false
 @onready var next_up_text = $GUI/NameIndicator/NextUpText
 @onready var progress_slot_scene = "res://level_1c/Scenes/progress_slot.tscn"
 @onready var meaning_corrupted_music = $Sounds/MeaningCorruptedMusic
-@onready var visibility_notifier = $VisibilityNotifier
+@onready var mouse_tracker = $MouseTracker
 #@onready var goals_collected = 0
 @onready var score = "res://Score.txt"
 var level
@@ -57,10 +57,12 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	"Movement"
 	var target_position = get_global_mouse_position()
-	visibility_notifier.global_position =  target_position
-	
-	if visibility_notifier.is_on_screen():
-		global_position = target_position
+	var previous_position = global_position
+		
+	#if mouse_tracker.is_on_screen():
+	global_position += mouse_tracker.mouse_difference
+	if mouse_tracker.global_position.x < 0 or mouse_tracker.global_position.x > 1000:
+		global_position += Vector2(0,mouse_tracker.mouse_difference.y)
 		
 	"Health"
 	health_bar.scale.x = blood/max_blood #Sets healthbar
@@ -274,7 +276,10 @@ func _on_area_entered(area: Area2D) -> void: #Collision
 			
 	slowmo_activate()
 
-			
 func slowmo_activate():
 	slow_mo.process_mode = Node.PROCESS_MODE_INHERIT
 	slow_mo.visible = true
+
+func force_onscreen(pos: Vector2):
+	pass
+	
