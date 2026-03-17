@@ -28,7 +28,7 @@ var invincible = false
 @onready var next_up_text = $GUI/NameIndicator/NextUpText
 @onready var progress_slot_scene = "res://level_1c/Scenes/progress_slot.tscn"
 @onready var meaning_corrupted_music = $Sounds/MeaningCorruptedMusic
-@onready var mouse_tracker = $MouseTracker
+@onready var visibility_notifier = $VisibilityNotifier
 #@onready var goals_collected = 0
 @onready var score = "res://Score.txt"
 var level
@@ -47,23 +47,38 @@ func _ready() -> void:
 	lives = start_lives
 		
 	"Hides mouse"
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE) 
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN) 
 	
 	slowmo_activate()
 	_progress_checklist_length(0)
 	slow_mo.slowmo_time = slowmo_time
 	
+func _input(event: InputEvent) -> void:
+	#if event is InputEventMouseMotion:
+		#return
+	pass
+		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	"Movement"
-	var target_position = get_global_mouse_position()
-	var previous_position = global_position
-		
-	#if mouse_tracker.is_on_screen():
-	global_position += mouse_tracker.mouse_difference
-	if mouse_tracker.global_position.x < 0 or mouse_tracker.global_position.x > 1000:
-		global_position += Vector2(0,mouse_tracker.mouse_difference.y)
-		
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN) 
+	var mouse_pos = get_global_mouse_position()
+	
+	
+	global_position = mouse_pos
+	if mouse_pos.x < 0: #Snaps to left edge
+		global_position.x = 0
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE) 
+	if mouse_pos.x > 1000: #Snaps to right edge
+		global_position.x = 1000
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE) 
+	if mouse_pos.y < 0: #Snaps to top edge
+		global_position.y = 0
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE) 
+	if mouse_pos.y > 1000: #Snaps to bottom edge
+		global_position.y = 1000
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE) 
+	
 	"Health"
 	health_bar.scale.x = blood/max_blood #Sets healthbar
 	if blood > max_blood: #Caps health (blood) at max
@@ -85,8 +100,7 @@ func _process(delta: float) -> void:
 			if invincibility == 0:
 				flash_color = RED
 	bg.modulate.a = invincibility #Sets transparency
-
-
+		
 	"Lives screen"
 	lives_counter.text = str(lives)
 	#progress_bar.scale.x = 0.1 * goals_collected #Sets progress bar
@@ -282,4 +296,4 @@ func slowmo_activate():
 
 func force_onscreen(pos: Vector2):
 	pass
-	
+		

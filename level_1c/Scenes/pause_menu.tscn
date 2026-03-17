@@ -2,6 +2,7 @@
 
 [node name="PauseMenu" type="Node2D"]
 process_mode = 3
+modulate = Color(0, 0, 0, 0.278431)
 z_index = 1000
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -9,7 +10,6 @@ offset_left = -97.0
 offset_top = -20.0
 offset_right = 1035.0
 offset_bottom = 1037.0
-color = Color(0, 0, 0, 0.545098)
 
 [node name="GamePaused" type="RichTextLabel" parent="."]
 z_index = 7
