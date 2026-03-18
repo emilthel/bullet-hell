@@ -62,8 +62,7 @@ func _input(event: InputEvent) -> void:
 func _process(delta: float) -> void:
 	"Movement"
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN) 
-	var mouse_pos = get_global_mouse_position()
-	
+	var mouse_pos = get_global_mouse_position()	
 	
 	global_position = mouse_pos
 	if mouse_pos.x < 0: #Snaps to left edge

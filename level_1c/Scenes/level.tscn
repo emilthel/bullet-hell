@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://dximobfhg52x5"]
+[gd_scene load_steps=19 format=3 uid="uid://dximobfhg52x5"]
 
 [ext_resource type="Script" path="res://level_1c/Scenes/start_menu.gd" id="1_ka8c3"]
 [ext_resource type="Script" path="res://level_1c/Scenes/pause_manager.gd" id="1_xbir0"]
@@ -12,7 +12,6 @@
 [ext_resource type="PackedScene" uid="uid://vior5g720rvw" path="res://Screens/screen_6.tscn" id="9_pxqm1"]
 [ext_resource type="PackedScene" uid="uid://p2r6u006262g" path="res://Screens/screen_7.tscn" id="10_n242t"]
 [ext_resource type="PackedScene" uid="uid://c7maari225eu5" path="res://Screens/screen_8.tscn" id="11_m6tho"]
-[ext_resource type="Script" path="res://level_1c/enemy.gd" id="13_a7i1m"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pn8oq"]
 
@@ -26,24 +25,9 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ifehi"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_ycfsc"]
-radius = 23.0868
-
-[sub_resource type="Gradient" id="Gradient_82lr4"]
-interpolation_mode = 1
-offsets = PackedFloat32Array(0, 0.5)
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
-metadata/_snap_enabled = true
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_7ft2s"]
-gradient = SubResource("Gradient_82lr4")
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-
 [node name="PauseManager" type="Node"]
 process_mode = 3
 script = ExtResource("1_xbir0")
-can_pause = true
 
 [node name="StartMenu" type="Node2D" parent="."]
 z_index = -3
@@ -164,20 +148,3 @@ goals_needed = 1
 [node name="Screen7" parent="Level" instance=ExtResource("10_n242t")]
 
 [node name="Screen8" parent="Level" instance=ExtResource("11_m6tho")]
-
-[node name="UnpauseGoal" type="Area2D" parent="."]
-process_mode = 2
-z_index = 4096
-position = Vector2(1, -1)
-collision_layer = 2
-collision_mask = 2
-script = ExtResource("13_a7i1m")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="UnpauseGoal"]
-shape = SubResource("CircleShape2D_ycfsc")
-
-[node name="Sprite2D" type="Sprite2D" parent="UnpauseGoal"]
-texture = SubResource("GradientTexture2D_7ft2s")
-
-[connection signal="mouse_entered" from="UnpauseGoal" to="." method="_on_unpause_goal_mouse_entered"]
-[connection signal="mouse_exited" from="UnpauseGoal" to="." method="_on_unpause_goal_mouse_exited"]
