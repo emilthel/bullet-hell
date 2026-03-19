@@ -49,6 +49,7 @@ gradient = SubResource("Gradient_mdaw6")
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ye6s3"]
 
 [node name="Player" type="Area2D"]
+process_mode = 1
 z_index = 1
 collision_mask = 7
 script = ExtResource("1_vgs1x")
