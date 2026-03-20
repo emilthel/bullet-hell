@@ -135,7 +135,7 @@ func _process(delta: float) -> void:
 	#print(slow_mo.process_mode)
 
 #region Progress checklist
-"Changes length of checklist"
+#"Changes length of checklist"
 func _progress_checklist_length(length):
 	"Clears progress checklist"
 	for n in range(len(progress_slots)):
@@ -148,7 +148,8 @@ func _progress_checklist_length(length):
 		slot.position.x = 100*n
 		progress_checklist.add_child(slot)
 		progress_slots[n] = slot
-"Changes displayed score"
+		
+#"Changes displayed score"
 func _progress_checklist_score(count):
 	for n in range(len(progress_slots)):
 		"Fills in points up to count"
@@ -162,16 +163,10 @@ func _progress_checklist_score(count):
 			var slot = progress_slots[n]
 			var point = slot.get_node("ProgressPoint")
 			point.visible = false
-		
-	
-#func _on_invincibility_timer_timeout() -> void:
-	#invincible = false
 #endregion
-
 #region Collision
-"Collision signal"
-func _on_area_entered(area: Area2D) -> void: #Collision
-	#print("on_area_entered")
+#Collision signal
+func _on_area_entered(area: Area2D) -> void:
 	if area.collision_layer == enemy_layer and invincibility == 0: #Hit
 		blood -= 0.3 
 		invincibility = 0.3
@@ -220,7 +215,6 @@ func _hit(damage):
 	if blood <= 0: #Death
 		_die()
 func game_over():
-#endregion
 	print("game_over")
 	level.restart()
 
@@ -239,7 +233,7 @@ func game_over():
 	screen_name.visible = false
 	slow_mo.reset_slowmo()
 	#get_tree().reload_current_scene()
-			
+#endregion
 #region Level transitions
 func on_transition_entered(update_name_indicator = true):
 	if update_name_indicator:
@@ -282,6 +276,7 @@ func on_start_menu_exited():
 	meaning_corrupted_music.play() #Starts music
 #endregion
 
+#Misc
 func slowmo_activate():
 	slow_mo.process_mode = Node.PROCESS_MODE_INHERIT
 	slow_mo.visible = true
