@@ -1,23 +1,72 @@
-[gd_scene load_steps=4 format=3 uid="uid://c7maari225eu5"]
+[gd_scene load_steps=8 format=3 uid="uid://c7maari225eu5"]
 
 [ext_resource type="Script" path="res://level_1c/goal_spawner.gd" id="1_ih443"]
-[ext_resource type="Script" path="res://Screens/circle_spawner.gd" id="2_bgnjc"]
-[ext_resource type="PackedScene" uid="uid://ci7m6vunac8os" path="res://level_1c/Scenes/enemy.tscn" id="3_spuew"]
+[ext_resource type="Script" path="res://level_1c/Scenes/bullet_spawner_2.gd" id="2_tqx3w"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gwmw0"]
+radius = 23.0868
+
+[sub_resource type="Gradient" id="Gradient_yi808"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0.3, 1)
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_4l3at"]
+gradient = SubResource("Gradient_yi808")
+width = 1000
+height = 1000
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_bi6tm"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0.2, 0.5)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_4vp2a"]
+gradient = SubResource("Gradient_bi6tm")
+width = 10000
+height = 10000
+fill = 2
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.6, 0.6)
 
 [node name="Screen8" type="Node2D"]
 process_mode = 4
 visible = false
 script = ExtResource("1_ih443")
-goals_needed = 8
-screen_name = "Stay still?"
+goals_needed = 6
+screen_name = "The Flood"
 
-[node name="CircleSpawner" type="Area2D" parent="."]
+[node name="BigBullets" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 0
-script = ExtResource("2_bgnjc")
+script = ExtResource("2_tqx3w")
+safe_radius = 200.0
+bullet_speed = 5.0
+bullet_count = 3
+wait_time = 0.2
+one_shot = false
 
-[node name="Target" parent="CircleSpawner" instance=ExtResource("3_spuew")]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BigBullets"]
+shape = SubResource("CircleShape2D_gwmw0")
+
+[node name="Target" type="Area2D" parent="BigBullets"]
 visible = false
-modulate = Color(1, 0, 0, 0.411765)
-scale = Vector2(10, 10)
 collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BigBullets/Target"]
+shape = SubResource("CircleShape2D_gwmw0")
+
+[node name="CompositeSprite" type="Node2D" parent="BigBullets/Target"]
+modulate = Color(1, 0, 0, 1)
+
+[node name="Sprite2D1" type="Sprite2D" parent="BigBullets/Target/CompositeSprite"]
+texture = SubResource("GradientTexture2D_4l3at")
+
+[node name="Sprite2D2" type="Sprite2D" parent="BigBullets/Target/CompositeSprite"]
+texture = SubResource("GradientTexture2D_4vp2a")

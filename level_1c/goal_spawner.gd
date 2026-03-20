@@ -47,7 +47,7 @@ func goal_collected():
 	goals_collected += 1
 	spawn_cooldown_active = true
 	spawn_cooldown_left = spawn_cooldown
-	if goals_collected == goals_needed:
+	if goals_collected == goals_needed: #Advance to next level
 		goals_collected == 0
 		level.next_screen()
 

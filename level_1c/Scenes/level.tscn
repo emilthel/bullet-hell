@@ -139,7 +139,6 @@ visible = false
 [node name="Screen3" parent="Level" instance=ExtResource("6_o8bsa")]
 
 [node name="Screen4" parent="Level" instance=ExtResource("7_t00sh")]
-goals_needed = 1
 
 [node name="Screen5" parent="Level" instance=ExtResource("8_bi5dl")]
 

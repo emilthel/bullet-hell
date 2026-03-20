@@ -29,6 +29,9 @@ var invincible = false
 @onready var progress_slot_scene = "res://level_1c/Scenes/progress_slot.tscn"
 @onready var meaning_corrupted_music = $Sounds/MeaningCorruptedMusic
 @onready var visibility_notifier = $VisibilityNotifier
+@onready var next_up_screen = $GUI/NextUpScreen
+@onready var next_up_screen_name = $GUI/NextUpScreen/ScreenName
+
 #@onready var goals_collected = 0
 @onready var score = "res://Score.txt"
 var level
@@ -99,8 +102,9 @@ func _process(delta: float) -> void:
 			if invincibility == 0:
 				flash_color = RED
 	bg.modulate.a = invincibility #Sets transparency
-		
-	"Lives screen"
+	
+	
+	"Lives counter"
 	lives_counter.text = str(lives)
 	#progress_bar.scale.x = 0.1 * goals_collected #Sets progress bar
 	
@@ -121,9 +125,24 @@ func _process(delta: float) -> void:
 			death_screen.visible = false #Hides death screen
 			death_screen.modulate.a = 1 #Resets transparency for next death
 			print(death_screen.visible)
+	
+	"Next up screen"
+	if next_up_screen.visible:
+		if next_up_screen.modulate.a > 0:
+			next_up_screen.modulate.a -= 1 * delta
+		else:
+			next_up_screen.visible = false #Hides next up screen
+			next_up_screen.modulate.a = 1 #Resets transparency for next transition
+			print(next_up_screen.visible)
+	
 
 	"Music speed"
 	meaning_corrupted_music.pitch_scale = TimeManager.time_speed ** 0.1
+	
+	"If in transition"
+	if level.transition:
+		print("in transition")
+		
 	#print(slow_mo.process_mode)
 
 
@@ -170,10 +189,12 @@ func _die():
 		level.die()				
 		blood = max_blood
 		
-		invincibility = 1.5 #Red flash
 		death_sound.play()
 		death_screen.visible = true 
 		
+		_progress_checklist_score(0)
+		
+		level.transition.color_rect.color = Color(1,0,0,0.3)
 func _hit(damage):	
 	if invincibility == 0:
 		blood -= damage 
@@ -202,26 +223,26 @@ func game_over():
 	slow_mo.reset_slowmo()
 	#get_tree().reload_current_scene()
 			
-func name_indicator_update():
-	print("on_transition_entered")
-	var new_screen = level.get_next_screen()
-	if new_screen:
-		progress_bar_cover.scale.x = 0.3 * (new_screen.goals_needed -1)
-		screen_name.text = new_screen.screen_name
-		print(new_screen)
-		print(new_screen.screen_name)
+	
+func on_transition_entered(update_name_indicator = true):
+	if update_name_indicator:
+		print("on_transition_entered")
+		var new_screen = level.get_next_screen()
+		if new_screen:
+			progress_bar_cover.scale.x = 0.3 * (new_screen.goals_needed -1)
+			screen_name.text = new_screen.screen_name
+			next_up_screen_name.text = new_screen.screen_name
+			next_up_screen.visible = true
+			print(new_screen)
+			print(new_screen.screen_name)
 
 
 	"Initializes screen name,for when entering level 1"
 	screen_name.visible = true
-	"Shows 'next up' text"
-	next_up_text.visible = true
+
 	#goals_collected = 0
-	invincibility = 1
+	invincibility = 0.3
 	
-func on_transition_entered(update_name_indicator = true):
-	if update_name_indicator:
-		name_indicator_update()
 	slow_mo._enter_cooldown_state()
 	slow_mo.reset_slowmo()
 

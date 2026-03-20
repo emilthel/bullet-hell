@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://level_1c/goal_spawner.gd" id="1_80xm6"]
 [ext_resource type="Script" path="res://level_1c/Scenes/bullet_spawner_2.gd" id="2_rf8m3"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_yvbls"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_360ek"]
 radius = 23.0868
 
 [sub_resource type="Gradient" id="Gradient_yi808"]
@@ -12,7 +12,7 @@ offsets = PackedFloat32Array(0.3, 1)
 colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1)
 metadata/_snap_enabled = true
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_iuhaq"]
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_drh8l"]
 gradient = SubResource("Gradient_yi808")
 width = 1000
 height = 1000
@@ -26,7 +26,7 @@ offsets = PackedFloat32Array(0.2, 0.5)
 colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
 metadata/_snap_enabled = true
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_lj7f6"]
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_27nkd"]
 gradient = SubResource("Gradient_bi6tm")
 width = 10000
 height = 10000
@@ -38,36 +38,37 @@ fill_to = Vector2(0.6, 0.6)
 process_mode = 4
 visible = false
 script = ExtResource("1_80xm6")
-goals_needed = 3
-screen_name = "Rebound"
+goals_needed = 6
+screen_name = "Big Bullets"
 
-[node name="Overcrowding" type="Area2D" parent="."]
+[node name="BulletSpawner2" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 0
 script = ExtResource("2_rf8m3")
-safe_radius = 300.0
-bullet_speed = 400.0
-bullet_count = 15
-lin_acc = -120.0
+safe_radius = 200.0
+bullet_speed = 5.0
+bullet_count = 3
+acceleration_mode = "exp"
+bullet_size = 10.0
 center_delete = false
-wait_time = 3.0
+wait_time = 1.0
 one_shot = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Overcrowding"]
-shape = SubResource("CircleShape2D_yvbls")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BulletSpawner2"]
+shape = SubResource("CircleShape2D_360ek")
 
-[node name="Target" type="Area2D" parent="Overcrowding"]
+[node name="Target" type="Area2D" parent="BulletSpawner2"]
 collision_layer = 0
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Overcrowding/Target"]
-shape = SubResource("CircleShape2D_yvbls")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BulletSpawner2/Target"]
+shape = SubResource("CircleShape2D_360ek")
 
-[node name="CompositeSprite" type="Node2D" parent="Overcrowding/Target"]
+[node name="CompositeSprite" type="Node2D" parent="BulletSpawner2/Target"]
 modulate = Color(1, 0, 0, 1)
 
-[node name="Sprite2D1" type="Sprite2D" parent="Overcrowding/Target/CompositeSprite"]
-texture = SubResource("GradientTexture2D_iuhaq")
+[node name="Sprite2D1" type="Sprite2D" parent="BulletSpawner2/Target/CompositeSprite"]
+texture = SubResource("GradientTexture2D_drh8l")
 
-[node name="Sprite2D2" type="Sprite2D" parent="Overcrowding/Target/CompositeSprite"]
-texture = SubResource("GradientTexture2D_lj7f6")
+[node name="Sprite2D2" type="Sprite2D" parent="BulletSpawner2/Target/CompositeSprite"]
+texture = SubResource("GradientTexture2D_27nkd")

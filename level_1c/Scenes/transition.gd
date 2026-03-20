@@ -1,3 +1,3 @@
 extends Node2D
 
-@onready var screen_counter = $ScreenCounter
+@onready var color_rect = $ColorRect

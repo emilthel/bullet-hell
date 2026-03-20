@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://bsa55u6yhunt"]
+[gd_scene load_steps=17 format=3 uid="uid://bsa55u6yhunt"]
 
 [ext_resource type="PackedScene" uid="uid://d3fv46bax7aea" path="res://level_1c/Scenes/slow_mo.tscn" id="1_sl6ca"]
 [ext_resource type="Script" path="res://level_1c/Scenes/player.gd" id="1_vgs1x"]
@@ -23,8 +23,6 @@ gradient = SubResource("Gradient_uyvyb")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ywwrm"]
-
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tnd7w"]
 
 [sub_resource type="Gradient" id="Gradient_jyd8w"]
@@ -43,10 +41,6 @@ colors = PackedColorArray(1, 1, 1, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_dtbe7"]
 gradient = SubResource("Gradient_mdaw6")
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5ip4c"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ye6s3"]
 
 [node name="Player" type="Area2D"]
 process_mode = 1
@@ -69,60 +63,54 @@ script = ExtResource("3_y6wm4")
 [node name="GUI" type="Node" parent="."]
 
 [node name="NameIndicator" type="Control" parent="GUI"]
+visible = false
 layout_mode = 3
 anchor_top = 0.082
-anchor_right = 0.765
-anchor_bottom = 0.533
-offset_left = 45.0
-offset_top = 737.0
-offset_right = 46.0
-offset_bottom = 738.0
-scale = Vector2(0.685934, 0.692728)
+anchor_right = 1.299
+anchor_bottom = 0.49
+offset_left = -41.0
+offset_top = 675.0
+offset_right = -40.0
+offset_bottom = 676.0
+scale = Vector2(0.348436, 0.297306)
 metadata/_edit_use_anchors_ = true
 
-[node name="NextUpText" type="LineEdit" parent="GUI/NameIndicator"]
-visible = false
+[node name="NextUpText" type="RichTextLabel" parent="GUI/NameIndicator"]
+modulate = Color(1, 1, 1, 0.45098)
 z_index = -2
 layout_mode = 1
 anchors_preset = -1
-anchor_left = -0.0361612
-anchor_top = -1.51533
-anchor_right = -0.0361612
-anchor_bottom = -1.51533
+anchor_left = 0.121257
+anchor_top = -0.825217
+anchor_right = 0.435878
+anchor_bottom = -0.681411
 offset_top = 568.0
 offset_right = 217.0
 offset_bottom = 671.0
-scale = Vector2(2.5017, 2.05624)
-theme_override_colors/font_color = Color(1, 1, 1, 0.278431)
-theme_override_font_sizes/font_size = 20
-theme_override_styles/read_only = SubResource("StyleBoxEmpty_ywwrm")
+scale = Vector2(0.868891, 0.714174)
+theme_override_font_sizes/normal_font_size = 100
 theme_override_styles/normal = SubResource("StyleBoxEmpty_tnd7w")
 text = "Next up:"
-editable = false
-selecting_enabled = false
 metadata/_edit_use_anchors_ = true
 
-[node name="ScreenName" type="LineEdit" parent="GUI/NameIndicator"]
-visible = false
+[node name="ScreenName" type="RichTextLabel" parent="GUI/NameIndicator"]
+modulate = Color(1, 1, 1, 0.45098)
 z_index = -2
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.0699339
-anchor_top = -1.44359
-anchor_right = 0.0699339
-anchor_bottom = -1.44359
+anchor_left = 0.178279
+anchor_top = -0.695743
+anchor_right = 0.373664
+anchor_bottom = -0.695743
 offset_left = -98.7632
 offset_top = 561.559
 offset_right = 277.237
 offset_bottom = 717.559
-scale = Vector2(2.5017, 2.05624)
-theme_override_colors/font_color = Color(1, 1, 1, 0.278431)
-theme_override_font_sizes/font_size = 50
-theme_override_styles/read_only = SubResource("StyleBoxEmpty_ywwrm")
+scale = Vector2(2.5017, 2.01745)
+theme_override_font_sizes/mono_font_size = 1
+theme_override_font_sizes/normal_font_size = 100
 theme_override_styles/normal = SubResource("StyleBoxEmpty_tnd7w")
 text = "Grid"
-editable = false
-selecting_enabled = false
 metadata/_edit_use_anchors_ = true
 
 [node name="ProgressChecklist" type="Node2D" parent="GUI"]
@@ -173,8 +161,8 @@ visibility_layer = 257
 
 [node name="BG" type="Sprite2D" parent="GUI"]
 modulate = Color(1, 0, 0, 0)
-position = Vector2(541, 554)
-scale = Vector2(5.16406, 1104.5)
+position = Vector2(514, 541)
+scale = Vector2(5.16406, 1112.75)
 texture = SubResource("GradientTexture1D_dtbe7")
 
 [node name="LivesCounter" type="LineEdit" parent="GUI"]
@@ -192,72 +180,119 @@ text = "1"
 alignment = 1
 editable = false
 
+[node name="NextUpScreen" type="Control" parent="GUI"]
+visible = false
+z_index = 10
+layout_mode = 3
+anchors_preset = 0
+offset_left = 103.0
+offset_top = 310.0
+offset_right = 104.0
+offset_bottom = 311.0
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect" type="ColorRect" parent="GUI/NextUpScreen"]
+layout_mode = 0
+offset_left = -124.0
+offset_top = -338.0
+offset_right = -84.0
+offset_bottom = -298.0
+scale = Vector2(26.32, 26.32)
+color = Color(0, 1, 0, 0.490196)
+
+[node name="NextUp" type="RichTextLabel" parent="GUI/NextUpScreen"]
+modulate = Color(1, 1, 1, 0.6)
+z_index = -2
+offset_left = -43.0
+offset_top = 110.0
+offset_right = 397.0
+offset_bottom = 226.0
+scale = Vector2(0.879328, 0.741832)
+theme_override_font_sizes/mono_font_size = 1
+theme_override_font_sizes/normal_font_size = 100
+theme_override_styles/normal = SubResource("StyleBoxEmpty_tnd7w")
+text = "Next up:"
+scroll_active = false
+
+[node name="ScreenName" type="RichTextLabel" parent="GUI/NextUpScreen"]
+modulate = Color(1, 1, 1, 0.6)
+z_index = -2
+offset_left = -57.0
+offset_top = 168.0
+offset_right = 458.0
+offset_bottom = 448.0
+scale = Vector2(1.83933, 1.55172)
+theme_override_font_sizes/mono_font_size = 1
+theme_override_font_sizes/normal_font_size = 100
+theme_override_styles/normal = SubResource("StyleBoxEmpty_tnd7w")
+text = "TEST"
+scroll_active = false
+
 [node name="DeathScreen" type="Control" parent="GUI"]
 visible = false
 z_index = 10
 layout_mode = 3
 anchors_preset = 0
-offset_left = 12.0
-offset_right = 13.0
-offset_bottom = 1.0
+offset_left = 108.0
+offset_top = 320.0
+offset_right = 109.0
+offset_bottom = 321.0
 metadata/_edit_use_anchors_ = true
 
-[node name="YouDied" type="LineEdit" parent="GUI/DeathScreen"]
-z_index = -2
+[node name="ColorRect" type="ColorRect" parent="GUI/DeathScreen"]
 layout_mode = 0
-offset_left = -1356.0
-offset_top = -347.0
-offset_right = 128.0
-offset_bottom = 207.0
-scale = Vector2(2.5017, 2.05624)
-theme_override_colors/font_color = Color(1, 1, 1, 0.278431)
-theme_override_font_sizes/font_size = 80
-theme_override_styles/read_only = SubResource("StyleBoxEmpty_5ip4c")
+offset_left = -124.0
+offset_top = -338.0
+offset_right = -84.0
+offset_bottom = -298.0
+scale = Vector2(26.32, 26.32)
+color = Color(1, 0, 0, 0.490196)
+
+[node name="YouDied" type="RichTextLabel" parent="GUI/DeathScreen"]
+modulate = Color(1, 1, 1, 0.6)
+z_index = -2
+offset_left = -1.0
+offset_top = 13.0001
+offset_right = 439.0
+offset_bottom = 129.0
+scale = Vector2(1.83933, 1.55172)
+theme_override_font_sizes/mono_font_size = 1
+theme_override_font_sizes/normal_font_size = 100
 theme_override_styles/normal = SubResource("StyleBoxEmpty_tnd7w")
 text = "You died"
-alignment = 1
-editable = false
-selecting_enabled = false
+scroll_active = false
 
 [node name="GameOverScreen" type="Control" parent="GUI"]
 visible = false
 layout_mode = 3
 anchors_preset = 0
+offset_left = 8.0
+offset_top = 91.0
+offset_right = 9.0
+offset_bottom = 91.0
 
-[node name="Game" type="LineEdit" parent="GUI/GameOverScreen"]
+[node name="Game" type="RichTextLabel" parent="GUI/GameOverScreen"]
 z_index = 5
 layout_mode = 0
-offset_left = -1307.0
-offset_top = -309.0
-offset_right = 177.0
-offset_bottom = 245.0
-scale = Vector2(2.5017, 2.05624)
-theme_override_colors/font_color = Color(1, 1, 1, 0.278431)
-theme_override_font_sizes/font_size = 150
-theme_override_styles/read_only = SubResource("StyleBoxEmpty_ye6s3")
+offset_left = -3.0
+offset_top = -39.0
+offset_right = 337.0
+offset_bottom = 226.0
+scale = Vector2(3.32901, 2.73624)
+theme_override_font_sizes/normal_font_size = 100
 theme_override_styles/normal = SubResource("StyleBoxEmpty_tnd7w")
-text = "GAME "
-alignment = 1
-editable = false
-selecting_enabled = false
+text = "GAME"
 
-[node name="Over" type="LineEdit" parent="GUI/GameOverScreen"]
+[node name="Over" type="RichTextLabel" parent="GUI/GameOverScreen"]
 z_index = 5
-layout_mode = 0
-offset_left = -1414.0
-offset_top = 99.0001
-offset_right = 70.0
-offset_bottom = 653.0
-scale = Vector2(2.5017, 2.05624)
-theme_override_colors/font_color = Color(1, 1, 1, 0.278431)
-theme_override_font_sizes/font_size = 150
-theme_override_styles/read_only = SubResource("StyleBoxEmpty_ye6s3")
+offset_left = 47.0
+offset_top = 420.0
+offset_right = 387.0
+offset_bottom = 685.0
+scale = Vector2(3.32901, 2.73624)
+theme_override_font_sizes/normal_font_size = 100
 theme_override_styles/normal = SubResource("StyleBoxEmpty_tnd7w")
-text = " OVER"
-alignment = 1
-editable = false
-selecting_enabled = false
-metadata/_edit_use_anchors_ = true
+text = "OVER"
 
 [node name="Sounds" type="Node" parent="."]
 

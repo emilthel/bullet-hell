@@ -39,7 +39,6 @@ process_mode = 4
 visible = false
 script = ExtResource("1_0dew5")
 goals_needed = 1
-goal_heal = 0.05
 screen_name = "Think Fast"
 
 [node name="BulletSpawner2" type="Area2D" parent="."]
