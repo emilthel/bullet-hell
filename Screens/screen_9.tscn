@@ -1,0 +1,60 @@
+[gd_scene load_steps=3 format=3 uid="uid://be8o7mgf0ihcy"]
+
+[ext_resource type="Script" path="res://level_1c/goal_spawner.gd" id="1_h4gsp"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k4a5s"]
+
+[node name="Screen9" type="Node2D"]
+process_mode = 4
+script = ExtResource("1_h4gsp")
+goals_needed = 1
+spawns_goals = false
+screen_name = "Congratulations!"
+
+[node name="NextUpScreen" type="Control" parent="."]
+z_index = 10
+layout_mode = 3
+anchors_preset = 0
+offset_left = 103.0
+offset_top = 310.0
+offset_right = 104.0
+offset_bottom = 311.0
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect" type="ColorRect" parent="NextUpScreen"]
+layout_mode = 0
+offset_left = -124.0
+offset_top = -338.0
+offset_right = -84.0
+offset_bottom = -298.0
+scale = Vector2(26.32, 26.32)
+color = Color(0, 1, 0, 0.490196)
+
+[node name="ForPlaying" type="RichTextLabel" parent="NextUpScreen"]
+modulate = Color(1, 1, 1, 0.6)
+z_index = -2
+layout_mode = 0
+offset_left = 152.0
+offset_top = 362.0
+offset_right = 760.0
+offset_bottom = 478.0
+scale = Vector2(0.879328, 0.741832)
+theme_override_font_sizes/mono_font_size = 1
+theme_override_font_sizes/normal_font_size = 100
+theme_override_styles/normal = SubResource("StyleBoxEmpty_k4a5s")
+text = "for playing!"
+scroll_active = false
+
+[node name="ThankYou" type="RichTextLabel" parent="NextUpScreen"]
+modulate = Color(1, 1, 1, 0.6)
+z_index = -2
+offset_left = -57.0
+offset_top = 168.0
+offset_right = 458.0
+offset_bottom = 448.0
+scale = Vector2(1.83933, 1.55172)
+theme_override_font_sizes/mono_font_size = 1
+theme_override_font_sizes/normal_font_size = 100
+theme_override_styles/normal = SubResource("StyleBoxEmpty_k4a5s")
+text = "Thank you"
+scroll_active = false

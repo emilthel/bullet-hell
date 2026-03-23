@@ -167,6 +167,7 @@ texture = SubResource("GradientTexture1D_dtbe7")
 
 [node name="LivesCounter" type="LineEdit" parent="GUI"]
 visible = false
+modulate = Color(1, 1, 1, 0.678431)
 z_index = -2
 offset_left = -1363.0
 offset_top = -69.0

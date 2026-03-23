@@ -15,20 +15,8 @@ screen_name = ""
 [node name="Goal" parent="." instance=ExtResource("2_ibpry")]
 position = Vector2(913, 507)
 
-[node name="EnemySpawner" type="Node2D" parent="."]
-position = Vector2(764, 33)
-script = ExtResource("3_o61uf")
-velocity = 1000.0
-max_cooldown = 0.015
-
 [node name="EnemySpawner2" type="Node2D" parent="."]
 position = Vector2(652, 33)
-script = ExtResource("3_o61uf")
-velocity = 1000.0
-max_cooldown = 0.015
-
-[node name="EnemySpawner3" type="Node2D" parent="."]
-position = Vector2(877, 33)
 script = ExtResource("3_o61uf")
 velocity = 1000.0
 max_cooldown = 0.015

@@ -4,9 +4,9 @@ extends Area2D
 var d: Dictionary = {}
 var bullets = [] 
 var enemy_scene = "res://level_1c/Scenes/enemy.tscn"
-var spawn_cooldown: float = 1. / 2 
+@export var spawn_cooldown: float = 1. / 2 
 var spawn_cooldown_left: float = spawn_cooldown
-var bullet_count: int = 5
+@export var bullet_count: int = 5
 const ONE = Vector2(1,0)
 
 

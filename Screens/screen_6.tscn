@@ -1,10 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://vior5g720rvw"]
+[gd_scene load_steps=2 format=3 uid="uid://ccsmyvtqk4bwr"]
 
 [ext_resource type="Script" path="res://level_1c/goal_spawner.gd" id="1_h4gsp"]
 
 [node name="Screen6" type="Node2D"]
 process_mode = 4
-visible = false
 script = ExtResource("1_h4gsp")
 goals_needed = 1
-screen_name = "Endgame"
+screen_name = "Welcome to the Endgame"

@@ -192,6 +192,13 @@ func _on_area_entered(area: Area2D) -> void:
 			_progress_checklist_score(level.screen.goals_collected)
 			
 	slowmo_activate()
+func _hit(damage):	
+	if invincibility == 0:
+		blood -= damage 
+		invincibility = 0.4
+		hit_sound.play()
+	if blood <= 0: #Death
+		_die()
 func _die():
 	print("die")
 	lives -= 1
@@ -207,13 +214,6 @@ func _die():
 		_progress_checklist_score(0)
 		
 		level.transition.color_rect.color = Color(1,0,0,0.3)
-func _hit(damage):	
-	if invincibility == 0:
-		blood -= damage 
-		invincibility = 0.4
-		hit_sound.play()
-	if blood <= 0: #Death
-		_die()
 func game_over():
 	print("game_over")
 	level.restart()
@@ -247,10 +247,8 @@ func on_transition_entered(update_name_indicator = true):
 			print(new_screen)
 			print(new_screen.screen_name)
 
-
 	"Initializes screen name,for when entering level 1"
 	screen_name.visible = true
-
 	#goals_collected = 0
 	invincibility = 0.3
 	
