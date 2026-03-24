@@ -8,7 +8,7 @@
 process_mode = 4
 visible = false
 script = ExtResource("1_7ieb5")
-goals_needed = 8
+goals_needed = 4
 screen_name = "Stay still?"
 spawn_cooldown = 0.8
 
@@ -16,7 +16,6 @@ spawn_cooldown = 0.8
 collision_layer = 0
 collision_mask = 0
 script = ExtResource("2_dqhg1")
-bullet_count = 8
 
 [node name="Target" parent="CircleSpawner" instance=ExtResource("3_b31uq")]
 visible = false

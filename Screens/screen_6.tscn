@@ -4,6 +4,7 @@
 
 [node name="Screen6" type="Node2D"]
 process_mode = 4
+visible = false
 script = ExtResource("1_h4gsp")
 goals_needed = 1
-screen_name = "Welcome to the Endgame"
+screen_name = "Endgame"

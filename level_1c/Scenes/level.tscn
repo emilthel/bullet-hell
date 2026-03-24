@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://dximobfhg52x5"]
+[gd_scene load_steps=20 format=3 uid="uid://dximobfhg52x5"]
 
 [ext_resource type="Script" path="res://level_1c/Scenes/start_menu.gd" id="1_ka8c3"]
 [ext_resource type="Script" path="res://level_1c/Scenes/pause_manager.gd" id="1_xbir0"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://cr7fwps35hv8b" path="res://Screens/screen_5.tscn" id="8_bi5dl"]
 [ext_resource type="PackedScene" uid="uid://be8o7mgf0ihcy" path="res://Screens/screen_9.tscn" id="9_pxqm1"]
 [ext_resource type="PackedScene" uid="uid://p2r6u006262g" path="res://Screens/screen_7.tscn" id="10_n242t"]
+[ext_resource type="PackedScene" uid="uid://ccsmyvtqk4bwr" path="res://Screens/screen_6.tscn" id="10_qc0b1"]
 [ext_resource type="PackedScene" uid="uid://c7maari225eu5" path="res://Screens/screen_8.tscn" id="11_m6tho"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pn8oq"]
@@ -142,8 +143,7 @@ visible = false
 
 [node name="Screen5" parent="Level" instance=ExtResource("8_bi5dl")]
 
-[node name="Screen6" parent="Level" instance=ExtResource("9_pxqm1")]
-visible = false
+[node name="Screen6" parent="Level" instance=ExtResource("10_qc0b1")]
 
 [node name="Screen7" parent="Level" instance=ExtResource("10_n242t")]
 
