@@ -48,6 +48,7 @@ scroll_active = false
 [node name="ThankYou" type="RichTextLabel" parent="NextUpScreen"]
 modulate = Color(1, 1, 1, 0.6)
 z_index = -2
+layout_mode = 0
 offset_left = -57.0
 offset_top = 168.0
 offset_right = 458.0
