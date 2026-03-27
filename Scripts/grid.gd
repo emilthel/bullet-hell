@@ -70,21 +70,3 @@ func spawn_child(xn: int, yn: int, scene = enemy_scene):
 	"Adds child"
 	add_child(child)	
 	return child
-	
-"Complex powers"
-func cpow(z: Vector2, n) -> Vector2:
-	var r = z.length()
-	var v = z.angle()
-	
-	return r**n * ONE.rotated(n*v)
-
-"Complex multiplication."
-func cmul(z: Vector2, w: Vector2) -> Vector2:
-	var r = z.length()
-	var v = z.angle()
-	
-	var l = w.length()
-	var u = w.angle()
-	
-	var one = Vector2(1,0)
-	return r*l * ONE.rotated(v+u)
