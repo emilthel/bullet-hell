@@ -151,3 +151,4 @@ visible = false
 
 [node name="Screen9" parent="Level" instance=ExtResource("9_pxqm1")]
 visible = false
+screen_name = "End"

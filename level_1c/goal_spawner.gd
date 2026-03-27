@@ -51,6 +51,7 @@ func goal_collected():
 		goals_collected == 0
 		level.next_screen()
 
+"Spawns goal"
 func spawn_child(point):
 	var goal = goal_scene.instantiate()
 	goal.position = point
