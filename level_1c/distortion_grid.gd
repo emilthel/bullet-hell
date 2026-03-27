@@ -19,26 +19,62 @@ const I = Vector2(0,1)
 @export var spacing: float = 100
 @export var distortion_speed: float = 1
 
+	
+"Initialization"
+func _frame1() -> void:
+	player = Player
+		
+	"Generates grid"
+	position = player.global_position #Sets player as center of grid
+	
+	var grid_range = range(-count,count+1)
+	for xn in grid_range:
+		for yn in grid_range:
+			spawn_child(xn,yn)
+	
+	"Generates hole in grid"
+	grid[[0,0]].queue_free()
+
+"Process"
+func _process(delta: float) -> void:
+	delta *= TimeManager.time_speed 
+	if is_frame1:
+		_frame1()
+		is_frame1 = false
+
+	"Scale: Changes proportional to current value rotated 90 degrees"
+	var scale_rate = Vector2(-scale.y, scale.x)
+	scale += scale_rate*distortion_speed*delta
+
+"Chooses random element of array"
 func choice(a: Array):
 	return a[randi() % len(a)]
 
+"Spawns enemy in grid"
 func spawn_child(xn: int, yn: int, scene = enemy_scene):
-	var child = scene.instantiate()
-	child.position = Vector2(xn,yn)*spacing
-	child.velocity = Vector2(0,0)
-	child.scale *= 0.9
-	if scene == enemy_scene:
+	var child = scene.instantiate() 
+	
+	"Sets child variables"
+	child.position = Vector2(xn,yn)*spacing #Sets enemy position
+	child.velocity = Vector2(0,0) #Makes enemy still
+	child.scale *= 0.9 
+	if scene == enemy_scene: #Always true
 		child.damage = damage
+	
+	"Indexes child"
 	grid[[xn,yn]] = child
-	add_child(child)
+	"Adds child"
+	add_child(child)	
 	return child
 	
+"Complex powers"
 func cpow(z: Vector2, n) -> Vector2:
 	var r = z.length()
 	var v = z.angle()
 	
 	return r**n * ONE.rotated(n*v)
 
+"Complex multiplication."
 func cmul(z: Vector2, w: Vector2) -> Vector2:
 	var r = z.length()
 	var v = z.angle()
@@ -48,34 +84,3 @@ func cmul(z: Vector2, w: Vector2) -> Vector2:
 	
 	var one = Vector2(1,0)
 	return r*l * ONE.rotated(v+u)
-	
-"Runs on first frame active"
-func _frame1() -> void:
-	player = Player
-	position = player.global_position
-	var grid_range = range(-count,count+1)
-	for xn in grid_range:
-		for yn in grid_range:
-			spawn_child(xn,yn)
-		
-	#var xn = choice(grid_range)
-	#var yn = choice(grid_range)
-	
-	grid[[0,0]].queue_free()
-	
-	#for n in range(log_length):
-		#log.append(player.global_position)
-	
-			
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	delta *= TimeManager.time_speed 
-	if is_frame1:
-		_frame1()
-		is_frame1 = false
-	#log.append(player.global_position)
-	#velocity = (log[1]-log[0]).rotated(angle)*factor
-	#log.remove_at(0)
-	#position += velocity 
-	var scale_rate = cmul(cpow(scale,1),I)
-	scale += scale_rate*distortion_speed*delta

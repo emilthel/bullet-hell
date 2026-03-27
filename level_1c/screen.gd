@@ -18,35 +18,48 @@ var spawn_cooldown_active: bool = true
 @onready var progress_bar = Player.progress_bar
 @onready var progress_bar_cover = Player.progress_bar_cover
 
-# Called when the node enters the scene tree for the first time.
+"Initialization"
 func _frame1() -> void:
+	"Gets screen for random point generation"
 	screen = get_viewport_rect()
+	
+	"If goal already exists (not spawned)"
 	if goal_path:
 		var goal = get_node(goal_path)
 		goal.mode = goal.SCRIPT
+		"Sets goal"
 		goal.on_collected = Callable(goal_collected)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void: 
+	"Controls time speed"
 	delta *= TimeManager.time_speed
+	
+	"Checks if initialized"
 	if is_frame1:
 		_frame1()
 		is_frame1 = false
-	else:
+	else: 
+		"Normal behavior: Spawns goals"
 		if spawns_goals:
 			if spawn_cooldown_active:
+				"Cooldown"
 				if spawn_cooldown_left > 0:
 					spawn_cooldown_left -= delta
 					
+				"Spawns goal and resets cooldown"
 				if spawn_cooldown_left <= 0:
 					spawn_child(_random_point())
 					spawn_cooldown_left = spawn_cooldown
 					spawn_cooldown_active = false				
 
+"If spawned goal collected,"
 func goal_collected():
 	goals_collected += 1
 	spawn_cooldown_active = true
 	spawn_cooldown_left = spawn_cooldown
+	
+	"If enough collected, goes to next screen"
 	if goals_collected == goals_needed: #Advance to next level
 		goals_collected == 0
 		level.next_screen()
@@ -61,12 +74,10 @@ func spawn_child(point):
 	goal.on_collected = Callable(goal_collected)
 	add_child(goal)
 	return goal
-	
+
+"Generates random point"
 func _random_point():
 	var x = randf_range(0, screen.size.x)
 	var y = randf_range(128, screen.size.y-128)
 	return Vector2(x,y)
-
-func restart():
-	pass
 	

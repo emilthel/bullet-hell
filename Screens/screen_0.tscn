@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://c1cqudyety7ep"]
 
-[ext_resource type="Script" path="res://level_1c/goal_spawner.gd" id="1_0rfar"]
+[ext_resource type="Script" path="res://level_1c/screen.gd" id="1_0rfar"]
 [ext_resource type="PackedScene" uid="uid://bhvduqbnsfwr2" path="res://level_1c/Scenes/goal.tscn" id="2_ibpry"]
-[ext_resource type="Script" path="res://level_1c/Scenes/enemy_spawner.gd" id="3_o61uf"]
+[ext_resource type="Script" path="res://Scripts/enemy_rain.gd" id="3_fkepx"]
 
 [node name="Screen0" type="Node2D"]
 process_mode = 4
@@ -15,11 +15,9 @@ screen_name = ""
 [node name="Goal" parent="." instance=ExtResource("2_ibpry")]
 position = Vector2(913, 507)
 
-[node name="EnemySpawner2" type="Node2D" parent="."]
+[node name="EnemyRain" type="Node2D" parent="."]
 position = Vector2(652, 33)
-script = ExtResource("3_o61uf")
-velocity = 1000.0
-max_cooldown = 0.015
+script = ExtResource("3_fkepx")
 
 [node name="PressSpace" type="RichTextLabel" parent="."]
 modulate = Color(1, 1, 1, 0.654902)

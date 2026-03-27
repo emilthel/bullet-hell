@@ -25,6 +25,10 @@ TimeManager="*res://level_1c/Scenes/time_manager.gd"
 window/size/viewport_width=1000
 window/size/viewport_height=1000
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/godotresourcecleaner/plugin.cfg")
+
 [input]
 
 pause={
