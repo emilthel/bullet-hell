@@ -12,20 +12,15 @@ visible = false
 script = ExtResource("1_embb8")
 screen_name = "Wonky Grid"
 
-[node name="Grid" type="Area2D" parent="."]
+[node name="WonkyGrid" type="Area2D" parent="."]
 position = Vector2(500, 500)
 collision_layer = 2
 collision_mask = 2
 script = ExtResource("2_k5ckd")
-log_length = null
 count = 4
-damage = null
-angle = null
-factor = null
 spacing = 130.0
 distortion_speed = 0.8
-rotation_speed = null
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Grid"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WonkyGrid"]
 shape = SubResource("CircleShape2D_1vguc")
 disabled = true

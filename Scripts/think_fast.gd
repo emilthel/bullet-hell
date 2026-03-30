@@ -18,10 +18,8 @@ var directions: Dictionary = {}
 @export var one_shot: bool = true
 @export var angle_offset: float = 0
 
-var state = ACTIVE 
-
 enum{ACTIVE, SLEEP}
-
+var state = ACTIVE 
 var is_frame1 = true
 var player
 var level
@@ -48,33 +46,34 @@ func _frame1() -> void:
 	position = Vector2(500,500)
 	sprite.scale *= float(safe_radius)/500
 	time_left = wait_time/2
-
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	delta *= TimeManager.time_speed #Syncs time speed
-	"Initializes on first frame alive"
+	"Sets time speed"
+	delta *= TimeManager.time_speed
+	
+	"Initializes if on first frame"
 	if is_frame1:
 		_frame1()
 		is_frame1 = false
 	
-	target.global_position = player.position #Tracks player position
-
-	"Spawn cooldown"
+	"Cooldown"
 	time_left -= delta
-	sprite.modulate.a = (1-time_left)*0.4 #Background overlay fades in
+	sprite.modulate.a = (1-time_left)*0.4 #Sets color of background overlay
+	target.global_position = player.position #Tracks player
 	
-	"Spawns and resets cooldown"
+	"Spawns bullets and resets cooldown"
 	if time_left < 0:
 		_spawn_bullets()
 		sprite.modulate.a = 0
 		if one_shot:
-			time_left = INF #Never spawns again
+			time_left = INF
 		else:
 			time_left = wait_time
-	
+
 	"Controls bullets"
 	for bullet in children:
-		if is_instance_valid(bullet): #Controls bullets that exist
+		if is_instance_valid(bullet): #Runs for bullets that exist
 			var distance = (bullet.global_position-target.global_position).length()
 			match acceleration_mode:
 				"lin":
@@ -94,15 +93,9 @@ func _process(delta: float) -> void:
 					bullet.queue_free()
 		else: 	#Removes nonexistent bullets from list
 			children.erase(bullet)
-			
-"Gets random point"
-func _random_point():
-	var x = randf_range(0, screen_rect.size.x)
-	var y = randf_range(0, screen_rect.size.y)
-	return Vector2(x,y)
-				
-"Spawns single sprite"
-func spawn_child(point, parent = self):
+
+"Spawns a single sprite"
+func spawn_sprite(point, parent = self):
 	var child = enemy_scene.instantiate()
 	parent.add_child(child)
 	child.global_position = point
@@ -112,12 +105,12 @@ func spawn_child(point, parent = self):
 	children.append(child)
 	return child
 
-"Spawns multiple bullets"
+"Spawns many bullets"
 func _spawn_bullets():
 	var successful_spawns: int = 0
-	while successful_spawns < bullet_count:
+	while successful_spawns < bullet_count: #Spawns bullets until desired
 		var spawn_point = _random_point()			
-		var bullet = spawn_child(spawn_point)
+		var bullet = spawn_sprite(spawn_point)
 
 		var offset = randf_range(-angle_offset, angle_offset)
 		var direction = (target.global_position-bullet.global_position).normalized().rotated(offset)
@@ -131,4 +124,27 @@ func _spawn_bullets():
 			children.erase(bullet)
 		else:
 			successful_spawns += 1 
-				
+
+"Generates random point on screen"
+func _random_point():
+	var x = randf_range(0, screen_rect.size.x)
+	var y = randf_range(0, screen_rect.size.y)
+	return Vector2(x,y)
+
+	var successful_spawns: int = 0
+	while successful_spawns < bullet_count: #Spawns bullets until desired
+		var spawn_point = _random_point()			
+		var bullet = spawn_sprite(spawn_point)
+
+		var offset = randf_range(-angle_offset, angle_offset)
+		var direction = (target.global_position-bullet.global_position).normalized().rotated(offset)
+		directions[bullet] = direction
+		bullet.velocity = direction*bullet_speed
+		bullet.scale *= bullet_size
+
+		#Skips if bullet in safe radius
+		if (spawn_point - target.global_position).length() < safe_radius:
+			bullet.queue_free()
+			children.erase(bullet)
+		else:
+			successful_spawns += 1 
