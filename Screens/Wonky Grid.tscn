@@ -7,8 +7,6 @@
 radius = 23.0868
 
 [node name="Screen2" type="Node2D"]
-process_mode = 4
-visible = false
 script = ExtResource("1_embb8")
 screen_name = "Wonky Grid"
 

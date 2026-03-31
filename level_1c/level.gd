@@ -3,12 +3,9 @@ extends Node2D
 @export var start_screen = 0
 
 @onready var screen_index = start_screen
-@onready var tutorial = $Tutorial
-
 enum{SCREEN, TRANSITION, TUTORIAL, DEAD}
-var mode = TUTORIAL
+var mode = SCREEN
 var transition_scene = "res://level_1c/Scenes/transition.tscn"
-var tutorial_scene = "res://level_1c/Scenes/tutorial.tscn"
 var screen_scene = "res://Screens/screen_0.tscn"
 var screen
 var new_screen
@@ -16,92 +13,45 @@ var new_screen_index
 var transition
 var died: bool = false
 
-# Called when the node enters the scene tree for the first time.
+var screen_names: Array = ["Start menu",
+"Tutorial", 
+"Grid", 
+"Wonky Grid", 
+"Think Fast", 
+"Rebound", 
+"Stay still?", 
+"Endgame", 
+"The Flood", 
+"Big Bullets", 
+"Thank you!"]
+
 func _ready() -> void:
-	var screen_name = "Screen" + str(screen_index)
-	screen = get_node(screen_name)
+	var screen_scene = "res://Screens/" + screen_names[screen_index] + ".tscn" #Finds screen
+	screen = load(screen_scene).instantiate() #Loads screen scene
+	add_child(screen) #Adds screen as child
 	Player.level = self
-	
-	tutorial = load(tutorial_scene).instantiate()
-	add_child(tutorial)
-
-func enter_transition(died = true):
-	screen.queue_free()
-	
-	#Loads transition
-	transition = load(transition_scene).instantiate()
-	add_child(transition)
-
-	Player.on_transition_entered()
-	mode = TRANSITION
-	
-	return transition
 
 func die():
-		#print("Enter transition", screen_index)
-	#Unloads current screen
-	print("level die() called")
-	screen.process_mode = Node.PROCESS_MODE_DISABLED
-	screen.visible = false
-	
+	#Unloads screen
+	screen.queue_free()
+
 	#Loads transition
 	transition = load(transition_scene).instantiate()
 	add_child(transition)
 
-	Player.on_transition_entered(false)
 	mode = TRANSITION
-	
-	
-	return transition
-func get_next_screen():
-	var new_screen_index = screen_index + 1
-	var new_screen_name = "Screen" + str(new_screen_index)
-	var new_screen = get_node(new_screen_name)	
-	return new_screen
-	
-func next_screen():	
-	print("goal collected next screen")
-	"If exiting tutorial"
-	if mode == TUTORIAL:		
-		"Finds next screen"
-		var new_screen_index = start_screen
-		var new_screen_name = "Screen" + str(new_screen_index)
-		var new_screen = get_node(new_screen_name)	
-				
-		"If next screen exists:"
-		if new_screen:
-			#Unloads transition
-			tutorial.queue_free()
-
-			#Switches screen
-			screen = new_screen
-			screen_index = new_screen_index
-			
-			#Loads new screen
-			screen.process_mode = Node.PROCESS_MODE_INHERIT
-			screen.visible = true
-			
-			#print(screen.name)
-
-			mode = SCREEN
-			#Updates GUI
-			Player.on_screen_0_entered()
-
-			return
-		else:
-			print("Screen transition failed")
-			
-	"If entering transition"
+func advance():	
+	"If entering transition after completing screen"
 	if mode == SCREEN: 
+		#Unloads screen
 		screen.queue_free()
 	
-		#Loads transition scene
+		#Loads transition
 		transition = load(transition_scene).instantiate()
 		add_child(transition)
 
-		Player.on_transition_entered()
 		mode = TRANSITION
-		
+		Player.on_screen_entered()
 		screen_index += 1
 		return
 	
@@ -111,24 +61,13 @@ func next_screen():
 		#Unloads transition
 		transition.queue_free()
 						
-		#Loads screen scene
-		var screen_scene = "res://Screens/screen_" + str(screen_index) + ".tscn"
-		screen = load(screen_scene).instantiate()
-		add_child(screen)
-	
-		#Loads spawned screen
-		screen.process_mode = Node.PROCESS_MODE_INHERIT
-		screen.visible = true
+		#Loads screen
+		var screen_scene = "res://Screens/" + screen_names[screen_index] + ".tscn" #Finds screen
+		screen = load(screen_scene).instantiate() #Loads screen scene
+		add_child(screen) #Adds screen as child
 		
-		#print(screen.name)
-
 		mode = SCREEN
-		#Updates GUI
-		Player.on_screen_entered()
 		return
 	
 func restart():
 	get_tree().reload_current_scene()
-	
-func _process(delta: float) -> void:
-	pass

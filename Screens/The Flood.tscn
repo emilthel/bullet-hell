@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://c7maari225eu5"]
 
-[ext_resource type="Script" path="res://level_1c/screen.gd" id="1_ih443"]
-[ext_resource type="Script" path="res://level_1c/Scenes/bullet_spawner_2.gd" id="2_tqx3w"]
+[ext_resource type="Script" path="res://level_1c/screen.gd" id="1_rody8"]
+[ext_resource type="Script" path="res://level_1c/Scenes/bullet_spawner_2.gd" id="2_y5wo6"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gwmw0"]
 radius = 23.0868
@@ -35,14 +35,14 @@ fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.6, 0.6)
 
 [node name="Screen8" type="Node2D"]
-script = ExtResource("1_ih443")
+script = ExtResource("1_rody8")
 goals_needed = 6
 screen_name = "The Flood"
 
 [node name="BigBullets" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 0
-script = ExtResource("2_tqx3w")
+script = ExtResource("2_y5wo6")
 safe_radius = 200.0
 bullet_speed = 5.0
 bullet_count = 3

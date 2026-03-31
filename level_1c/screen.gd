@@ -15,8 +15,6 @@ var spawn_cooldown_left: float = spawn_cooldown
 var spawn_cooldown_active: bool = true
 
 @onready var level = $".."
-@onready var progress_bar = Player.progress_bar
-@onready var progress_bar_cover = Player.progress_bar_cover
 
 "Initialization"
 func _frame1() -> void:
@@ -62,7 +60,7 @@ func goal_collected():
 	"If enough collected, goes to next screen"
 	if goals_collected == goals_needed: #Advance to next level
 		goals_collected == 0
-		level.next_screen()
+		level.advance()
 
 "Spawns goal"
 func spawn_child(point):

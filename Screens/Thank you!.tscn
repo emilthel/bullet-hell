@@ -1,12 +1,12 @@
 [gd_scene load_steps=3 format=3 uid="uid://be8o7mgf0ihcy"]
 
-[ext_resource type="Script" path="res://level_1c/screen.gd" id="1_h4gsp"]
+[ext_resource type="Script" path="res://level_1c/screen.gd" id="1_qva4j"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k4a5s"]
 
 [node name="Screen9" type="Node2D"]
 process_mode = 4
-script = ExtResource("1_h4gsp")
+script = ExtResource("1_qva4j")
 goals_needed = 1
 spawns_goals = false
 screen_name = "Congratulations!"

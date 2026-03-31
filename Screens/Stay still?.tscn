@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://cr7fwps35hv8b"]
 
 [ext_resource type="Script" path="res://level_1c/screen.gd" id="1_7ieb5"]
-[ext_resource type="Script" path="res://Screens/circle_spawner.gd" id="2_dqhg1"]
+[ext_resource type="Script" path="res://circle_spawner.gd" id="2_dqhg1"]
 [ext_resource type="PackedScene" uid="uid://ci7m6vunac8os" path="res://level_1c/Scenes/enemy.tscn" id="3_b31uq"]
 
 [node name="Screen5" type="Node2D"]

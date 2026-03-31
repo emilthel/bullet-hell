@@ -1,6 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://88eywowk3k25"]
+[gd_scene load_steps=5 format=3 uid="uid://c0sbyyfrxo352"]
 
-[ext_resource type="Script" path="res://level_1c/goal.gd" id="1_gemnq"]
+[ext_resource type="Script" path="res://level_1c/goal.gd" id="1_f5hrn"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2dcn3"]
 radius = 23.0868
@@ -16,14 +16,14 @@ gradient = SubResource("Gradient_6quts")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
-[node name="Tutorial" type="Node2D"]
+[node name="Start Menu" type="Node2D"]
 
 [node name="Goal" type="Area2D" parent="."]
 modulate = Color(0, 1, 0, 1)
 position = Vector2(500, 804)
 collision_layer = 4
 collision_mask = 4
-script = ExtResource("1_gemnq")
+script = ExtResource("1_f5hrn")
 velocity = Vector2(0, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Goal"]

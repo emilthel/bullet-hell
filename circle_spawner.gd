@@ -14,7 +14,6 @@ const ONE = Vector2(1,0)
 func _ready() -> void:
 	pass # Replace with function body.
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	delta *= TimeManager.time_speed
@@ -47,9 +46,8 @@ func _process(delta: float) -> void:
 			bullet.collision_layer = 0
 			var radius = 500
 			bullet.position = ONE.rotated(d[bullet]["angle"])*radius + target.position
-
-
-
+	
+	
 	"Controls bullets"
 	for bullet in bullets:
 		var custom = d[bullet]
@@ -66,7 +64,7 @@ func _process(delta: float) -> void:
 					custom["state"] = "wake"
 					bullet.modulate.a = 1
 					bullet.collision_layer = 2
-
+			
 			"wake":
 				"Movement - constant"
 				bullet.velocity = ONE.rotated(custom["angle"])*custom["speed"]
@@ -78,7 +76,3 @@ func _process(delta: float) -> void:
 					print("despawn_attempt")
 					bullet.queue_free()
 					bullets.erase(bullet)
-				
-		
-		
-		
