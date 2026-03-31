@@ -5,7 +5,6 @@
 [ext_resource type="Script" path="res://Scripts/enemy_rain.gd" id="3_fkepx"]
 
 [node name="Screen0" type="Node2D"]
-process_mode = 4
 script = ExtResource("1_0rfar")
 goals_needed = 1
 spawns_goals = false

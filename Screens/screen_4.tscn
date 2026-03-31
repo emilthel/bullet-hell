@@ -35,8 +35,6 @@ fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.6, 0.6)
 
 [node name="Screen4" type="Node2D"]
-process_mode = 4
-visible = false
 script = ExtResource("1_0m6i8")
 goals_needed = 5
 screen_name = "Rebound"

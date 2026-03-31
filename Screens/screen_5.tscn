@@ -5,8 +5,6 @@
 [ext_resource type="PackedScene" uid="uid://ci7m6vunac8os" path="res://level_1c/Scenes/enemy.tscn" id="3_b31uq"]
 
 [node name="Screen5" type="Node2D"]
-process_mode = 4
-visible = false
 script = ExtResource("1_7ieb5")
 goals_needed = 4
 screen_name = "Stay still?"

@@ -26,10 +26,7 @@ func _ready() -> void:
 	add_child(tutorial)
 
 func enter_transition(died = true):
-	#print("Enter transition", screen_index)
-	#Unloads current screen
-	screen.process_mode = Node.PROCESS_MODE_DISABLED
-	screen.visible = false
+	screen.queue_free()
 	
 	#Loads transition
 	transition = load(transition_scene).instantiate()
@@ -52,7 +49,7 @@ func die():
 	add_child(transition)
 
 	Player.on_transition_entered(false)
-	mode = DEAD
+	mode = TRANSITION
 	
 	
 	return transition
@@ -94,59 +91,29 @@ func next_screen():
 		else:
 			print("Screen transition failed")
 			
-			
 	"If entering transition"
 	if mode == SCREEN: 
-		transition = enter_transition()
+		screen.queue_free()
+	
+		#Loads transition scene
+		transition = load(transition_scene).instantiate()
+		add_child(transition)
+
+		Player.on_transition_entered()
+		mode = TRANSITION
+		
+		screen_index += 1
 		return
 	
 				
 	"If entering screen"
 	if mode == TRANSITION:		
-		"Finds next screen"
-		var new_screen_index = screen_index + 1
-		var new_screen_name = "Screen" + str(new_screen_index)
-		var new_screen = get_node(new_screen_name)	
-				
-		"If next screen exists:"
-		if new_screen:
-			#Unloads transition
-			transition.queue_free()
-
-			#Switches screen
-			screen = new_screen
-			screen_index = new_screen_index
-			
-			#Loads new screen
-			screen.process_mode = Node.PROCESS_MODE_INHERIT
-			screen.visible = true
-			
-			#print(screen.name)
-
-			mode = SCREEN
-			#Updates GUI
-			Player.on_screen_entered()
-			return
-		else:
-			print("Screen transition failed")
-
-	"If restarting screen after dying"
-	if mode == DEAD:
 		#Unloads transition
 		transition.queue_free()
-
-		#Loads previous screen			
-		screen.process_mode = Node.PROCESS_MODE_INHERIT
-		screen.visible = true
-		
-		print("dead load test")
-		
-		#Despawns previous screen 
-		screen.queue_free()
-		
-		#Loads previous scene
-		var previous_screen_scene = "res://Screens/screen_" + str(screen_index) + ".tscn"
-		screen = load(previous_screen_scene).instantiate()
+						
+		#Loads screen scene
+		var screen_scene = "res://Screens/screen_" + str(screen_index) + ".tscn"
+		screen = load(screen_scene).instantiate()
 		add_child(screen)
 	
 		#Loads spawned screen
