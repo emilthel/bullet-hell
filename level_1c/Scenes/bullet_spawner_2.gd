@@ -1,11 +1,11 @@
 extends Area2D
-enum{FIRING, SLEEP, TO_FIRE}
+enum{TO_SPAWN, TO_ACTIVATE}
 
 var velocity: Vector2 = Vector2(0,0)
 var enemy_scene: PackedScene = load("res://level_1c/scenes/enemy.tscn")
 var bullets: Array = []
 var directions: Dictionary = {}
-var state = FIRING 
+var state = TO_SPAWN
 
 @export var safe_radius: float = 500
 @export var bullet_speed: float = 100 #Starting speed
@@ -17,7 +17,8 @@ var state = FIRING
 @export var despawns: bool = false
 @export var bullet_size: float = 1
 @export var center_delete: bool = true
-@export var wait_time: float = 2
+@export var spawn_time: float = 2
+@export var activation_time: float = 1
 @export var one_shot: bool = true
 @export var angle_offset: float = 0
 
@@ -27,7 +28,9 @@ var state = FIRING
 @onready var target = $Target
 @onready var level = $"../.."
 @onready var screen_rect = get_viewport_rect()
-@onready var time_left = wait_time/2
+@onready var spawn_time_left = spawn_time/2
+@onready var activation_time_left = activation_time
+
 
 func _ready() -> void:
 	target.scale *= float(safe_radius)/500
@@ -37,36 +40,33 @@ func _process(delta: float) -> void:
 	delta *= TimeManager.time_speed #Syncs time speed
 	target.global_position = player.position #Tracks player position
 	
-	"Spawns and resets cooldown"
-	if time_left < 0:
-		_spawn_bullets()
-		if one_shot:
-			time_left = INF #Never spawns again
-		else:
-			time_left = wait_time
-	
-	"Controls bullets"
+	print("state: ", state)
 	match state:
-		SLEEP:
+		TO_ACTIVATE:
+			"Activation cooldown"
+			activation_time_left -= delta
+			
+			"Activates bullets"
+			if activation_time_left < 0:
+				state = TO_SPAWN #Activates bullets
+				spawn_time_left = spawn_time #Resets cooldown
+		  
+		TO_SPAWN:
 			"Spawn cooldown"
-			time_left -= delta
-			
-			"Spawns and resets cooldown"
-			if time_left < 0:
+			spawn_time_left -= delta
+
+			"Spawns bullets and resets cooldown"
+			spawn_time 
+			if spawn_time_left > 0:
 				_spawn_bullets()
-				if one_shot:
-					time_left = INF #Never spawns again
-				else:
-					time_left = wait_time
-				
-			state = TO_FIRE
+				state = TO_ACTIVATE
+			else:
+				spawn_time_left = spawn_time #Resets cooldown
 			
-		TO_FIRE:
-			state = FIRING
-			
-		FIRING:
+			"Controls previously fire bullets"
 			for bullet in bullets:
 				if is_instance_valid(bullet): #Controls bullets that exist
+					bullet.process_mode = Node.PROCESS_MODE_INHERIT 
 					var distance = (bullet.global_position-target.global_position).length()
 					match acceleration_mode:
 						"lin":
@@ -115,7 +115,7 @@ func _spawn_bullets():
 		var direction = (target.global_position-bullet.global_position).normalized().rotated(offset)
 		
 		"Default values"
-		bullet.process_mode = Node.PROCESS_MODE_DISABLED #Bullets disabled by default
+		#bullet.process_mode = Node.PROCESS_MODE_DISABLED #Bullets disabled by default
 		directions[bullet] = direction
 		bullet.velocity = direction*bullet_speed
 		bullet.scale *= bullet_size

@@ -21,7 +21,6 @@ bullet_count = 3
 acceleration_mode = "exp"
 bullet_size = 12.0
 center_delete = false
-wait_time = 1.0
 one_shot = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BulletSpawner2"]

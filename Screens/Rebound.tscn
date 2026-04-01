@@ -21,7 +21,6 @@ bullet_count = 15
 lin_acc = -150.0
 bullet_size = 2.0
 center_delete = false
-wait_time = 3.0
 one_shot = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Overcrowding"]
