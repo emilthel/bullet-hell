@@ -7,3 +7,4 @@ process_mode = 3
 
 [node name="Level" type="Node2D" parent="."]
 script = ExtResource("2_q5hl2")
+start_screen = 4

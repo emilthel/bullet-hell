@@ -1,38 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://p2r6u006262g"]
+[gd_scene load_steps=4 format=3 uid="uid://p2r6u006262g"]
 
 [ext_resource type="Script" path="res://level_1c/screen.gd" id="1_80xm6"]
 [ext_resource type="Script" path="res://level_1c/Scenes/bullet_spawner_2.gd" id="2_rf8m3"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_360ek"]
 radius = 23.0868
-
-[sub_resource type="Gradient" id="Gradient_yi808"]
-interpolation_mode = 1
-offsets = PackedFloat32Array(0.3, 1)
-colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1)
-metadata/_snap_enabled = true
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_drh8l"]
-gradient = SubResource("Gradient_yi808")
-width = 1000
-height = 1000
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(1, 0.5)
-
-[sub_resource type="Gradient" id="Gradient_bi6tm"]
-interpolation_mode = 1
-offsets = PackedFloat32Array(0.2, 0.5)
-colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
-metadata/_snap_enabled = true
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_27nkd"]
-gradient = SubResource("Gradient_bi6tm")
-width = 10000
-height = 10000
-fill = 2
-fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(0.6, 0.6)
 
 [node name="Screen7" type="Node2D"]
 script = ExtResource("1_80xm6")
@@ -61,12 +33,3 @@ collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BulletSpawner2/Target"]
 shape = SubResource("CircleShape2D_360ek")
-
-[node name="CompositeSprite" type="Node2D" parent="BulletSpawner2/Target"]
-modulate = Color(1, 0, 0, 1)
-
-[node name="Sprite2D1" type="Sprite2D" parent="BulletSpawner2/Target/CompositeSprite"]
-texture = SubResource("GradientTexture2D_drh8l")
-
-[node name="Sprite2D2" type="Sprite2D" parent="BulletSpawner2/Target/CompositeSprite"]
-texture = SubResource("GradientTexture2D_27nkd")

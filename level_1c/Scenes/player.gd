@@ -42,6 +42,7 @@ func _ready() -> void:
 	
 	_progress_checklist_length(0)
 	slow_mo.slowmo_time = slowmo_time
+"Main script"
 func _process(delta: float) -> void:
 	"Movement"
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN) 
@@ -83,10 +84,10 @@ func _process(delta: float) -> void:
 				flash_color = RED
 	bg.modulate.a = invincibility #Sets transparency
 	
-	
 	"Lives counter"
-	if level.screen_scene == "Start menu": #Invisible on start menu
-		lives_counter.visible = false
+	print(level.current_screen_name)
+	if level.current_screen_name == "Start menu": #Checks current screen
+		lives_counter.visible = false #Hides on start menu
 	else:
 		lives_counter.visible = true
 		lives_counter.text = str(lives) #Tracks player lives
@@ -99,6 +100,7 @@ func _process(delta: float) -> void:
 		else:
 			game_over_screen.visible = false #Hides game over screen
 			game_over_screen.modulate.a = 1 #Resets transparency for next game over
+	
 	"Death screen"
 	#Fades out
 	if death_screen.visible: #Fades out death screen
@@ -116,10 +118,9 @@ func _process(delta: float) -> void:
 		else:
 			next_up_screen.visible = false #Hides next up screen
 			next_up_screen.modulate.a = 1 #Resets transparency for next screen transition
-	
+		next_up_screen_name.text = str(level.current_screen_name)
 	"Music speed"
 	meaning_corrupted_music.pitch_scale = TimeManager.time_speed ** 0.1  #Slows down when slowmo active
-	
 
 #PROGRESS CHECKLIST
 "Changes length of checklist"
