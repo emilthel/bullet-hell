@@ -1,8 +1,8 @@
 extends Area2D
 
 var velocity: Vector2 = Vector2(0,0)
-var enemy_scene: PackedScene = load("res://level_1c/scenes/enemy.tscn")
-var goal_scene: PackedScene = load("res://level_1c/Scenes/goal.tscn")
+var enemy_scene: PackedScene = load("res://Scenes/enemy.tscn")
+var goal_scene: PackedScene = load("res://Scenes/goal.tscn")
 var log: Array = []
 var grid: Dictionary = {}
 var is_frame1 = true

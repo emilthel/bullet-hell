@@ -1,7 +1,7 @@
 extends Node2D
 
 var screen
-var goal_scene: PackedScene = load("res://level_1c/Scenes/goal.tscn")
+var goal_scene: PackedScene = load("res://Scenes/goal.tscn")
 var is_frame1: bool = true
 var goals_collected: int = 0
 @export var goals_needed: int = 4

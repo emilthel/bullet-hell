@@ -3,7 +3,7 @@ extends Area2D
 @onready var target = $Target
 var d: Dictionary = {}
 var bullets = [] 
-var enemy_scene = "res://level_1c/Scenes/enemy.tscn"
+var enemy_scene = "res://Scenes/enemy.tscn"
 @export var spawn_cooldown: float = 1. / 2 
 var spawn_cooldown_left: float = spawn_cooldown
 @export var bullet_count: int = 5

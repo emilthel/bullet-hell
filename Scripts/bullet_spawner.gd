@@ -2,7 +2,7 @@ extends Area2D
 enum{TO_SPAWN, TO_ACTIVATE}
 
 var velocity: Vector2 = Vector2(0,0)
-var enemy_scene: PackedScene = load("res://level_1c/scenes/enemy.tscn")
+var enemy_scene: PackedScene = load("res://Scenes/enemy.tscn")
 var bullets: Array = []
 var directions: Dictionary = {}
 var state = TO_SPAWN

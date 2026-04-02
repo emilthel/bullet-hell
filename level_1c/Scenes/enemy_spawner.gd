@@ -4,7 +4,7 @@ extends Node2D
 @export var max_cooldown = 0.02
 
 var cooldown = 0
-var enemy_scene = "res://level_1c/Scenes/enemy.tscn"
+var enemy_scene = "res://Scenes/enemy.tscn"
 	
 "Process"
 func _process(delta: float) -> void:

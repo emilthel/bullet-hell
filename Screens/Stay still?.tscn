@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scripts/goal_manager.gd" id="1_7ieb5"]
 [ext_resource type="Script" path="res://Scripts/circle_spawner.gd" id="2_dqhg1"]
-[ext_resource type="PackedScene" uid="uid://ci7m6vunac8os" path="res://level_1c/Scenes/enemy.tscn" id="3_b31uq"]
+[ext_resource type="PackedScene" uid="uid://ci7m6vunac8os" path="res://Scenes/enemy.tscn" id="3_b31uq"]
 
 [node name="Stay still?" type="Node2D"]
 script = ExtResource("1_7ieb5")

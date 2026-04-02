@@ -3,7 +3,7 @@ extends Node2D
 var goals_needed: int
 var spawns_goals: bool = true 
 var spawn_cooldown: float = 1
-var goal_scene: PackedScene = load("res://level_1c/Scenes/goal.tscn")
+var goal_scene: PackedScene = load("res://Scenes/goal.tscn")
 var goals_collected: int = 0
 var spawn_cooldown_left: float = spawn_cooldown
 var spawn_cooldown_active: bool = true

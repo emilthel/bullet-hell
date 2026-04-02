@@ -11,13 +11,13 @@ config_version=5
 [application]
 
 config/name="ChronoSphere"
-run/main_scene="res://level_1c/Scenes/level.tscn"
+run/main_scene="res://Scenes/level.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.png"
 
 [autoload]
 
-Player="*res://level_1c/Scenes/player.tscn"
+Player="*res://Scenes/player.tscn"
 TimeManager="*res://level_1c/Scenes/time_manager.gd"
 
 [display]

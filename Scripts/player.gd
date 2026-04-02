@@ -24,7 +24,7 @@ extends Area2D
 @onready var next_screen_name = $GUI/NextScreenFlash/ScreenName
 
 @onready var progress_checklist = $GUI/ProgressChecklist
-@onready var progress_slot_scene = "res://level_1c/Scenes/progress_slot.tscn"
+@onready var progress_slot_scene = "res://Scenes/progress_slot.tscn"
 @onready var score = "res://Score.txt"
 @onready var lives = start_lives
 var invincible = false

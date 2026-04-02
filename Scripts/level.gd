@@ -5,8 +5,7 @@ extends Node2D
 @onready var screen_index = start_screen
 enum{SCREEN, TRANSITION, TUTORIAL, DEAD}
 var mode = SCREEN
-var transition_scene = "res://level_1c/Scenes/transition.tscn"
-var screen_scene = "res://Screens/screen_0.tscn"
+var transition_scene ="res://Scenes/transition.tscn"
 var died: bool = false
 var screen_names: Array = [
 "Start Menu",
