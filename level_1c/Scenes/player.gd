@@ -83,6 +83,7 @@ func _process(delta: float) -> void:
 			bg.modulate = Color(0,1,0)
 			if invincibility == 0:
 				flash_color = RED
+				
 	bg.modulate.a = invincibility #Sets transparency
 	
 	"Lives counter"
@@ -92,7 +93,7 @@ func _process(delta: float) -> void:
 	#Fades out
 	if game_over_flash.visible: #Fades out game over flash
 		if game_over_flash.modulate.a > 0:
-			game_over_flash.modulate.a -= 0.3 * delta
+			game_over_flash.modulate.a -= 0.2 * delta
 		else:
 			game_over_flash.visible = false #Hides game over screen
 			game_over_flash.modulate.a = 1 #Resets transparency for next game over

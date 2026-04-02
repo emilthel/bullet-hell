@@ -84,7 +84,6 @@ texture = SubResource("GradientTexture2D_k7nop")
 visibility_layer = 257
 
 [node name="BG" type="Sprite2D" parent="GUI"]
-visible = false
 modulate = Color(1, 0, 0, 0)
 position = Vector2(514, 541)
 scale = Vector2(5.16406, 1112.75)
