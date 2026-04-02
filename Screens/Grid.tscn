@@ -6,7 +6,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_1vguc"]
 radius = 23.0868
 
-[node name="Screen1" type="Node2D"]
+[node name="Grid" type="Node2D"]
 script = ExtResource("1_d66if")
 goals_needed = 1
 

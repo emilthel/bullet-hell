@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://bhvduqbnsfwr2" path="res://level_1c/Scenes/goal.tscn" id="2_ibpry"]
 [ext_resource type="Script" path="res://Scripts/enemy_rain.gd" id="3_fkepx"]
 
-[node name="Screen0" type="Node2D"]
+[node name="Tutorial" type="Node2D"]
 script = ExtResource("1_0rfar")
 goals_needed = 1
 spawns_goals = false

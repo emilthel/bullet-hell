@@ -6,7 +6,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_1vguc"]
 radius = 23.0868
 
-[node name="Screen2" type="Node2D"]
+[node name="Wonky Grid" type="Node2D"]
 script = ExtResource("1_embb8")
 screen_name = "Wonky Grid"
 

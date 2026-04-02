@@ -113,7 +113,7 @@ func _process(delta: float) -> void:
 		else:
 			next_up_screen.visible = false #Hides next up screen
 			next_up_screen.modulate.a = 1 #Resets transparency for next screen transition
-		next_up_screen_name.text = str(level.screen_to_load)
+		next_up_screen_name.text = level.screen_to_load.name
 	"Music speed"
 	meaning_corrupted_music.pitch_scale = TimeManager.time_speed ** 0.1  #Slows down when slowmo active
 
@@ -214,14 +214,14 @@ func _game_over():
 	bg.modulate = Color(1,0,0,0)
 
 func on_screen_entered():	
-	#if level.screen_to_load.name == "Start Menu": #If entering start menu
-		#meaning_corrupted_music.stop() #Stops music
-		#lives_counter.visible = false #Hides lives counter
+	if level.screen_to_load.name == "Start Menu": #If entering start menu
+		meaning_corrupted_music.stop() #Stops music
+		lives_counter.visible = false #Hides lives counter
 	pass
 		
 func on_screen_exited():
 	next_up_screen.visible = true #Flashes "Next up" screen
-	if level.screen_unloaded.name == "Start mMnu":  #If exiting start menu
+	if level.screen_unloaded.name == "Start Menu":  #If exiting start menu
 		meaning_corrupted_music.play() #Starts music
 		lives_counter.visible = true #Shows lives counter
 	

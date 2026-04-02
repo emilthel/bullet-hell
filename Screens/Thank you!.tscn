@@ -4,7 +4,7 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k4a5s"]
 
-[node name="Screen9" type="Node2D"]
+[node name="Thank you!" type="Node2D"]
 process_mode = 4
 script = ExtResource("1_qva4j")
 goals_needed = 1
