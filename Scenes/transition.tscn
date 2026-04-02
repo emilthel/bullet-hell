@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://b1vryv482j4bf"]
 
-[ext_resource type="Script" path="res://level_1c/Scenes/transition.gd" id="1_g2fyk"]
+[ext_resource type="Script" path="res://Scripts/transition.gd" id="1_g2fyk"]
 [ext_resource type="Script" path="res://Scripts/goal.gd" id="1_wirfv"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2dcn3"]
