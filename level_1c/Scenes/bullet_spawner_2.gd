@@ -49,51 +49,54 @@ func _process(delta: float) -> void:
 			"Activates bullets"
 			if activation_time_left < 0:
 				state = TO_SPAWN #Activates bullets
-				spawn_time_left = spawn_time #Resets cooldown
+				activation_time_left = activation_time
 		  
 		TO_SPAWN:
 			"Spawn cooldown"
 			spawn_time_left -= delta
 
 			"Spawns bullets and resets cooldown"
-			spawn_time 
-			if spawn_time_left > 0:
+			if spawn_time_left < 0:
 				_spawn_bullets()
-				state = TO_ACTIVATE
-			else:
-				spawn_time_left = spawn_time #Resets cooldown
+				enter_to_activate_state()
 			
-			"Controls previously fire bullets"
-			for bullet in bullets:
-				if is_instance_valid(bullet): #Controls bullets that exist
-					bullet.process_mode = Node.PROCESS_MODE_INHERIT 
-					var distance = (bullet.global_position-target.global_position).length()
-					match acceleration_mode:
-						"lin":
-							var direction = directions[bullet]
-							bullet.velocity += lin_acc * direction * delta
-							
-							bullet.velocity = bullet.velocity.rotated(rot_angle*delta)
-							direction = direction.rotated(rot_angle*delta)
-							
-						"exp":
-							bullet.velocity *= exp_base ** delta
-							bullet.velocity = bullet.velocity.rotated(rot_angle*delta)
-							
-			 		#Deletes bullets that reach center
-					if center_delete:
-						if distance < 30:
-							bullet.queue_free()
-				else: 	#Removes nonexistent bullets from list
-					bullets.erase(bullet)
-			
+	"Controls bullets"
+	for bullet in bullets:
+		if is_instance_valid(bullet): #Controls bullets that exist
+			var distance = (bullet.global_position-target.global_position).length()
+			match acceleration_mode:
+				"lin":
+					var direction = directions[bullet]
+					bullet.velocity += lin_acc * direction * delta
+					
+					bullet.velocity = bullet.velocity.rotated(rot_angle*delta)
+					direction = direction.rotated(rot_angle*delta)
+					
+				"exp":
+					bullet.velocity *= exp_base ** delta
+					bullet.velocity = bullet.velocity.rotated(rot_angle*delta)
+					
+	 		#Deletes bullets that reach center
+			if center_delete:
+				if distance < 30:
+					bullet.queue_free()
+		else: 	#Removes nonexistent bullets from list
+			bullets.erase(bullet)
+#State change functions
+func enter_to_spawn_state():
+	spawn_time_left = spawn_time #Resets cooldown
+	state = TO_SPAWN
+func enter_to_activate_state():
+	activation_time_left = activation_time #Resets cooldown
+	state = TO_ACTIVATE
+	
+#Misc functions
 "Gets random point"
 func _random_point():
 	var x = randf_range(0, screen_rect.size.x)
 	var y = randf_range(0, screen_rect.size.y)
 	return Vector2(x,y)
-				
-"Spawns single target."
+"Spawns single bullet."
 func spawn_child(point, parent = self):
 	var child = enemy_scene.instantiate()
 	parent.add_child(child)
@@ -103,7 +106,6 @@ func spawn_child(point, parent = self):
 	child.despawns = despawns
 	bullets.append(child)
 	return child
-
 "Spawns multiple bullets"
 func _spawn_bullets():
 	var successful_spawns: int = 0
