@@ -18,7 +18,7 @@ var state = TO_SPAWN
 @export var bullet_size: float = 1
 @export var center_delete: bool = true
 @export var spawn_time: float = 2
-@export var activation_time: float = 1
+@export var activation_time: float = 0.2
 @export var one_shot: bool = true
 @export var angle_offset: float = 0
 
@@ -45,22 +45,37 @@ func _process(delta: float) -> void:
 		TO_ACTIVATE:
 			"Activation cooldown"
 			activation_time_left -= delta
-			
+
 			"Activates bullets"
 			if activation_time_left < 0:
-				state = TO_SPAWN #Activates bullets
-				activation_time_left = activation_time
+				_activate_bullets()
+				enter_to_spawn_state()
 		  
 		TO_SPAWN:
 			"Spawn cooldown"
 			spawn_time_left -= delta
 
+			print(spawn_time_left)
 			"Spawns bullets and resets cooldown"
 			if spawn_time_left < 0:
 				_spawn_bullets()
 				enter_to_activate_state()
 			
 	"Controls bullets"
+	run_bullets(delta)
+
+
+#State change functions
+func enter_to_spawn_state():
+	spawn_time_left = spawn_time #Resets cooldown
+	state = TO_SPAWN
+func enter_to_activate_state():
+	activation_time_left = activation_time #Resets cooldown
+	state = TO_ACTIVATE
+	
+#Misc functions
+"Runs bullets remotely"
+func run_bullets(delta):
 	for bullet in bullets:
 		if is_instance_valid(bullet): #Controls bullets that exist
 			var distance = (bullet.global_position-target.global_position).length()
@@ -82,21 +97,14 @@ func _process(delta: float) -> void:
 					bullet.queue_free()
 		else: 	#Removes nonexistent bullets from list
 			bullets.erase(bullet)
-#State change functions
-func enter_to_spawn_state():
-	spawn_time_left = spawn_time #Resets cooldown
-	state = TO_SPAWN
-func enter_to_activate_state():
-	activation_time_left = activation_time #Resets cooldown
-	state = TO_ACTIVATE
-	
-#Misc functions
+			
 "Gets random point"
 func _random_point():
 	var x = randf_range(0, screen_rect.size.x)
 	var y = randf_range(0, screen_rect.size.y)
 	return Vector2(x,y)
-"Spawns single bullet."
+
+"Spawns single sprite."
 func spawn_child(point, parent = self):
 	var child = enemy_scene.instantiate()
 	parent.add_child(child)
@@ -106,7 +114,8 @@ func spawn_child(point, parent = self):
 	child.despawns = despawns
 	bullets.append(child)
 	return child
-"Spawns multiple bullets"
+
+"Spawns inactive bullets"
 func _spawn_bullets():
 	var successful_spawns: int = 0
 	while successful_spawns < bullet_count:
@@ -117,10 +126,11 @@ func _spawn_bullets():
 		var direction = (target.global_position-bullet.global_position).normalized().rotated(offset)
 		
 		"Default values"
-		#bullet.process_mode = Node.PROCESS_MODE_DISABLED #Bullets disabled by default
+		bullet.process_mode = Node.PROCESS_MODE_DISABLED #Bullets disabled by default
 		directions[bullet] = direction
 		bullet.velocity = direction*bullet_speed
 		bullet.scale *= bullet_size
+		bullet.modulate.a = 0.4
 		
 		#Skips if bullet in safe radius
 		if (spawn_point - target.global_position).length() < safe_radius:
@@ -129,3 +139,11 @@ func _spawn_bullets():
 		else:
 			successful_spawns += 1 
 				
+"Activates bullets"
+func _activate_bullets():
+	for bullet in bullets:
+		if is_instance_valid(bullet): #Controls bullets that exist
+			var distance = (bullet.global_position-target.global_position).length()
+			bullet.process_mode = PROCESS_MODE_INHERIT
+			bullet.modulate.a = 1
+	
