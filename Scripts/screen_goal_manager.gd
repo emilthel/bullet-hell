@@ -1,9 +1,6 @@
 extends Node2D
 
-var screen
-var goal_scene: PackedScene = load("res://Scenes/goal.tscn")
-var is_frame1: bool = true
-var goals_collected: int = 0
+
 
 @export var goals_needed: int = 2
 @export var spawns_goals: bool = true
@@ -11,15 +8,19 @@ var goals_collected: int = 0
 @export var screen_name: String = "Grid"
 @export var bullet_size: float = 0.9
 @export var spawn_cooldown: float = 1
+var goal_scene: PackedScene = load("res://Scenes/goal.tscn")
+var is_frame1: bool = true
+var goals_collected: int = 0
 var spawn_cooldown_left: float = spawn_cooldown
 var spawn_cooldown_active: bool = true
+var viewport
 
 @onready var level = $".."
 
 "Initialization"
 func _frame1() -> void:
-	"Gets screen for random point generation"
-	screen = get_viewport_rect()
+	"Gets viewport for random point generation"
+	viewport = get_viewport_rect()
 	
 	"If goal already exists (not spawned)"
 	if goal_path:
@@ -75,7 +76,7 @@ func spawn_child(point):
 
 "Generates random point"
 func _random_point():
-	var x = randf_range(0, screen.size.x)
-	var y = randf_range(128, screen.size.y-128)
+	var x = randf_range(0, viewport.size.x)
+	var y = randf_range(128, viewport.size.y-128)
 	return Vector2(x,y)
 	

@@ -34,8 +34,7 @@ enum{GAME_OVER_RECOVERY}
 enum{RED,GREEN}
 var flash_color = RED
 var level
-var state
-var start_menu
+var screen_goal_manager
 
 func _ready() -> void:	
 	"Hides mouse"
@@ -190,7 +189,9 @@ func _die():
 		_game_over()
 	else:
 		level.die()
+		"Resets values"
 		health = max_health
+		slow_mo.reset_slowmo()
 		
 		"Plays sound"
 		death_sound.play()
@@ -220,14 +221,25 @@ func _game_over():
 	bg.modulate = Color(1,0,0,0)
 
 func on_screen_entered():	
+	"Resets values"
+	health = max_health
+	slow_mo.reset_slowmo()
 	if level.screen_to_load.name == "Start Menu": #If entering start menu
 		meaning_corrupted_music.stop() #Stops music
 		lives_counter.visible = false #Hides lives counter
 		
 func on_screen_exited():
-	next_screen_flash.visible = true #Flashes name of next screen
-	_progress_checklist_length(level.screen_to_load.goals_needed) #Shows goals needed for next screen
+	"Resets values"
+	health = max_health
+	slow_mo.reset_slowmo()
 	
+	next_screen_flash.visible = true #Flashes name of next screen
+	_progress_checklist_length(level.screen_to_load.goals_needed) #Checklist shows goals needed for next screen
+	if game_over_flash.visible: #Stops game over flash
+		game_over_flash.visible = false
 	if level.unloaded_screen.name == "Start Menu":  #If exiting start menu
 		meaning_corrupted_music.play() #Starts music
 		lives_counter.visible = true #Shows lives counter
+
+func on_goal_collected():
+	pass
