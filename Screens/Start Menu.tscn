@@ -1,5 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://c0sbyyfrxo352"]
+[gd_scene load_steps=6 format=3 uid="uid://c0sbyyfrxo352"]
 
+[ext_resource type="Script" path="res://Scripts/screen_goal_manager.gd" id="1_4c6hq"]
 [ext_resource type="Script" path="res://Scripts/goal.gd" id="1_f5hrn"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2dcn3"]
@@ -18,6 +19,9 @@ fill_from = Vector2(0.5, 0.5)
 
 [node name="Start Menu" type="Node2D"]
 z_index = -10
+script = ExtResource("1_4c6hq")
+goals_needed = 1
+spawns_goals = false
 
 [node name="Goal" type="Area2D" parent="."]
 modulate = Color(0, 1, 0, 1)

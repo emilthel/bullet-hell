@@ -28,7 +28,6 @@ extends Area2D
 @onready var score = "res://Score.txt"
 @onready var lives = start_lives
 var invincible = false
-var progress_slots_filled = 0
 var progress_slots: Dictionary = {}
 enum{GAME_OVER_RECOVERY}
 enum{RED,GREEN}
@@ -123,7 +122,7 @@ func _process(delta: float) -> void:
 
 #PROGRESS CHECKLIST
 "Changes length of checklist"
-func _progress_checklist_length(length):
+func update_length(length):
 	"Clears progress checklist"
 	for n in range(len(progress_slots)):
 		progress_slots[n].queue_free()
@@ -137,7 +136,7 @@ func _progress_checklist_length(length):
 		progress_slots[n] = slot
 
 "Changes displayed score"
-func _progress_checklist_score(count):
+func update_score(count):
 	for n in range(len(progress_slots)):
 		"Fills in points up to count"
 		if n < count:
@@ -198,7 +197,7 @@ func _die():
 		death_flash.visible = true 
 		
 		"Empties progress checklist"
-		_progress_checklist_score(0)
+		update_score(0)
 		
 		level.transition.color_rect.color = Color(1,0,0,0.3)
 
@@ -213,10 +212,10 @@ func _game_over():
 	"Restarts /resets player values"
 	lives = start_lives
 	health = max_health
-	_progress_checklist_length(0)
+	update_length(0)
 	slow_mo.reset_slowmo()
 	
-	_progress_checklist_length(0)		
+	update_length(0)		
 	"Changes invincibility color to red"
 	bg.modulate = Color(1,0,0,0)
 
@@ -224,6 +223,7 @@ func on_screen_entered():
 	"Resets values"
 	health = max_health
 	slow_mo.reset_slowmo()
+	
 	if level.screen_to_load.name == "Start Menu": #If entering start menu
 		meaning_corrupted_music.stop() #Stops music
 		lives_counter.visible = false #Hides lives counter
@@ -232,14 +232,16 @@ func on_screen_exited():
 	"Resets values"
 	health = max_health
 	slow_mo.reset_slowmo()
-	
+	update_score(0) #Empties checklist
+
 	next_screen_flash.visible = true #Flashes name of next screen
-	_progress_checklist_length(level.screen_to_load.goals_needed) #Checklist shows goals needed for next screen
+	update_length(level.screen_to_load.goals_needed) #Checklist shows goals needed for next screen
 	if game_over_flash.visible: #Stops game over flash
 		game_over_flash.visible = false
+		
 	if level.unloaded_screen.name == "Start Menu":  #If exiting start menu
 		meaning_corrupted_music.play() #Starts music
 		lives_counter.visible = true #Shows lives counter
 
 func on_goal_collected():
-	pass
+	update_score(screen_goal_manager.goals_collected)

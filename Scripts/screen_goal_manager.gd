@@ -19,6 +19,8 @@ var viewport
 
 "Initialization"
 func _frame1() -> void:
+	Player.screen_goal_manager = self
+	
 	"Gets viewport for random point generation"
 	viewport = get_viewport_rect()
 	
@@ -58,11 +60,14 @@ func goal_collected():
 	spawn_cooldown_active = true
 	spawn_cooldown_left = spawn_cooldown
 	
+	"Signals to player"
+	Player.on_goal_collected()
+	
 	"If enough collected, goes to next screen"
 	if goals_collected == goals_needed: #Advance to next level
 		goals_collected == 0
 		level.advance()
-
+		
 "Spawns goal"
 func spawn_child(point):
 	var goal = goal_scene.instantiate()
