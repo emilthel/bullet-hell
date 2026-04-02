@@ -24,20 +24,21 @@ var screen
 var new_screen
 var new_screen_index
 var transition
-var current_screen_name
-var next_screen_name
+var screen_unloaded
+var screen_to_load = "Start menu"
 
 func _ready() -> void:
 	var screen_scene = "res://Screens/" + screen_names[screen_index] + ".tscn" #Finds screen
 	screen = load(screen_scene).instantiate() #Loads screen scene
 	add_child(screen) #Adds screen as child
 	Player.level = self
+	
+	Player.on_screen_entered()
 
 func _process(delta: float) -> void:
+	"For player slowmo"
 	delta *= TimeManager.time_speed
-	"Tracks screen names for use by player"
-	current_screen_name = screen_names[screen_index] #Screen to load after transition or currently active
-
+	
 "Called when player detects death"
 func die():
 	#Unloads screen
@@ -49,37 +50,43 @@ func die():
 
 	mode = TRANSITION
 
-"On collecting collecting all goals on screen or collecting the goal in transition"
+"On collecting collecting all goals on screen or collecting the goal in a transition"
 func advance():	
-	"If entering transition after completing screen"
+	"Exit screen, enter transition"
 	if mode == SCREEN: 
 		#Unloads screen
 		screen.queue_free()
-	
+		screen_unloaded = screen_names[screen_index] #Tracks name of unloaded screen
+		screen_to_load = screen_names[screen_index + 1] #Tracks name of screen to load
+		screen_index += 1
+		
 		#Loads transition
 		transition = load(transition_scene).instantiate()
 		add_child(transition)
+	
+		#Signals to player
+		Player.on_screen_exited()
 		
 		#Makes goal in transition load next screen
 		mode = TRANSITION
-		
-		Player.on_screen_entered()
-		screen_index += 1
 		return
 	
 				
-	"If entering screen"
+	"Exit transition, enter screen"
 	if mode == TRANSITION:		
 		#Unloads transition
-		transition.queue_free()
-						
-		#Loads screen
-		var screen_scene = "res://Screens/" + screen_names[screen_index] + ".tscn" #Finds screen
+		transition.queue_free()		
+		
+		#Finds screen to load
+		var screen_scene = "res://Screens/" + screen_to_load + ".tscn"
 		screen = load(screen_scene).instantiate() #Loads screen scene
 		add_child(screen) #Adds screen as child
+		
+		#Signals to player
+		Player.on_screen_entered()
 		
 		mode = SCREEN
 		return
 	
-func restart():
+func restart(): #For player to run game over
 	get_tree().reload_current_scene()

@@ -85,12 +85,7 @@ func _process(delta: float) -> void:
 	bg.modulate.a = invincibility #Sets transparency
 	
 	"Lives counter"
-	print(level.current_screen_name)
-	if level.current_screen_name == "Start menu": #Checks current screen
-		lives_counter.visible = false #Hides on start menu
-	else:
-		lives_counter.visible = true
-		lives_counter.text = str(lives) #Tracks player lives
+	lives_counter.text = str(lives) #Tracks player lives
 	
 	"Game over screen"
 	#Fades out
@@ -118,7 +113,7 @@ func _process(delta: float) -> void:
 		else:
 			next_up_screen.visible = false #Hides next up screen
 			next_up_screen.modulate.a = 1 #Resets transparency for next screen transition
-		next_up_screen_name.text = str(level.current_screen_name)
+		next_up_screen_name.text = str(level.screen_to_load)
 	"Music speed"
 	meaning_corrupted_music.pitch_scale = TimeManager.time_speed ** 0.1  #Slows down when slowmo active
 
@@ -217,6 +212,15 @@ func _game_over():
 	bg.modulate = Color(1,0,0,0)
 	
 	_progress_checklist_length(level.screen.goals_needed)
-func on_screen_entered():
+func on_screen_entered():	
+	if level.screen_to_load == "Start menu": #If entering start menu
+		meaning_corrupted_music.stop() #Stops music
+		lives_counter.visible = false #Hides lives counter
+		
+func on_screen_exited():
 	next_up_screen.visible = true #Flashes "Next up" screen
-	
+	if level.screen_unloaded == "Start menu":  #If exiting start menu
+		meaning_corrupted_music.play() #Starts music
+		lives_counter.visible = true #Shows lives counter
+
+		

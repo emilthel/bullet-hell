@@ -19,8 +19,10 @@ safe_radius = 200.0
 bullet_speed = 5.0
 bullet_count = 3
 acceleration_mode = "exp"
+despawns = true
 bullet_size = 12.0
 center_delete = false
+spawn_time = 1.8
 one_shot = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BulletSpawner2"]

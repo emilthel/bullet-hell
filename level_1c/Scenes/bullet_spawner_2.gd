@@ -42,27 +42,32 @@ func _process(delta: float) -> void:
 	
 	print("state: ", state)
 	match state:
-		TO_ACTIVATE:
+		TO_ACTIVATE: #After bullets spawned, activates after cooldown
+			"Runs bullets remotely"
+			run_bullets(delta)
+			
 			"Activation cooldown"
 			activation_time_left -= delta
 
-			"Activates bullets"
+			"Activates newly spawned bullets"
 			if activation_time_left < 0:
-				_activate_bullets()
-				enter_to_spawn_state()
+				activate_bullets()
+				if not one_shot:
+					enter_to_spawn_state()
+				
 		  
 		TO_SPAWN:
+			"Runs bullets remotely"
+			run_bullets(delta)
+			
 			"Spawn cooldown"
 			spawn_time_left -= delta
 
 			print(spawn_time_left)
 			"Spawns bullets and resets cooldown"
 			if spawn_time_left < 0:
-				_spawn_bullets()
+				spawn_bullets()
 				enter_to_activate_state()
-			
-	"Controls bullets"
-	run_bullets(delta)
 
 
 #State change functions
@@ -99,7 +104,7 @@ func run_bullets(delta):
 			bullets.erase(bullet)
 			
 "Gets random point"
-func _random_point():
+func random_point():
 	var x = randf_range(0, screen_rect.size.x)
 	var y = randf_range(0, screen_rect.size.y)
 	return Vector2(x,y)
@@ -116,10 +121,10 @@ func spawn_child(point, parent = self):
 	return child
 
 "Spawns inactive bullets"
-func _spawn_bullets():
+func spawn_bullets():
 	var successful_spawns: int = 0
 	while successful_spawns < bullet_count:
-		var spawn_point = _random_point()			
+		var spawn_point = random_point()			
 		var bullet = spawn_child(spawn_point)
 		
 		var offset = randf_range(-angle_offset, angle_offset) 
@@ -140,7 +145,7 @@ func _spawn_bullets():
 			successful_spawns += 1 
 				
 "Activates bullets"
-func _activate_bullets():
+func activate_bullets():
 	for bullet in bullets:
 		if is_instance_valid(bullet): #Controls bullets that exist
 			var distance = (bullet.global_position-target.global_position).length()

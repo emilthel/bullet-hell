@@ -191,6 +191,7 @@ scroll_active = false
 
 [node name="GameOverScreen" type="Control" parent="GUI"]
 visible = false
+z_index = 4096
 layout_mode = 3
 anchors_preset = 0
 offset_left = 8.0
