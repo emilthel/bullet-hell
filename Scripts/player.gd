@@ -122,7 +122,7 @@ func _process(delta: float) -> void:
 
 #PROGRESS CHECKLIST
 "Changes length of checklist"
-func update_length(length):
+func update_checklist_length(length):
 	"Clears progress checklist"
 	for n in range(len(progress_slots)):
 		progress_slots[n].queue_free()
@@ -136,7 +136,7 @@ func update_length(length):
 		progress_slots[n] = slot
 
 "Changes displayed score"
-func update_score(count):
+func update_checklist_score(count):
 	for n in range(len(progress_slots)):
 		"Fills in points up to count"
 		if n < count:
@@ -197,7 +197,7 @@ func _die():
 		death_flash.visible = true 
 		
 		"Empties progress checklist"
-		update_score(0)
+		update_checklist_score(0)
 		
 		level.transition.color_rect.color = Color(1,0,0,0.3)
 
@@ -212,10 +212,10 @@ func _game_over():
 	"Restarts /resets player values"
 	lives = start_lives
 	health = max_health
-	update_length(0)
+	update_checklist_length(0)
 	slow_mo.reset_slowmo()
 	
-	update_length(0)		
+	update_checklist_length(0)		
 	"Changes invincibility color to red"
 	bg.modulate = Color(1,0,0,0)
 
@@ -224,6 +224,8 @@ func on_screen_entered():
 	health = max_health
 	slow_mo.reset_slowmo()
 	
+	update_checklist_length(level.screen_to_load.goals_needed) #Updates checklist
+
 	if level.screen_to_load.name == "Start Menu": #If entering start menu
 		meaning_corrupted_music.stop() #Stops music
 		lives_counter.visible = false #Hides lives counter
@@ -232,10 +234,8 @@ func on_screen_exited():
 	"Resets values"
 	health = max_health
 	slow_mo.reset_slowmo()
-	update_score(0) #Empties checklist
 
 	next_screen_flash.visible = true #Flashes name of next screen
-	update_length(level.screen_to_load.goals_needed) #Checklist shows goals needed for next screen
 	if game_over_flash.visible: #Stops game over flash
 		game_over_flash.visible = false
 		
@@ -244,4 +244,4 @@ func on_screen_exited():
 		lives_counter.visible = true #Shows lives counter
 
 func on_goal_collected():
-	update_score(screen_goal_manager.goals_collected)
+	update_checklist_score(screen_goal_manager.goals_collected)
