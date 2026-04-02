@@ -169,6 +169,8 @@ func _on_area_entered(area: Area2D) -> void: #Collision signal
 				level.advance()
 			if area.mode == area.SCRIPT:
 				area.on_collected.call()
+
+"#DELEETE THIS"
 func _hit(damage):	
 	if invincibility == 0:
 		blood -= damage 
@@ -207,20 +209,21 @@ func _game_over():
 	_progress_checklist_length(0)
 	slow_mo.reset_slowmo()
 	
-	_progress_checklist_length(level.screen.goals_needed)		
+	_progress_checklist_length(0)		
 	"Changes invincibility color to red"
 	bg.modulate = Color(1,0,0,0)
-	
-	_progress_checklist_length(level.screen.goals_needed)
+
 func on_screen_entered():	
-	if level.screen_to_load == "Start menu": #If entering start menu
-		meaning_corrupted_music.stop() #Stops music
-		lives_counter.visible = false #Hides lives counter
+	#if level.screen_to_load.name == "Start Menu": #If entering start menu
+		#meaning_corrupted_music.stop() #Stops music
+		#lives_counter.visible = false #Hides lives counter
+	pass
 		
 func on_screen_exited():
 	next_up_screen.visible = true #Flashes "Next up" screen
-	if level.screen_unloaded == "Start menu":  #If exiting start menu
+	if level.screen_unloaded.name == "Start mMnu":  #If exiting start menu
 		meaning_corrupted_music.play() #Starts music
 		lives_counter.visible = true #Shows lives counter
+	
 
 		
