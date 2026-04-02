@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bxktb4mgrociw"]
 
-[ext_resource type="Script" path="res://level_1c/level.gd" id="2_q5hl2"]
+[ext_resource type="Script" path="res://Scripts/level.gd" id="2_q5hl2"]
 
 [node name="PauseManager" type="Node"]
 process_mode = 3

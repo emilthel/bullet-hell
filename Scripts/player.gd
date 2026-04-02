@@ -231,6 +231,3 @@ func on_screen_exited():
 	if level.unloaded_screen.name == "Start Menu":  #If exiting start menu
 		meaning_corrupted_music.play() #Starts music
 		lives_counter.visible = true #Shows lives counter
-	
-func on_goal_collected():
-	pass

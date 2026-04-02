@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://ty5a21qj1dox"]
 
-[ext_resource type="Script" path="res://level_1c/goal_manager.gd" id="1_d66if"]
+[ext_resource type="Script" path="res://Scripts/goal_manager.gd" id="1_d66if"]
 [ext_resource type="Script" path="res://Scripts/grid.gd" id="2_cjfnq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1vguc"]
@@ -10,7 +10,7 @@ radius = 23.0868
 script = ExtResource("1_d66if")
 goals_needed = 1
 
-[node name="Grid1" type="Area2D" parent="."]
+[node name="Grid" type="Area2D" parent="."]
 position = Vector2(500, 500)
 collision_layer = 2
 collision_mask = 2
@@ -21,6 +21,6 @@ spacing = 130.0
 distortion_speed = 0.5
 rotation_speed = 0.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Grid1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Grid"]
 shape = SubResource("CircleShape2D_1vguc")
 disabled = true

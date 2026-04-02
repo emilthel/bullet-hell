@@ -1,11 +1,10 @@
-[gd_scene load_steps=17 format=3 uid="uid://roijp1hsdlj"]
+[gd_scene load_steps=16 format=3 uid="uid://roijp1hsdlj"]
 
 [ext_resource type="PackedScene" uid="uid://pp67xax5ie64" path="res://level_1c/Scenes/slow_mo.tscn" id="1_sl6ca"]
-[ext_resource type="Script" path="res://level_1c/Scenes/player.gd" id="1_vgs1x"]
+[ext_resource type="Script" path="res://Scripts/player.gd" id="1_t4oj0"]
 [ext_resource type="AudioStream" uid="uid://cl8ybpqm3cq4m" path="res://sounds/hit-windy-thud-399086.mp3" id="2_xtwg7"]
 [ext_resource type="AudioStream" uid="uid://5hs8ec58txg" path="res://sounds/hit-watchtower-399087.mp3" id="3_bwiib"]
 [ext_resource type="AudioStream" uid="uid://d1iqjgbu3cpbc" path="res://sounds/error-83494.mp3" id="3_s1cva"]
-[ext_resource type="Script" path="res://level_1c/Scenes/mouse_tracker.gd" id="3_y6wm4"]
 [ext_resource type="AudioStream" uid="uid://ba1qd6bthlb68" path="res://sounds/meaning.mp3" id="5_fvffa"]
 [ext_resource type="AudioStream" uid="uid://b8d7hqp1ksgy1" path="res://sounds/melancholy-chime.mp3" id="6_767p4"]
 
@@ -46,7 +45,7 @@ gradient = SubResource("Gradient_mdaw6")
 process_mode = 1
 z_index = 1
 collision_mask = 7
-script = ExtResource("1_vgs1x")
+script = ExtResource("1_t4oj0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_1vguc")
@@ -54,9 +53,6 @@ shape = SubResource("CircleShape2D_1vguc")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = 5
 texture = SubResource("GradientTexture2D_2cts2")
-
-[node name="VisibilityNotifier" type="VisibleOnScreenNotifier2D" parent="."]
-script = ExtResource("3_y6wm4")
 
 [node name="GUI" type="Node" parent="."]
 
@@ -198,6 +194,7 @@ offset_right = 9.0
 offset_bottom = 91.0
 
 [node name="Game" type="RichTextLabel" parent="GUI/GameOverFlash"]
+layout_mode = 0
 offset_left = -3.0
 offset_top = -39.0
 offset_right = 337.0
@@ -208,6 +205,7 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_tnd7w")
 text = "GAME"
 
 [node name="Over" type="RichTextLabel" parent="GUI/GameOverFlash"]
+layout_mode = 0
 offset_left = 47.0
 offset_top = 420.0
 offset_right = 387.0
@@ -219,6 +217,7 @@ text = "OVER"
 
 [node name="ColorRect" type="ColorRect" parent="GUI/GameOverFlash"]
 z_index = -1
+layout_mode = 0
 offset_left = -92.0
 offset_top = -122.0
 offset_right = -49.0

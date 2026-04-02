@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://b1lgeeg7qt1bj"]
 
-[ext_resource type="Script" path="res://level_1c/goal_manager.gd" id="1_0m6i8"]
-[ext_resource type="Script" path="res://level_1c/Scenes/bullet_spawner_2.gd" id="2_m5l8y"]
+[ext_resource type="Script" path="res://Scripts/goal_manager.gd" id="1_0m6i8"]
+[ext_resource type="Script" path="res://Scripts/bullet_spawner.gd" id="2_m5l8y"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qj1gm"]
 radius = 23.0868
@@ -11,7 +11,7 @@ script = ExtResource("1_0m6i8")
 goals_needed = 5
 screen_name = "Rebound"
 
-[node name="Overcrowding" type="Area2D" parent="."]
+[node name="BulletSpawner" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 0
 script = ExtResource("2_m5l8y")
@@ -23,12 +23,12 @@ bullet_size = 2.0
 center_delete = false
 one_shot = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Overcrowding"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BulletSpawner"]
 shape = SubResource("CircleShape2D_qj1gm")
 
-[node name="Target" type="Area2D" parent="Overcrowding"]
+[node name="Target" type="Area2D" parent="BulletSpawner"]
 collision_layer = 0
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Overcrowding/Target"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BulletSpawner/Target"]
 shape = SubResource("CircleShape2D_qj1gm")
