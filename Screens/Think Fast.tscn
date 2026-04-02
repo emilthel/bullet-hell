@@ -19,6 +19,7 @@ safe_radius = 200.0
 bullet_count = 30
 acceleration_mode = "exp"
 center_delete = false
+spawn_time = 0.5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BulletSpawner"]
 shape = SubResource("CircleShape2D_yvbls")
