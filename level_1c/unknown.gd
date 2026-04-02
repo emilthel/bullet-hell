@@ -2,7 +2,7 @@ extends Area2D
 var invincible = false
 
 
-@export var blood: float = 1
+@export var health: float = 1
 @export var enemy_layer = 2
 @export var goal_layer = 4
 
@@ -15,16 +15,16 @@ var invincible = false
 func _process(delta: float) -> void:
 	delta *= TimeManager.time_speed
 	global_position = get_global_mouse_position()
-	if blood > 1:
-		blood = 1
+	if health > 1:
+		health = 1
 	bg.modulate.a = invincibility_timer.time_left
-	health_bar.scale.x = blood
+	health_bar.scale.x = health
 	
 func _on_area_entered(area: Area2D) -> void:
 	if area.collision_layer == enemy_layer:
 		if not invincible:
-			blood -= area.damage 
-			if blood <= 0:
+			health -= area.damage 
+			if health <= 0:
 				get_tree().quit()
 			
 			invincibility_timer.start()
@@ -37,7 +37,7 @@ func _on_area_entered(area: Area2D) -> void:
 		if area.mode == area.SCRIPT:
 			area.on_collected.call()
 		area.queue_free()
-		blood += area.heal
+		health += area.heal
 		
 		
 

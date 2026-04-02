@@ -47,7 +47,6 @@ process_mode = 1
 z_index = 1
 collision_mask = 7
 script = ExtResource("1_vgs1x")
-max_blood = 0.5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_1vguc")
@@ -85,6 +84,7 @@ texture = SubResource("GradientTexture2D_k7nop")
 visibility_layer = 257
 
 [node name="BG" type="Sprite2D" parent="GUI"]
+visible = false
 modulate = Color(1, 0, 0, 0)
 position = Vector2(514, 541)
 scale = Vector2(5.16406, 1112.75)
@@ -105,7 +105,7 @@ text = "1"
 alignment = 1
 editable = false
 
-[node name="NextUpScreen" type="Control" parent="GUI"]
+[node name="NextScreenFlash" type="Control" parent="GUI"]
 z_index = 10
 layout_mode = 3
 anchors_preset = 0
@@ -115,7 +115,7 @@ offset_right = 104.0
 offset_bottom = 311.0
 metadata/_edit_use_anchors_ = true
 
-[node name="ColorRect" type="ColorRect" parent="GUI/NextUpScreen"]
+[node name="ColorRect" type="ColorRect" parent="GUI/NextScreenFlash"]
 layout_mode = 0
 offset_left = -124.0
 offset_top = -338.0
@@ -124,7 +124,7 @@ offset_bottom = -298.0
 scale = Vector2(26.32, 26.32)
 color = Color(0, 1, 0, 0.490196)
 
-[node name="NextUp" type="RichTextLabel" parent="GUI/NextUpScreen"]
+[node name="NextUp" type="RichTextLabel" parent="GUI/NextScreenFlash"]
 modulate = Color(1, 1, 1, 0.6)
 z_index = -2
 layout_mode = 0
@@ -139,7 +139,7 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_tnd7w")
 text = "Next up:"
 scroll_active = false
 
-[node name="ScreenName" type="RichTextLabel" parent="GUI/NextUpScreen"]
+[node name="ScreenName" type="RichTextLabel" parent="GUI/NextScreenFlash"]
 modulate = Color(1, 1, 1, 0.6)
 z_index = -2
 layout_mode = 0
@@ -151,10 +151,9 @@ scale = Vector2(1.83933, 1.55172)
 theme_override_font_sizes/mono_font_size = 1
 theme_override_font_sizes/normal_font_size = 100
 theme_override_styles/normal = SubResource("StyleBoxEmpty_tnd7w")
-text = "TEST"
 scroll_active = false
 
-[node name="DeathScreen" type="Control" parent="GUI"]
+[node name="DeathFlash" type="Control" parent="GUI"]
 visible = false
 z_index = 10
 layout_mode = 3
@@ -165,7 +164,7 @@ offset_right = 109.0
 offset_bottom = 321.0
 metadata/_edit_use_anchors_ = true
 
-[node name="ColorRect" type="ColorRect" parent="GUI/DeathScreen"]
+[node name="ColorRect" type="ColorRect" parent="GUI/DeathFlash"]
 layout_mode = 0
 offset_left = -124.0
 offset_top = -338.0
@@ -174,7 +173,7 @@ offset_bottom = -298.0
 scale = Vector2(26.32, 26.32)
 color = Color(1, 0, 0, 0.490196)
 
-[node name="YouDied" type="RichTextLabel" parent="GUI/DeathScreen"]
+[node name="YouDied" type="RichTextLabel" parent="GUI/DeathFlash"]
 modulate = Color(1, 1, 1, 0.6)
 z_index = -2
 layout_mode = 0
@@ -189,7 +188,7 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_tnd7w")
 text = "You died"
 scroll_active = false
 
-[node name="GameOverScreen" type="Control" parent="GUI"]
+[node name="GameOverFlash" type="Control" parent="GUI"]
 visible = false
 z_index = 4096
 layout_mode = 3
@@ -199,9 +198,7 @@ offset_top = 91.0
 offset_right = 9.0
 offset_bottom = 91.0
 
-[node name="Game" type="RichTextLabel" parent="GUI/GameOverScreen"]
-z_index = 5
-layout_mode = 0
+[node name="Game" type="RichTextLabel" parent="GUI/GameOverFlash"]
 offset_left = -3.0
 offset_top = -39.0
 offset_right = 337.0
@@ -211,9 +208,7 @@ theme_override_font_sizes/normal_font_size = 100
 theme_override_styles/normal = SubResource("StyleBoxEmpty_tnd7w")
 text = "GAME"
 
-[node name="Over" type="RichTextLabel" parent="GUI/GameOverScreen"]
-z_index = 5
-layout_mode = 0
+[node name="Over" type="RichTextLabel" parent="GUI/GameOverFlash"]
 offset_left = 47.0
 offset_top = 420.0
 offset_right = 387.0
@@ -222,6 +217,15 @@ scale = Vector2(3.32901, 2.73624)
 theme_override_font_sizes/normal_font_size = 100
 theme_override_styles/normal = SubResource("StyleBoxEmpty_tnd7w")
 text = "OVER"
+
+[node name="ColorRect" type="ColorRect" parent="GUI/GameOverFlash"]
+z_index = -1
+offset_left = -92.0
+offset_top = -122.0
+offset_right = -49.0
+offset_bottom = -81.0
+scale = Vector2(26.32, 26.32)
+color = Color(0.717647, 0, 0, 1)
 
 [node name="Sounds" type="Node" parent="."]
 

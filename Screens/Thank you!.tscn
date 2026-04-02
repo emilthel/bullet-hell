@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://be8o7mgf0ihcy"]
 
-[ext_resource type="Script" path="res://level_1c/screen.gd" id="1_qva4j"]
+[ext_resource type="Script" path="res://level_1c/goal_manager.gd" id="1_qva4j"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k4a5s"]
 

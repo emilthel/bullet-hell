@@ -24,7 +24,7 @@ var screen
 var new_screen
 var new_screen_index
 var transition
-var screen_unloaded
+var unloaded_screen
 var screen_to_load = load("res://Screens/Start Menu.tscn")
 
 func _ready() -> void:
@@ -56,9 +56,9 @@ func advance():
 	"Exit screen, enter transition"
 	if mode == SCREEN: 
 		#Unloads screen
-		screen_unloaded = screen.duplicate() #Saves a copy of previous screen to memory
+		unloaded_screen = screen.duplicate() #Saves a copy of previous screen to memory
+		screen.queue_free() #Removes original from game
 		screen_to_load = load(find_path(screen_names[screen_index + 1])).instantiate() #Stores next screen in memory
-		screen.queue_free() #Removes previous screen from scene treee
 		screen_index += 1
 		
 		#Loads transition
@@ -78,7 +78,7 @@ func advance():
 		#Unloads transition
 		transition.queue_free()		
 		
-		#Finds screen to load
+		#Loads screen into game
 		screen = screen_to_load.duplicate()
 		add_child(screen)
 		
