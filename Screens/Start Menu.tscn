@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://c0sbyyfrxo352"]
+[gd_scene load_steps=7 format=3 uid="uid://c0sbyyfrxo352"]
 
 [ext_resource type="Script" path="res://Scripts/screen_goal_manager.gd" id="1_4c6hq"]
 [ext_resource type="Script" path="res://Scripts/goal.gd" id="1_f5hrn"]
+[ext_resource type="Script" path="res://Scripts/start_menu.gd" id="3_1lt86"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2dcn3"]
 radius = 23.0868
@@ -37,21 +38,30 @@ shape = SubResource("CircleShape2D_2dcn3")
 [node name="Sprite2D" type="Sprite2D" parent="Goal"]
 texture = SubResource("GradientTexture2D_fkhia")
 
-[node name="ChronoSphere" type="RichTextLabel" parent="."]
+[node name="StartMenu" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
 offset_left = -4.0
 offset_top = 393.0
-offset_right = 1059.0
-offset_bottom = 601.0
+offset_right = 36.0
+offset_bottom = 433.0
+script = ExtResource("3_1lt86")
+
+[node name="ChronoSphere" type="RichTextLabel" parent="StartMenu"]
+layout_mode = 0
+offset_right = 1063.0
+offset_bottom = 208.0
 scale = Vector2(0.964431, 0.803007)
 theme_override_font_sizes/normal_font_size = 150
 text = "ChronoSphere"
 
-[node name="PressSpace" type="RichTextLabel" parent="."]
+[node name="PressSpace" type="RichTextLabel" parent="StartMenu"]
 modulate = Color(1, 1, 1, 0.654902)
-offset_left = 110.0
-offset_top = 550.0
-offset_right = 1650.0
-offset_bottom = 824.0
+layout_mode = 0
+offset_left = 114.0
+offset_top = 157.0
+offset_right = 1654.0
+offset_bottom = 431.0
 scale = Vector2(0.529121, 0.538058)
 theme_override_font_sizes/normal_font_size = 100
 text = "Hold space to slow down time"

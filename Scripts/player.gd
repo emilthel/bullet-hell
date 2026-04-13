@@ -17,7 +17,7 @@ extends Area2D
 @onready var game_over_sound = $Sounds/GameOverSound
 @onready var goal_sound = $Sounds/GoalSound
 @onready var meaning_corrupted_music = $Sounds/MeaningCorruptedMusic
-
+@onready var game_completed_sound = $Sounds/GameCompletedSound
 @onready var game_over_flash = $GUI/GameOverFlash
 @onready var death_flash = $GUI/DeathFlash
 @onready var next_screen_flash = $GUI/NextScreenFlash
@@ -248,10 +248,23 @@ func on_screen_entered():
 	
 	update_checklist_length(level.screen_to_load.goals_needed) #Updates checklist
 
-	if level.screen_to_load.name == "Start Menu": #If entering start menu
-		meaning_corrupted_music.stop() #Stops music
-		lives_counter.visible = false #Hides lives counter
-		
+func on_start_menu_entered():
+	meaning_corrupted_music.stop() #Stops music
+	lives_counter.visible = false #Hides lives counter
+	
+func on_end_screen_entered():
+	game_completed_sound.play()
+	"Calculates time of current playthrough in ticks"
+	var completion_time = Time.get_ticks_msec()
+	if is_first_playthrough:
+		playthrough_time = completion_time
+	else:
+		playthrough_time = completion_time - previous_completion_time
+	is_first_playthrough = false
+
+	"Updates previous completion time"
+	previous_completion_time = completion_time
+	
 func on_screen_exited():
 	"Resets values"
 	health = max_health
@@ -272,18 +285,5 @@ func on_goal_collected():
 
 
 #MISC
-"Calculates time of current playthrough in ticks"
-func calculate_playthrough_time():
-	var completion_time = Time.get_ticks_msec()
-
-	if is_first_playthrough:
-		playthrough_time = completion_time
-	else:
-		playthrough_time = completion_time - previous_completion_time
-	
-	is_first_playthrough = false
-
-	"Updates previous completion time"
-	previous_completion_time = completion_time
 		
 	

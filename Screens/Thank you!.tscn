@@ -1,11 +1,11 @@
 [gd_scene load_steps=4 format=3 uid="uid://be8o7mgf0ihcy"]
 
 [ext_resource type="Script" path="res://Scripts/screen_goal_manager.gd" id="1_qva4j"]
-[ext_resource type="Script" path="res://Screens/end_screen.gd" id="2_ro0c5"]
+[ext_resource type="Script" path="res://Scripts/end_screen.gd" id="2_ro0c5"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k4a5s"]
 
-[node name="Thank you!" type="Node2D"]
+[node name="End Screen" type="Node2D"]
 script = ExtResource("1_qva4j")
 goals_needed = 1
 spawns_goals = false
@@ -99,6 +99,7 @@ scroll_active = false
 [node name="PressSpace" type="RichTextLabel" parent="EndScreen"]
 modulate = Color(1, 1, 1, 0.6)
 z_index = -2
+layout_mode = 0
 offset_left = -66.0
 offset_top = 323.0
 offset_right = 1025.0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://roijp1hsdlj"]
+[gd_scene load_steps=17 format=3 uid="uid://roijp1hsdlj"]
 
 [ext_resource type="PackedScene" uid="uid://pp67xax5ie64" path="res://Scenes/slow_mo.tscn" id="1_sl6ca"]
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_t4oj0"]
@@ -7,6 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://d1iqjgbu3cpbc" path="res://sounds/error-83494.mp3" id="3_s1cva"]
 [ext_resource type="AudioStream" uid="uid://ba1qd6bthlb68" path="res://sounds/meaning.mp3" id="5_fvffa"]
 [ext_resource type="AudioStream" uid="uid://b8d7hqp1ksgy1" path="res://sounds/melancholy-chime.mp3" id="6_767p4"]
+[ext_resource type="AudioStream" uid="uid://ca38ghs3tmfsg" path="res://sounds/freesound_community-gewonnen2-7000.mp3" id="8_ip4v7"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1vguc"]
 radius = 23.0868
@@ -62,7 +63,7 @@ position = Vector2(40, 945)
 
 [node name="HealthBarCover" type="Node2D" parent="GUI"]
 modulate = Color(0, 0, 0, 1)
-z_index = 98
+z_index = 4
 
 [node name="Sprite2D" type="Sprite2D" parent="GUI/HealthBarCover"]
 position = Vector2(500, 32)
@@ -70,7 +71,7 @@ scale = Vector2(1, 1.006)
 texture = SubResource("GradientTexture2D_k7nop")
 
 [node name="HealthBar" type="Node2D" parent="GUI"]
-z_index = 99
+z_index = 5
 
 [node name="Sprite2D" type="Sprite2D" parent="GUI/HealthBar"]
 position = Vector2(500, 32)
@@ -103,7 +104,7 @@ editable = false
 
 [node name="NextScreenFlash" type="Control" parent="GUI"]
 visible = false
-z_index = 10
+z_index = 20
 layout_mode = 3
 anchors_preset = 0
 offset_left = 103.0
@@ -250,5 +251,9 @@ stream = ExtResource("6_767p4")
 volume_db = -30.0
 pitch_scale = 3.77
 autoplay = true
+
+[node name="GameCompletedSound" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("8_ip4v7")
+volume_db = -30.0
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

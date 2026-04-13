@@ -3,7 +3,7 @@ extends Control
 @onready var time_label = $TimeLabel
 
 func _ready() -> void:
-	Player.calculate_playthrough_time()
+	Player.on_end_screen_entered()
 	
 	time_label.text = format_time(Player.playthrough_time)
 func format_time(ticks_played):
