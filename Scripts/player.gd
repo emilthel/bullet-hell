@@ -28,7 +28,7 @@ extends Area2D
 @onready var score = "res://Score.txt"
 @onready var lives = start_lives
 
-@onready var start_time
+@onready var is_first_playthrough: bool = true
 var invincible = false
 var progress_slots: Dictionary = {}
 enum{GAME_OVER_RECOVERY}
@@ -36,6 +36,9 @@ enum{RED,GREEN}
 var flash_color = RED
 var level
 var screen_goal_manager
+var playthrough_time: int
+var completion_time: int
+var previous_completion_time: int
 
 func _ready() -> void:	
 	"Hides mouse"
@@ -261,9 +264,26 @@ func on_screen_exited():
 	if level.unloaded_screen.name == "Start Menu":  #If exiting start menu
 		meaning_corrupted_music.play() #Starts music
 		lives_counter.visible = true #Shows lives counter
-		start_time = Time.get_time_dict_from_system()
-	
-
-
+		
 func on_goal_collected():
 	update_checklist_score(screen_goal_manager.goals_collected)
+
+
+
+
+#MISC
+"Calculates time of current playthrough in ticks"
+func calculate_playthrough_time():
+	var completion_time = Time.get_ticks_msec()
+
+	if is_first_playthrough:
+		playthrough_time = completion_time
+	else:
+		playthrough_time = completion_time - previous_completion_time
+	
+	is_first_playthrough = false
+
+	"Updates previous completion time"
+	previous_completion_time = completion_time
+		
+	

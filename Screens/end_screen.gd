@@ -1,11 +1,11 @@
 extends Control
 
 @onready var time_label = $TimeLabel
-@onready var ticks_played: int = Time.get_ticks_msec()
 
 func _ready() -> void:
-	time_label.text = format_time(ticks_played) #Sets time label text
+	Player.calculate_playthrough_time()
 	
+	time_label.text = format_time(Player.playthrough_time)
 func format_time(ticks_played):
 	"Converts ticks to min:sec format"
 	var seconds = float(ticks_played)/1000
