@@ -15,11 +15,8 @@ var screen_names: Array = [
 "Wonky Grid", 
 "Think Fast", 
 "Rebound",
-"Stay still?", 
-"Endgame", 
 "Big Bullets", 
 "The Flood", 
-"Void",
 "Thank you!"]
 var screen
 var new_screen

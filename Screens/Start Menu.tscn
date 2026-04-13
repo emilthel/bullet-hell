@@ -49,10 +49,10 @@ text = "ChronoSphere"
 [node name="PressSpace" type="RichTextLabel" parent="."]
 modulate = Color(1, 1, 1, 0.654902)
 offset_left = 110.0
-offset_top = 549.0
+offset_top = 550.0
 offset_right = 1650.0
-offset_bottom = 823.0
+offset_bottom = 824.0
 scale = Vector2(0.529121, 0.538058)
 theme_override_font_sizes/normal_font_size = 100
-text = "Press space to slow down time"
+text = "Hold space to slow down time"
 fit_content = true

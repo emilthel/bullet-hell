@@ -17,6 +17,7 @@ position = Vector2(913, 507)
 [node name="EnemyRain" type="Node2D" parent="."]
 position = Vector2(652, 33)
 script = ExtResource("3_fkepx")
+max_cooldown = 0.015
 
 [node name="PressSpace" type="RichTextLabel" parent="."]
 modulate = Color(1, 1, 1, 0.654902)
@@ -25,6 +26,6 @@ offset_right = 787.0
 offset_bottom = 353.0
 scale = Vector2(1.39606, 1.16834)
 theme_override_font_sizes/normal_font_size = 50
-text = "Press space to 
+text = "Hold space to 
 slow down time"
 fit_content = true

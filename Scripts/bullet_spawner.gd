@@ -40,6 +40,17 @@ func _process(delta: float) -> void:
 	target.global_position = player.position #Tracks player position
 	
 	match state:
+		TO_SPAWN:
+			"Runs bullets remotely"
+			run_bullets(delta)
+			
+			"Spawn cooldown"
+			spawn_time_left -= delta
+
+			"Spawns bullets and resets cooldown"
+			if spawn_time_left < 0:
+				spawn_bullets()
+				enter_to_activate_state()
 		TO_ACTIVATE: #After bullets spawned, activates after cooldown
 			"Runs bullets remotely"
 			run_bullets(delta)
@@ -52,19 +63,6 @@ func _process(delta: float) -> void:
 				activate_bullets()
 				if not one_shot:
 					enter_to_spawn_state()
-				
-		  
-		TO_SPAWN:
-			"Runs bullets remotely"
-			run_bullets(delta)
-			
-			"Spawn cooldown"
-			spawn_time_left -= delta
-
-			"Spawns bullets and resets cooldown"
-			if spawn_time_left < 0:
-				spawn_bullets()
-				enter_to_activate_state()
 
 
 #State change functions

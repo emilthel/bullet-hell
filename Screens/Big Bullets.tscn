@@ -21,8 +21,8 @@ bullet_count = 2
 acceleration_mode = "exp"
 despawns = true
 bullet_size = 15.0
-spawn_time = 0.5
-activation_time = 0.5
+spawn_time = 0.0
+activation_time = 1.0
 one_shot = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BulletSpawner"]
