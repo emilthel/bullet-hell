@@ -18,8 +18,8 @@ script = ExtResource("2_y5wo6")
 safe_radius = 200.0
 bullet_speed = 5.0
 bullet_count = 3
-center_delete = false
-spawn_time = 0.1
+despawns = true
+spawn_time = 0.2
 activation_time = 0.0
 one_shot = false
 

@@ -16,7 +16,6 @@ var state = TO_SPAWN
 @export var rot_angle: float = 0
 @export var despawns: bool = false
 @export var bullet_size: float = 1
-@export var center_delete: bool = true
 @export var spawn_time: float = 2
 @export var activation_time: float = 0.2
 @export var one_shot: bool = true
@@ -93,11 +92,7 @@ func run_bullets(delta):
 				"exp":
 					bullet.velocity *= exp_base ** delta
 					bullet.velocity = bullet.velocity.rotated(rot_angle*delta)
-					
-	 		#Deletes bullets that reach center
-			if center_delete:
-				if distance < 30:
-					bullet.queue_free()
+
 		else: 	#Removes nonexistent bullets from list
 			bullets.erase(bullet)
 			
