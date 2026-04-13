@@ -18,7 +18,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	delta *= TimeManager.time_speed
 	"Movement: Tracks player"
-	target.position = Player.global_position
+	target.global_position = Player.global_position
 	
 	"Spawns bullets"
 	spawn_cooldown_left -= delta

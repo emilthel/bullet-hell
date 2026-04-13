@@ -2,6 +2,7 @@ extends Node2D
 
 @export var start_screen = 0
 
+@onready var start_time = Time.get_time_dict_from_system()
 @onready var screen_index = start_screen
 enum{SCREEN, TRANSITION, TUTORIAL, DEAD}
 var mode = SCREEN
@@ -18,7 +19,8 @@ var screen_names: Array = [
 "Endgame", 
 "Big Bullets", 
 "The Flood", 
-"End screen!"]
+"Void",
+"Thank you!"]
 var screen
 var new_screen
 var new_screen_index
@@ -27,6 +29,7 @@ var unloaded_screen
 var screen_to_load = load("res://Screens/Start Menu.tscn")
 
 func _ready() -> void:
+	
 	var screen_scene = "res://Screens/" + screen_names[screen_index] + ".tscn" #Finds screen
 	screen_to_load = load(screen_scene).instantiate() #Loads screen scene
 	screen = screen_to_load.duplicate()

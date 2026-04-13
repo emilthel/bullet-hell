@@ -27,6 +27,8 @@ extends Area2D
 @onready var progress_slot_scene = "res://Scenes/progress_slot.tscn"
 @onready var score = "res://Score.txt"
 @onready var lives = start_lives
+
+@onready var start_time
 var invincible = false
 var progress_slots: Dictionary = {}
 enum{GAME_OVER_RECOVERY}
@@ -219,6 +221,23 @@ func _game_over():
 	"Changes invincibility color to red"
 	bg.modulate = Color(1,0,0,0)
 
+func restart_game():
+	level.restart()	
+	
+	#Like game over, but does not play game over screen
+	
+	meaning_corrupted_music.stop() #Stops music
+	
+	"Restarts /resets player values"
+	lives = start_lives
+	health = max_health
+	update_checklist_length(0)
+	slow_mo.reset_slowmo()
+	
+	update_checklist_length(0)		
+	"Changes invincibility color to red"
+	bg.modulate = Color(1,0,0,0)
+
 func on_screen_entered():	
 	"Resets values"
 	health = max_health
@@ -242,6 +261,9 @@ func on_screen_exited():
 	if level.unloaded_screen.name == "Start Menu":  #If exiting start menu
 		meaning_corrupted_music.play() #Starts music
 		lives_counter.visible = true #Shows lives counter
+		start_time = Time.get_time_dict_from_system()
+	
+
 
 func on_goal_collected():
 	update_checklist_score(screen_goal_manager.goals_collected)
