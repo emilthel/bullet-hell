@@ -40,7 +40,6 @@ func _process(delta: float) -> void:
 	delta *= TimeManager.time_speed #Syncs time speed
 	target.global_position = player.position #Tracks player position
 	
-	print("state: ", state)
 	match state:
 		TO_ACTIVATE: #After bullets spawned, activates after cooldown
 			"Runs bullets remotely"
@@ -63,7 +62,6 @@ func _process(delta: float) -> void:
 			"Spawn cooldown"
 			spawn_time_left -= delta
 
-			print(spawn_time_left)
 			"Spawns bullets and resets cooldown"
 			if spawn_time_left < 0:
 				spawn_bullets()
