@@ -1,17 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://be8o7mgf0ihcy"]
+[gd_scene load_steps=4 format=3 uid="uid://be8o7mgf0ihcy"]
 
 [ext_resource type="Script" path="res://Scripts/screen_goal_manager.gd" id="1_qva4j"]
+[ext_resource type="Script" path="res://Screens/end_screen.gd" id="2_ro0c5"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k4a5s"]
 
 [node name="Thank you!" type="Node2D"]
-process_mode = 4
 script = ExtResource("1_qva4j")
 goals_needed = 1
 spawns_goals = false
-screen_name = "Congratulations!"
+screen_name = ""
 
-[node name="NextUpScreen" type="Control" parent="."]
+[node name="EndScreen" type="Control" parent="."]
 z_index = 10
 layout_mode = 3
 anchors_preset = 0
@@ -19,9 +19,10 @@ offset_left = 103.0
 offset_top = 310.0
 offset_right = 104.0
 offset_bottom = 311.0
+script = ExtResource("2_ro0c5")
 metadata/_edit_use_anchors_ = true
 
-[node name="ColorRect" type="ColorRect" parent="NextUpScreen"]
+[node name="ColorRect" type="ColorRect" parent="EndScreen"]
 layout_mode = 0
 offset_left = -124.0
 offset_top = -338.0
@@ -30,14 +31,14 @@ offset_bottom = -298.0
 scale = Vector2(26.32, 26.32)
 color = Color(0, 1, 0, 0.490196)
 
-[node name="ForPlaying" type="RichTextLabel" parent="NextUpScreen"]
+[node name="ForPlaying" type="RichTextLabel" parent="EndScreen"]
 modulate = Color(1, 1, 1, 0.6)
 z_index = -2
 layout_mode = 0
 offset_left = 152.0
-offset_top = 362.0
-offset_right = 760.0
-offset_bottom = 478.0
+offset_top = 74.0
+offset_right = 726.0
+offset_bottom = 271.0
 scale = Vector2(0.879328, 0.741832)
 theme_override_font_sizes/mono_font_size = 1
 theme_override_font_sizes/normal_font_size = 100
@@ -45,17 +46,52 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_k4a5s")
 text = "for playing!"
 scroll_active = false
 
-[node name="ThankYou" type="RichTextLabel" parent="NextUpScreen"]
+[node name="ThankYou" type="RichTextLabel" parent="EndScreen"]
 modulate = Color(1, 1, 1, 0.6)
 z_index = -2
 layout_mode = 0
 offset_left = -57.0
-offset_top = 168.0
+offset_top = -120.0
 offset_right = 458.0
-offset_bottom = 448.0
+offset_bottom = 160.0
 scale = Vector2(1.83933, 1.55172)
 theme_override_font_sizes/mono_font_size = 1
 theme_override_font_sizes/normal_font_size = 100
 theme_override_styles/normal = SubResource("StyleBoxEmpty_k4a5s")
 text = "Thank you"
+scroll_active = false
+
+[node name="TimeScore" type="RichTextLabel" parent="EndScreen"]
+modulate = Color(1, 1, 1, 0.6)
+z_index = -2
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 426.0
+anchor_top = -190.0
+anchor_right = 426.0
+anchor_bottom = -190.0
+offset_left = 159.0
+offset_top = 615.0
+offset_right = 733.0
+offset_bottom = 812.0
+scale = Vector2(1.25625, 1.05982)
+theme_override_font_sizes/mono_font_size = 1
+theme_override_font_sizes/normal_font_size = 100
+theme_override_styles/normal = SubResource("StyleBoxEmpty_k4a5s")
+text = "TEST"
+scroll_active = false
+
+[node name="TimeLabel" type="RichTextLabel" parent="EndScreen"]
+modulate = Color(1, 1, 1, 0.6)
+z_index = -2
+layout_mode = 0
+offset_left = -92.0
+offset_top = 423.0
+offset_right = 423.0
+offset_bottom = 703.0
+scale = Vector2(1.24688, 1.05191)
+theme_override_font_sizes/mono_font_size = 1
+theme_override_font_sizes/normal_font_size = 100
+theme_override_styles/normal = SubResource("StyleBoxEmpty_k4a5s")
+text = "Playtime:"
 scroll_active = false

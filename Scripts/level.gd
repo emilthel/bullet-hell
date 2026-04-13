@@ -18,7 +18,7 @@ var screen_names: Array = [
 "Endgame", 
 "Big Bullets", 
 "The Flood", 
-"Thank you!"]
+"End screen!"]
 var screen
 var new_screen
 var new_screen_index

@@ -19,7 +19,7 @@ safe_radius = 200.0
 bullet_speed = 5.0
 bullet_count = 3
 despawns = true
-spawn_time = 0.2
+spawn_time = 0.3
 activation_time = 0.0
 one_shot = false
 
