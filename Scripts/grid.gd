@@ -38,7 +38,7 @@ func _frame1() -> void:
 
 "Process"
 func _process(delta: float) -> void:
-	delta *= TimeManager.time_speed 
+	delta *= TimeManager.global_time_speed 
 	if is_frame1:
 		_frame1()
 		is_frame1 = false

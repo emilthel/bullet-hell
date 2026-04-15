@@ -16,7 +16,7 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	delta *= TimeManager.time_speed
+	delta *= TimeManager.global_time_speed
 	"Movement: Tracks player"
 	target.global_position = Player.global_position
 	

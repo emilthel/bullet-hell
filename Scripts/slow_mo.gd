@@ -20,8 +20,8 @@ func _ready() -> void:
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	"Syncs to global time speed"
-	TimeManager.time_speed = time_speed
+	"Sets global time speed"
+	TimeManager.global_time_speed = time_speed
 	
 	match state:
 		COOLDOWN:

@@ -37,7 +37,7 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	"Syncs to global time speed"
-	delta *= TimeManager.time_speed
+	delta *= TimeManager.global_time_speed
 	
 	"Movement: Tracks position"
 	target.global_position = player.position #Tracks player position

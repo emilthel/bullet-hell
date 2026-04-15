@@ -10,8 +10,8 @@ func _ready() -> void:
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	delta *= TimeManager.time_speed	
-	var time_speed = TimeManager.time_speed
+	delta *= TimeManager.global_time_speed	
+	var time_speed = TimeManager.global_time_speed
 	position += velocity*delta
 	
 

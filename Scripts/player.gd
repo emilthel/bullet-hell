@@ -120,7 +120,7 @@ func _process(delta: float) -> void:
 			next_screen_flash.modulate.a = 1 #Resets transparency for next screen transition
 		next_screen_name.text = level.screen_to_load.name
 	"Music speed"
-	meaning_corrupted_music.pitch_scale = TimeManager.time_speed ** 0.1  #Slows down when slowmo active
+	meaning_corrupted_music.pitch_scale = TimeManager.global_time_speed ** 0.1  #Slows down when slowmo active
 
 
 

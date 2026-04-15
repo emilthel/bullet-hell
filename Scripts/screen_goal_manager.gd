@@ -34,7 +34,7 @@ func _frame1() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void: 
 	"Syncs to global time speed"
-	delta *= TimeManager.time_speed
+	delta *= TimeManager.global_time_speed
 	
 	"Checks if initialized"
 	if is_frame1:

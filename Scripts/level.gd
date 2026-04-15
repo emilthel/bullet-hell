@@ -39,7 +39,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	"For player slowmo"
-	delta *= TimeManager.time_speed
+	delta *= TimeManager.global_time_speed
 	
 "Called when player detects death"
 func die():
