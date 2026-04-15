@@ -8,7 +8,7 @@ var enemy_scene = "res://Scenes/enemy.tscn"
 	
 "Process"
 func _process(delta: float) -> void:
-	"Sets time speed"
+	"Syncs to global time speed"
 	delta *= TimeManager.time_speed
 	
 	"Spawns on cooldown"

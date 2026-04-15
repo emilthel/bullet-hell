@@ -9,30 +9,25 @@ var slowmo_cooldown: float = 2
 var is_frame1: bool = true
 var slowmo_time_left: float
 var slowmo_cooldown_left: float
-var ability_bar
 var level
-var slowmo_bg
-var ability_bar_cover
+@onready var slowmo_bg = $SlowmoBG
+@onready var ability_bar = $AbilityBar
+@onready var ability_bar_cover = $AbilityBarCover
 
-func _frame1():
+func _ready() -> void:
 	slowmo_time_left = slowmo_time
 	slowmo_cooldown_left = 0
-	slowmo_bg = $SlowmoBG
-	ability_bar = $AbilityBar
-	ability_bar_cover = $AbilityBarCover
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if is_frame1:
-		_frame1()
-		is_frame1 = false
+	"Syncs to global time speed"
 	TimeManager.time_speed = time_speed
 	
 	match state:
 		COOLDOWN:
 			time_speed = 1
 			slowmo_cooldown_left -= delta
-			slowmo_bg.modulate.a *= 0.00000001**delta
+			slowmo_bg.modulate.a *= 0.00000001**delta #
 			ability_bar_cover.modulate.a = slowmo_bg.modulate.a
 			ability_bar.scale.x = 1 - slowmo_cooldown_left/slowmo_cooldown
 			if slowmo_cooldown_left < 0:
@@ -50,6 +45,7 @@ func _process(delta: float) -> void:
 				_enter_cooldown_state()
 
 
+#State change functions
 func _enter_slowmo_state():
 	slowmo_time_left = slowmo_time
 	state = SLOWMO

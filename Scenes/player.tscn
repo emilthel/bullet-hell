@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://roijp1hsdlj"]
+[gd_scene load_steps=15 format=3 uid="uid://roijp1hsdlj"]
 
 [ext_resource type="PackedScene" uid="uid://pp67xax5ie64" path="res://Scenes/slow_mo.tscn" id="1_sl6ca"]
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_t4oj0"]
@@ -32,13 +32,6 @@ gradient = SubResource("Gradient_jyd8w")
 width = 1000
 fill_from = Vector2(1, 1)
 fill_to = Vector2(1, 1)
-
-[sub_resource type="Gradient" id="Gradient_mdaw6"]
-offsets = PackedFloat32Array(1)
-colors = PackedColorArray(1, 1, 1, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_dtbe7"]
-gradient = SubResource("Gradient_mdaw6")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tnd7w"]
 
@@ -81,11 +74,14 @@ texture = SubResource("GradientTexture2D_k7nop")
 [node name="SlowMo" parent="GUI" instance=ExtResource("1_sl6ca")]
 visibility_layer = 257
 
-[node name="BG" type="Sprite2D" parent="GUI"]
-modulate = Color(1, 0, 0, 0)
-position = Vector2(514, 541)
-scale = Vector2(5.16406, 1112.75)
-texture = SubResource("GradientTexture1D_dtbe7")
+[node name="BG" type="ColorRect" parent="GUI"]
+z_index = 10
+offset_left = -182.0
+offset_top = -366.0
+offset_right = -142.0
+offset_bottom = -326.0
+scale = Vector2(35.1091, 108.735)
+color = Color(1, 0, 0, 0)
 
 [node name="LivesCounter" type="LineEdit" parent="GUI"]
 modulate = Color(1, 1, 1, 0.678431)

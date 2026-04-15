@@ -36,7 +36,10 @@ func _ready() -> void:
 	position = Vector2(500,500)
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	delta *= TimeManager.time_speed #Syncs time speed
+	"Syncs to global time speed"
+	delta *= TimeManager.time_speed
+	
+	"Movement: Tracks position"
 	target.global_position = player.position #Tracks player position
 	
 	match state:

@@ -81,13 +81,13 @@ func _process(delta: float) -> void:
 	"Background"
 	match flash_color:
 		RED:
-			bg.modulate = Color(1,0,0)
+			bg.color = Color(1,0,0)
 		GREEN:
-			bg.modulate = Color(0,1,0)
+			bg.color = Color(0,1,0)
 			if invincibility == 0:
 				flash_color = RED
 				
-	bg.modulate.a = invincibility #Sets transparency
+	bg.color.a = invincibility #Sets transparency
 	
 	"Lives counter"
 	lives_counter.text = str(lives) #Tracks player lives
@@ -222,7 +222,7 @@ func _game_over():
 	
 	update_checklist_length(0)		
 	"Changes invincibility color to red"
-	bg.modulate = Color(1,0,0,0)
+	bg.color = Color(1,0,0,0)
 
 func restart_game():
 	level.restart()	
@@ -239,7 +239,7 @@ func restart_game():
 	
 	update_checklist_length(0)		
 	"Changes invincibility color to red"
-	bg.modulate = Color(1,0,0,0)
+	bg.color = Color(1,0,0)
 
 func on_screen_entered():	
 	"Resets values"
@@ -254,6 +254,7 @@ func on_start_menu_entered():
 	
 func on_end_screen_entered():
 	game_completed_sound.play()
+	meaning_corrupted_music.stop()
 	"Calculates time of current playthrough in ticks"
 	var completion_time = Time.get_ticks_msec()
 	if is_first_playthrough:
