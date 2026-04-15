@@ -64,7 +64,7 @@ scale = Vector2(1, 1.006)
 texture = SubResource("GradientTexture2D_k7nop")
 
 [node name="HealthBar" type="Node2D" parent="GUI"]
-z_index = 5
+z_index = 10
 
 [node name="Sprite2D" type="Sprite2D" parent="GUI/HealthBar"]
 position = Vector2(500, 32)
@@ -75,7 +75,6 @@ texture = SubResource("GradientTexture2D_k7nop")
 visibility_layer = 257
 
 [node name="BG" type="ColorRect" parent="GUI"]
-z_index = 10
 offset_left = -182.0
 offset_top = -366.0
 offset_right = -142.0
@@ -100,7 +99,6 @@ editable = false
 
 [node name="NextScreenFlash" type="Control" parent="GUI"]
 visible = false
-z_index = 20
 layout_mode = 3
 anchors_preset = 0
 offset_left = 103.0
@@ -149,7 +147,6 @@ scroll_active = false
 
 [node name="DeathFlash" type="Control" parent="GUI"]
 visible = false
-z_index = 10
 layout_mode = 3
 anchors_preset = 0
 offset_left = 108.0

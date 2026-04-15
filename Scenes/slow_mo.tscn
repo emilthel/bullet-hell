@@ -34,7 +34,6 @@ colors = PackedColorArray(1, 0, 0, 1)
 gradient = SubResource("Gradient_mdaw6")
 
 [node name="SlowMo" type="Area2D"]
-z_index = -1
 collision_layer = 0
 collision_mask = 0
 script = ExtResource("1_8bc4r")
@@ -49,16 +48,6 @@ position = Vector2(500, 9)
 scale = Vector2(1, 0.3155)
 texture = SubResource("GradientTexture2D_j13k2")
 
-[node name="AbilityBarCover" type="Node2D" parent="."]
-modulate = Color(0, 0, 0, 0)
-z_index = 99
-position = Vector2(0, 64)
-
-[node name="Sprite2D" type="Sprite2D" parent="AbilityBarCover"]
-position = Vector2(500, 9)
-scale = Vector2(1, 0.3155)
-texture = SubResource("GradientTexture2D_j13k2")
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_2dcn3")
 
@@ -67,6 +56,15 @@ texture = SubResource("GradientTexture2D_fkhia")
 
 [node name="SlowmoBG" type="Sprite2D" parent="."]
 modulate = Color(0, 0, 0, 0)
+z_index = -1
 position = Vector2(500, 500)
 scale = Vector2(5.16406, 1104.5)
 texture = SubResource("GradientTexture1D_7n8io")
+
+[node name="Sprite2D" type="Sprite2D" parent="SlowmoBG"]
+z_index = 100
+position = Vector2(0, -0.3866)
+scale = Vector2(0.193646, 0.00028565)
+texture = SubResource("GradientTexture2D_j13k2")
+
+[node name="Node2D" type="Node2D" parent="."]
