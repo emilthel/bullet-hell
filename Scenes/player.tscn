@@ -64,7 +64,7 @@ scale = Vector2(1, 1.006)
 texture = SubResource("GradientTexture2D_k7nop")
 
 [node name="HealthBar" type="Node2D" parent="GUI"]
-z_index = 10
+z_index = 300
 
 [node name="Sprite2D" type="Sprite2D" parent="GUI/HealthBar"]
 position = Vector2(500, 32)
@@ -85,9 +85,9 @@ color = Color(1, 0, 0, 0)
 [node name="LivesCounter" type="LineEdit" parent="GUI"]
 modulate = Color(1, 1, 1, 0.678431)
 z_index = -2
-offset_left = -1363.0
+offset_left = -1364.0
 offset_top = -69.0
-offset_right = 121.0
+offset_right = 120.0
 offset_bottom = 485.0
 scale = Vector2(2.5017, 2.05624)
 theme_override_colors/font_color = Color(1, 1, 1, 0.278431)

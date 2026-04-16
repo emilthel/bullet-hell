@@ -13,7 +13,7 @@ var screen_names: Array = [
 "Tutorial", 
 "Grid", 
 "Wonky Grid", 
-"There's a strat here",
+"Circles",
 "Think Fast", 
 "Rebound",
 "Big Bullets", 

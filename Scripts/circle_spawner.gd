@@ -25,7 +25,6 @@ func _process(delta: float) -> void:
 	if spawn_cooldown_left <= 0:
 		#Resets cooldown
 		spawn_cooldown_left = spawn_cooldown 
-		print("spawn attempt")
 		for n in range(0,bullet_count):
 			#Spawns bullet
 			var bullet = load(enemy_scene).instantiate()
@@ -71,8 +70,6 @@ func _process(delta: float) -> void:
 						
 				"Despawning"
 				var distance = (custom["target_pos"] - bullet.position).length()
-				print("Distance: ", distance)
 				if distance < 10:
-					print("despawn_attempt")
 					bullet.queue_free()
 					bullets.erase(bullet)

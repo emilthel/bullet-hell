@@ -26,7 +26,8 @@ spawns_goals = false
 
 [node name="Goal" type="Area2D" parent="."]
 modulate = Color(0, 1, 0, 1)
-position = Vector2(500, 804)
+z_index = 100
+position = Vector2(891, 792)
 collision_layer = 4
 collision_mask = 4
 script = ExtResource("1_f5hrn")
@@ -55,14 +56,14 @@ scale = Vector2(0.964431, 0.803007)
 theme_override_font_sizes/normal_font_size = 150
 text = "ChronoSphere"
 
-[node name="PressSpace" type="RichTextLabel" parent="StartMenu"]
+[node name="ControlWithMouse" type="RichTextLabel" parent="StartMenu"]
 modulate = Color(1, 1, 1, 0.654902)
 layout_mode = 0
-offset_left = 114.0
-offset_top = 157.0
-offset_right = 1654.0
-offset_bottom = 431.0
-scale = Vector2(0.529121, 0.538058)
+offset_left = 94.0
+offset_top = 359.0
+offset_right = 1634.0
+offset_bottom = 633.0
+scale = Vector2(0.529322, 0.543901)
 theme_override_font_sizes/normal_font_size = 100
-text = "Hold space to slow down time"
+text = "Control with mouse,   eat this:"
 fit_content = true

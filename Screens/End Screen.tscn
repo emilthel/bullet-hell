@@ -97,6 +97,7 @@ text = "Your time:"
 scroll_active = false
 
 [node name="BestTimeNumber" type="RichTextLabel" parent="EndScreen"]
+visible = false
 modulate = Color(1, 1, 1, 0.6)
 z_index = -2
 layout_mode = 1
@@ -116,6 +117,7 @@ text = "TEST"
 scroll_active = false
 
 [node name="BestTimeText" type="RichTextLabel" parent="EndScreen"]
+visible = false
 modulate = Color(1, 1, 1, 0.6)
 z_index = -2
 layout_mode = 0

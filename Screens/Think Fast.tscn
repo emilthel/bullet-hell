@@ -16,7 +16,7 @@ collision_layer = 0
 collision_mask = 0
 script = ExtResource("2_sgeo4")
 safe_radius = 200.0
-bullet_count = 30
+bullet_count = 40
 acceleration_mode = "exp"
 spawn_time = 0.5
 
