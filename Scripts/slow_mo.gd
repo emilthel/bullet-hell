@@ -89,6 +89,7 @@ func reset_slowmo():
 	_enter_ready_state()
 	time_speed = 1 #Resets time speed
 
-	"Instantly hides ability bar and cooldown, bypassing fadeout"
+	"Resets GUI"
 	cooldown_bar.modulate.a = 0
 	cooldown_text.modulate.a = 0
+	slowmo_bg.modulate.a

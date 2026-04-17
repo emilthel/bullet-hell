@@ -24,6 +24,7 @@ TimeManager="*res://Scripts/time_manager.gd"
 
 window/size/viewport_width=1000
 window/size/viewport_height=1000
+window/stretch/mode="canvas_items"
 
 [editor_plugins]
 

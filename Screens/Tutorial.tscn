@@ -18,15 +18,15 @@ position = Vector2(913, 507)
 [node name="EnemyRain" type="Node2D" parent="."]
 position = Vector2(652, 33)
 script = ExtResource("3_fkepx")
-max_cooldown = 0.01
+max_cooldown = 0.008
 
 [node name="HoldSpace" type="RichTextLabel" parent="."]
 modulate = Color(1, 1, 1, 0.654902)
 z_index = -10
-offset_left = 2.0
-offset_top = 832.0
-offset_right = 736.0
-offset_bottom = 901.0
+offset_left = 6.0
+offset_top = 342.0
+offset_right = 740.0
+offset_bottom = 411.0
 scale = Vector2(1.35847, 1.13486)
 theme_override_font_sizes/normal_font_size = 50
 text = "Hold space to slow down time"
