@@ -78,7 +78,9 @@ func _enter_ready_state():
 
 func enter_cooldown_state():
 	state = COOLDOWN
-	slowmo_cooldown_left = slowmo_cooldown #Restarts cooldown
+	
+	"Resets values"
+	slowmo_cooldown_left = slowmo_cooldown 
 	
 	"Shows ability bar"
 	cooldown_bar.modulate.a = 1

@@ -158,7 +158,7 @@ func update_checklist_score(count):
 
 
 
-#COLLIISION
+#COLLISION
 func _on_area_entered(area: Area2D) -> void: #Collision signal
 	if area.collision_layer == enemy_layer: #Hit
 		if invincibility == 0: 
@@ -255,6 +255,7 @@ func on_start_menu_entered():
 func on_end_screen_entered():
 	game_completed_sound.play()
 	meaning_corrupted_music.stop()
+	
 	"Calculates time of current playthrough in ticks"
 	var completion_time = Time.get_ticks_msec()
 	if is_first_playthrough:

@@ -17,7 +17,8 @@ collision_mask = 2
 script = ExtResource("2_k5ckd")
 count = 4
 spacing = 130.0
-distortion_speed = 0.8
+distortion_speed = 0.64
+rotation_speed = 0.8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Grid"]
 shape = SubResource("CircleShape2D_1vguc")
