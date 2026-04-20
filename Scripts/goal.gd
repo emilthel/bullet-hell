@@ -2,8 +2,6 @@ extends Area2D
 
 @export var velocity: Vector2 = Vector2(100,100)
 @export var ignores_invincibility: bool = true
-@export var custom_heal = false
-@export var heal: float = 0.1
 enum{SCREEN_CHANGE, SCRIPT, NONE}
 @export var mode = 0
 

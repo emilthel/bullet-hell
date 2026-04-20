@@ -44,6 +44,7 @@ func _ready() -> void:
 	"Hides mouse"
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN) 
 	
+	"Inputs slowmo time"
 	slow_mo.slowmo_time = slowmo_time
 
 "Main script"
@@ -160,6 +161,7 @@ func update_checklist_score(count):
 
 #COLLISION
 func _on_area_entered(area: Area2D) -> void: #Collision signal
+	"Hitting enemies"
 	if area.collision_layer == enemy_layer: #Hit
 		if invincibility == 0: 
 			health -= 0.6
@@ -168,14 +170,12 @@ func _on_area_entered(area: Area2D) -> void: #Collision signal
 			if health <= 0: #Death
 				_die()
 		
+	"Getting goals"
 	if area.collision_layer == goal_layer:			 #Goal collection
 		if invincibility == 0 or area.ignores_invincibility:
 			goal_sound.play()
 			area.queue_free()
-			if area.custom_heal:
-				health += area.heal
-			else:
-				health += 0.05
+			health += 0.05
 			invincibility = 0.1
 			flash_color = GREEN
 			if area.mode == area.SCREEN_CHANGE: 
@@ -189,10 +189,12 @@ func _on_area_entered(area: Area2D) -> void: #Collision signal
 #TRANSITIONS
 func _die():
 	lives -= 1
+		
 	if lives == 0: #Game over
 		_game_over()
 	else:
 		level.die()
+		
 		"Resets values"
 		health = max_health
 		slow_mo.reset_slowmo()
@@ -204,11 +206,13 @@ func _die():
 		"Empties progress checklist"
 		update_checklist_score(0)
 		
+		"Makes background of transition red instead of blue"
 		level.transition.color_rect.color = Color(1,0,0,0.3)
 
 func _game_over():
+	"Brings you back to screen 1"
 	level.restart()
-
+	
 	game_over_sound.play() #Plays sound
 	game_over_flash.visible = true 
 	

@@ -4,7 +4,7 @@ extends Node2D
 
 @export var goals_needed: int = 2
 @export var spawns_goals: bool = true
-@export var goal_path: String
+@export var goals_already_exist: bool = false
 @export var screen_name: String = "Grid"
 @export var bullet_size: float = 0.9
 @export var spawn_cooldown: float = 1
@@ -25,11 +25,12 @@ func _frame1() -> void:
 	viewport = get_viewport_rect()
 	
 	"If goal already exists (not spawned)"
-	if goal_path:
-		var goal = get_node(goal_path)
-		goal.mode = goal.SCRIPT
-		"Sets goal"
-		goal.on_collected = Callable(goal_collected)
+	if goals_already_exist:
+		var goals = get_node(^"Goals")
+		for goal in goals.get_children():
+			goal.mode = goal.SCRIPT
+			"Sets goal"
+			goal.on_collected = Callable(goal_collected)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void: 

@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://ccsmyvtqk4bwr"]
-
-[ext_resource type="Script" path="res://Scripts/screen_goal_manager.gd" id="1_h4gsp"]
-
-[node name="Endgame" type="Node2D"]
-script = ExtResource("1_h4gsp")
-goals_needed = 1
-screen_name = "Endgame"

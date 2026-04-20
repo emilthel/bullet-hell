@@ -87,11 +87,14 @@ func enter_cooldown_state():
 	cooldown_bar.scale.x = 0
 	
 	
-func reset_slowmo():
-	_enter_ready_state()
-	time_speed = 1 #Resets time speed
-
+func reset_slowmo():	
+	"Resets time speed"
+	time_speed = 1 
+	
 	"Resets GUI"
 	cooldown_bar.modulate.a = 0
 	cooldown_text.modulate.a = 0
-	slowmo_bg.modulate.a
+	slowmo_bg.modulate.a = 0
+	
+	"Ready to fire"
+	_enter_ready_state()

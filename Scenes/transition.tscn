@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://b1vryv482j4bf"]
+[gd_scene load_steps=6 format=3 uid="uid://b1vryv482j4bf"]
 
 [ext_resource type="Script" path="res://Scripts/transition.gd" id="1_g2fyk"]
 [ext_resource type="Script" path="res://Scripts/goal.gd" id="1_wirfv"]
@@ -17,8 +17,6 @@ gradient = SubResource("Gradient_6quts")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_y7jgr"]
-
 [node name="Transition" type="Node2D"]
 script = ExtResource("1_g2fyk")
 
@@ -30,9 +28,6 @@ collision_layer = 4
 collision_mask = 4
 script = ExtResource("1_wirfv")
 velocity = Vector2(0, 0)
-ignores_invincibility = true
-custom_heal = true
-heal = 10.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Goal"]
 shape = SubResource("CircleShape2D_2dcn3")
@@ -44,18 +39,3 @@ texture = SubResource("GradientTexture2D_fkhia")
 offset_right = 1034.0
 offset_bottom = 1068.0
 color = Color(0, 1, 1, 0.411765)
-
-[node name="PressAnyKey" type="RichTextLabel" parent="."]
-visible = false
-modulate = Color(1, 1, 1, 0.6)
-z_index = -2
-offset_left = 198.0
-offset_top = 844.0
-offset_right = 1267.0
-offset_bottom = 972.0
-scale = Vector2(0.594845, 0.501832)
-theme_override_font_sizes/mono_font_size = 1
-theme_override_font_sizes/normal_font_size = 100
-theme_override_styles/normal = SubResource("StyleBoxEmpty_y7jgr")
-text = "Press any key to start"
-scroll_active = false

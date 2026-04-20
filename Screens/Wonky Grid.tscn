@@ -8,6 +8,7 @@ radius = 23.0868
 
 [node name="Wonky Grid" type="Node2D"]
 script = ExtResource("1_embb8")
+goals_needed = 3
 screen_name = "Wonky Grid"
 
 [node name="Grid" type="Area2D" parent="."]
