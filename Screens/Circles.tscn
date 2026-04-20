@@ -24,3 +24,12 @@ visible = false
 modulate = Color(1, 0, 0, 0.411765)
 scale = Vector2(10, 10)
 collision_layer = 0
+
+[node name="TransparentBullets" type="RichTextLabel" parent="."]
+offset_left = 86.0
+offset_top = 425.0
+offset_right = 968.0
+offset_bottom = 565.0
+theme_override_font_sizes/normal_font_size = 50
+text = "Tip:
+Transparent bullets can't hurt you"
