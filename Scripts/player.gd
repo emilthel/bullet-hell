@@ -71,8 +71,8 @@ func _process(delta: float) -> void:
 	health_bar.scale.x = health/max_health #Sets healthbar
 	if health > max_health: #Caps health (health) at max
 		health = max_health
-		
-		
+	
+	
 	"Invinciblity"
 	if invincibility > 0: #Decreases invincibility until 0
 		invincibility -= delta
@@ -87,7 +87,6 @@ func _process(delta: float) -> void:
 			bg.color = Color(0,1,0)
 			if invincibility == 0:
 				flash_color = RED
-				
 	bg.color.a = invincibility #Sets transparency
 	
 	"Lives counter"
@@ -120,6 +119,7 @@ func _process(delta: float) -> void:
 			next_screen_flash.visible = false #Hides next up screen
 			next_screen_flash.modulate.a = 1 #Resets transparency for next screen transition
 		next_screen_name.text = level.screen_to_load.name
+	
 	"Music speed"
 	meaning_corrupted_music.pitch_scale = TimeManager.global_time_speed ** 0.1  #Slows down when slowmo active
 

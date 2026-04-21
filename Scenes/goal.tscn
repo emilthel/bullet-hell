@@ -19,6 +19,7 @@ fill_from = Vector2(0.5, 0.5)
 [node name="Goal" type="Area2D"]
 modulate = Color(0, 1, 0, 1)
 position = Vector2(500, 500)
+scale = Vector2(1, 0.98995)
 collision_layer = 4
 collision_mask = 4
 script = ExtResource("1_xljr2")
